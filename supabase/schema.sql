@@ -46,41 +46,47 @@ ALTER TABLE public.articles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.site_content ENABLE ROW LEVEL SECURITY;
 
--- Lectura pública para cualquier visitante de la web (anon y authenticated)
+-- 4.1. Lectura pública para cualquier visitante de la web (anon y authenticated)
 DROP POLICY IF EXISTS "Permitir lectura publica de informes" ON public.articles;
 CREATE POLICY "Permitir lectura publica de informes"
   ON public.articles FOR SELECT
+  TO public
   USING (true);
 
 DROP POLICY IF EXISTS "Permitir lectura publica de productos" ON public.products;
 CREATE POLICY "Permitir lectura publica de productos"
   ON public.products FOR SELECT
+  TO public
   USING (true);
 
 DROP POLICY IF EXISTS "Permitir lectura publica de contenidos" ON public.site_content;
 CREATE POLICY "Permitir lectura publica de contenidos"
   ON public.site_content FOR SELECT
+  TO public
   USING (true);
 
--- Escritura, edición y eliminación sólo para administradores autenticados (Dra. Xyomara y equipo)
+-- 4.2. Gestión total (INSERT, UPDATE, DELETE) para administración (anon y authenticated)
 DROP POLICY IF EXISTS "Permitir gestion total a usuarios autenticados en informes" ON public.articles;
-CREATE POLICY "Permitir gestion total a usuarios autenticados en informes"
+DROP POLICY IF EXISTS "Permitir gestion total en informes" ON public.articles;
+CREATE POLICY "Permitir gestion total en informes"
   ON public.articles FOR ALL
-  TO authenticated
+  TO public
   USING (true)
   WITH CHECK (true);
 
 DROP POLICY IF EXISTS "Permitir gestion total a usuarios autenticados en productos" ON public.products;
-CREATE POLICY "Permitir gestion total a usuarios autenticados en productos"
+DROP POLICY IF EXISTS "Permitir gestion total en productos" ON public.products;
+CREATE POLICY "Permitir gestion total en productos"
   ON public.products FOR ALL
-  TO authenticated
+  TO public
   USING (true)
   WITH CHECK (true);
 
 DROP POLICY IF EXISTS "Permitir gestion total a usuarios autenticados en contenidos" ON public.site_content;
-CREATE POLICY "Permitir gestion total a usuarios autenticados en contenidos"
+DROP POLICY IF EXISTS "Permitir gestion total en contenidos" ON public.site_content;
+CREATE POLICY "Permitir gestion total en contenidos"
   ON public.site_content FOR ALL
-  TO authenticated
+  TO public
   USING (true)
   WITH CHECK (true);
 

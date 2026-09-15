@@ -54,6 +54,8 @@ export const AdminProductsPage: React.FC = () => {
         setEditingProduct(null);
         setFeedback(null);
       }, 1000);
+    } else {
+      setFeedback(res.error || 'Error al guardar el producto.');
     }
   };
 

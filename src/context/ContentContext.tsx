@@ -189,14 +189,18 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
   const [lastUpdated, setLastUpdated] = useState<string | null>(null);
 
-  // 1. Initial Load: Load cached data from localStorage first
+  // 1. Initial Load: Load cached data from localStorage immediately
   useEffect(() => {
     try {
       const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
-        if (parsed.articles) setArticles(parsed.articles);
-        if (parsed.products) setProducts(parsed.products);
+        if (parsed.articles && Array.isArray(parsed.articles) && parsed.articles.length > 0) {
+          setArticles(parsed.articles);
+        }
+        if (parsed.products && Array.isArray(parsed.products) && parsed.products.length > 0) {
+          setProducts(parsed.products);
+        }
         if (parsed.researchLines) setResearchLines(parsed.researchLines);
         if (parsed.metrics) setMetrics(parsed.metrics);
         if (parsed.donationTiers) setDonationTiers(parsed.donationTiers);
@@ -208,17 +212,26 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
       console.error('Error loading content from localStorage', e);
     }
 
-    // 2. Then attempt to sync with Supabase if configured
+    // 2. Then sync with Supabase if configured
     if (isSupabaseConfigured) {
       syncFromSupabase();
     }
   }, []);
 
-  // Save current state snapshot to localStorage
+  // Save current state snapshot to localStorage safely
   const persistLocally = (overrides: Partial<any> = {}) => {
     try {
       const now = new Date().toISOString();
       setLastUpdated(now);
+
+      let prevData: any = {};
+      try {
+        const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+        if (raw) prevData = JSON.parse(raw);
+      } catch {
+        // ignore
+      }
+
       const snapshot = {
         articles,
         products,
@@ -227,27 +240,29 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
         donationTiers,
         director,
         timeline,
-        lastUpdated: now,
+        ...prevData,
         ...overrides,
+        lastUpdated: now,
       };
+
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(snapshot));
     } catch (e) {
       console.error('Error saving to localStorage', e);
     }
   };
 
-  // Sync data from Supabase
+  // Smart Sync: Merges Supabase cloud data with local data so unsynced items are NEVER destroyed
   const syncFromSupabase = async () => {
     if (!isSupabaseConfigured) return;
     setIsSyncing(true);
     try {
-      // 1. Fetch articles
+      // 1. Fetch articles from Supabase
       const { data: dbArticles, error: artErr } = await supabase
         .from('articles')
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (!artErr && dbArticles && dbArticles.length > 0) {
+      if (!artErr && dbArticles) {
         const mappedArticles: Article[] = dbArticles.map((a: any) => ({
           id: a.id,
           slug: a.slug,
@@ -263,17 +278,57 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
           createdAt: a.created_at,
           updatedAt: a.updated_at,
         }));
-        setArticles(mappedArticles);
-        persistLocally({ articles: mappedArticles });
+
+        // Retrieve current local articles from memory or localStorage
+        let localSnapshot: Article[] = articles;
+        try {
+          const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed.articles)) localSnapshot = parsed.articles;
+          }
+        } catch {
+          // ignore
+        }
+
+        // Identify any local articles that aren't in Supabase yet
+        const dbSlugs = new Set(mappedArticles.map(a => a.slug));
+        const localOnlyArticles = localSnapshot.filter(la => !dbSlugs.has(la.slug));
+
+        // Attempt to auto-sync local-only articles to Supabase
+        for (const localArt of localOnlyArticles) {
+          try {
+            await supabase.from('articles').upsert({
+              slug: localArt.slug,
+              title: localArt.title,
+              category: localArt.category,
+              date: localArt.date,
+              read_time: localArt.readTime,
+              author: localArt.author,
+              excerpt: localArt.excerpt,
+              content: localArt.content,
+              image: localArt.image,
+              status: localArt.status,
+              updated_at: new Date().toISOString(),
+            }, { onConflict: 'slug' });
+          } catch {
+            // will retry on next sync
+          }
+        }
+
+        // Merge DB articles with local-only articles (cloud items take precedence for existing slugs)
+        const unifiedArticles = [...mappedArticles, ...localOnlyArticles];
+        setArticles(unifiedArticles);
+        persistLocally({ articles: unifiedArticles });
       }
 
-      // 2. Fetch products
+      // 2. Fetch products from Supabase
       const { data: dbProducts, error: prodErr } = await supabase
         .from('products')
         .select('*')
         .order('created_at', { ascending: true });
 
-      if (!prodErr && dbProducts && dbProducts.length > 0) {
+      if (!prodErr && dbProducts) {
         const mappedProducts: Product[] = dbProducts.map((p: any) => ({
           id: p.id,
           name: p.name,
@@ -284,8 +339,42 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
           image: p.image,
           inStock: p.in_stock,
         }));
-        setProducts(mappedProducts);
-        persistLocally({ products: mappedProducts });
+
+        let localProductsSnapshot: Product[] = products;
+        try {
+          const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed.products)) localProductsSnapshot = parsed.products;
+          }
+        } catch {
+          // ignore
+        }
+
+        const dbProductIds = new Set(mappedProducts.map(p => p.id));
+        const localOnlyProducts = localProductsSnapshot.filter(lp => !dbProductIds.has(lp.id));
+
+        for (const localProd of localOnlyProducts) {
+          try {
+            await supabase.from('products').upsert({
+              id: localProd.id,
+              name: localProd.name,
+              category: localProd.category,
+              price_cop: localProd.priceCOP,
+              description: localProd.description,
+              impact: localProd.impact,
+              image: localProd.image,
+              in_stock: localProd.inStock,
+              updated_at: new Date().toISOString(),
+            });
+          } catch {
+            // ignore
+          }
+        }
+
+        const unifiedProducts = [...mappedProducts, ...localOnlyProducts];
+        setProducts(unifiedProducts);
+        persistLocally({ products: unifiedProducts });
       }
 
       // 3. Fetch site_content
@@ -293,20 +382,29 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
         .from('site_content')
         .select('*');
 
-      if (!contentErr && dbContent) {
+      if (!contentErr && dbContent && dbContent.length > 0) {
+        const contentUpdates: Partial<any> = {};
+
         dbContent.forEach((row: any) => {
           if (row.section_key === 'research_lines' && Array.isArray(row.data)) {
             setResearchLines(row.data);
+            contentUpdates.researchLines = row.data;
           } else if (row.section_key === 'metrics' && Array.isArray(row.data)) {
             setMetrics(row.data);
+            contentUpdates.metrics = row.data;
           } else if (row.section_key === 'donation_tiers' && Array.isArray(row.data)) {
             setDonationTiers(row.data);
+            contentUpdates.donationTiers = row.data;
           } else if (row.section_key === 'director' && typeof row.data === 'object') {
             setDirector(row.data);
+            contentUpdates.director = row.data;
           } else if (row.section_key === 'timeline' && Array.isArray(row.data)) {
             setTimeline(row.data);
+            contentUpdates.timeline = row.data;
           }
         });
+
+        persistLocally(contentUpdates);
       }
     } catch (err) {
       console.warn('Supabase sync skipped or errored:', err);
@@ -320,7 +418,10 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
     try {
       const now = new Date();
       const slug = articleData.slug?.trim() || 
-        articleData.title?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 
+        articleData.title?.toLowerCase()
+          .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/(^-|-$)/g, '') || 
         `informe-${Date.now()}`;
 
       const existingIndex = articles.findIndex(a => a.slug === slug || (articleData.id && a.id === articleData.id));
@@ -340,6 +441,7 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
         updatedAt: now.toISOString(),
       };
 
+      // 1. Optimistic Local State Update
       let newArticles: Article[];
       if (existingIndex >= 0) {
         newArticles = [...articles];
@@ -351,9 +453,9 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
       setArticles(newArticles);
       persistLocally({ articles: newArticles });
 
-      // Save to Supabase if configured
+      // 2. Persist to Supabase Cloud if configured
       if (isSupabaseConfigured) {
-        const { error } = await supabase.from('articles').upsert({
+        const payload: Record<string, any> = {
           slug: updatedArticle.slug,
           title: updatedArticle.title,
           category: updatedArticle.category,
@@ -365,10 +467,33 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
           image: updatedArticle.image,
           status: updatedArticle.status,
           updated_at: new Date().toISOString(),
-        }, { onConflict: 'slug' });
+        };
+
+        // Only include ID if it is a valid UUID, otherwise allow Postgres to auto-generate
+        const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(updatedArticle.id || '');
+        if (isUUID && updatedArticle.id) {
+          payload.id = updatedArticle.id;
+        }
+
+        const { data, error } = await supabase
+          .from('articles')
+          .upsert(payload, { onConflict: 'slug' })
+          .select();
 
         if (error) {
-          console.warn('Supabase article upsert warning:', error.message);
+          console.error('Supabase article upsert error:', error);
+          let errorMsg = error.message;
+          if (error.code === '42501' || errorMsg.toLowerCase().includes('row-level security') || errorMsg.toLowerCase().includes('policy')) {
+            errorMsg = 'Escritura bloqueada por política RLS en Supabase. Ejecuta el script "fix_rls_policies.sql" en Supabase SQL Editor para permitir guardar.';
+          }
+          return { success: false, error: errorMsg };
+        }
+
+        if (data && data[0] && data[0].id) {
+          updatedArticle.id = data[0].id;
+          const syncedArticles = newArticles.map(a => a.slug === updatedArticle.slug ? { ...a, id: data[0].id } : a);
+          setArticles(syncedArticles);
+          persistLocally({ articles: syncedArticles });
         }
       }
 
@@ -386,7 +511,15 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
       persistLocally({ articles: newArticles });
 
       if (isSupabaseConfigured && target) {
-        await supabase.from('articles').delete().eq('slug', target.slug);
+        const { error } = await supabase.from('articles').delete().eq('slug', target.slug);
+        if (error) {
+          console.error('Supabase article delete error:', error);
+          let msg = error.message;
+          if (error.code === '42501') {
+            msg = 'Eliminación bloqueada por política RLS de Supabase. Ejecuta fix_rls_policies.sql en Supabase.';
+          }
+          return { success: false, error: msg };
+        }
       }
       return { success: true };
     } catch (err: any) {
@@ -423,7 +556,7 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
       persistLocally({ products: newProducts });
 
       if (isSupabaseConfigured) {
-        await supabase.from('products').upsert({
+        const { error } = await supabase.from('products').upsert({
           id: updatedProduct.id,
           name: updatedProduct.name,
           category: updatedProduct.category,
@@ -434,6 +567,15 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
           in_stock: updatedProduct.inStock,
           updated_at: new Date().toISOString(),
         });
+
+        if (error) {
+          console.error('Supabase product upsert error:', error);
+          let msg = error.message;
+          if (error.code === '42501') {
+            msg = 'Bloqueado por RLS en Supabase. Ejecuta fix_rls_policies.sql en Supabase.';
+          }
+          return { success: false, error: msg };
+        }
       }
 
       return { success: true };
@@ -449,7 +591,11 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
       persistLocally({ products: newProducts });
 
       if (isSupabaseConfigured) {
-        await supabase.from('products').delete().eq('id', id);
+        const { error } = await supabase.from('products').delete().eq('id', id);
+        if (error) {
+          console.error('Supabase product delete error:', error);
+          return { success: false, error: error.message };
+        }
       }
       return { success: true };
     } catch (err: any) {
@@ -462,11 +608,12 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setMetrics(newMetrics);
     persistLocally({ metrics: newMetrics });
     if (isSupabaseConfigured) {
-      await supabase.from('site_content').upsert({
+      const { error } = await supabase.from('site_content').upsert({
         section_key: 'metrics',
         data: newMetrics,
         updated_at: new Date().toISOString(),
       });
+      if (error) return { success: false, error: error.message };
     }
     return { success: true };
   };
@@ -475,11 +622,12 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setResearchLines(newLines);
     persistLocally({ researchLines: newLines });
     if (isSupabaseConfigured) {
-      await supabase.from('site_content').upsert({
+      const { error } = await supabase.from('site_content').upsert({
         section_key: 'research_lines',
         data: newLines,
         updated_at: new Date().toISOString(),
       });
+      if (error) return { success: false, error: error.message };
     }
     return { success: true };
   };
@@ -489,11 +637,12 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setDirector(merged);
     persistLocally({ director: merged });
     if (isSupabaseConfigured) {
-      await supabase.from('site_content').upsert({
+      const { error } = await supabase.from('site_content').upsert({
         section_key: 'director',
         data: merged,
         updated_at: new Date().toISOString(),
       });
+      if (error) return { success: false, error: error.message };
     }
     return { success: true };
   };
@@ -502,11 +651,12 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setTimeline(newTimeline);
     persistLocally({ timeline: newTimeline });
     if (isSupabaseConfigured) {
-      await supabase.from('site_content').upsert({
+      const { error } = await supabase.from('site_content').upsert({
         section_key: 'timeline',
         data: newTimeline,
         updated_at: new Date().toISOString(),
       });
+      if (error) return { success: false, error: error.message };
     }
     return { success: true };
   };
@@ -515,11 +665,12 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setDonationTiers(newTiers);
     persistLocally({ donationTiers: newTiers });
     if (isSupabaseConfigured) {
-      await supabase.from('site_content').upsert({
+      const { error } = await supabase.from('site_content').upsert({
         section_key: 'donation_tiers',
         data: newTiers,
         updated_at: new Date().toISOString(),
       });
+      if (error) return { success: false, error: error.message };
     }
     return { success: true };
   };
