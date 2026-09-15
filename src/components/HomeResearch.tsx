@@ -34,12 +34,12 @@ export const HomeResearch: React.FC = () => {
 
           {/* Headline */}
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-[#e8e2d8] leading-[1.15] tracking-tight font-normal mb-5">
-            Ciencia y monitoreo para comprender y proteger al <span className="italic text-emerald-400">Mono Socai</span>.
+            Ciencia y monitoreo para comprender y proteger al <span className="italic text-emerald-400">Mono Zocay</span>.
           </h2>
 
           {/* Short Description */}
           <p className="text-sm sm:text-base text-[#e8e2d8]/85 font-sans font-light leading-relaxed mb-6">
-            Más de dos décadas de estudios etológicos y demográficos sobre el <strong className="text-white font-medium">mono socai (Plecturocebus ornatus)</strong>. Investigamos el impacto de la fragmentación del hábitat en sus grupos familiares y el papel vital de las cercas vivas como autopistas en el dosel.
+            Más de dos décadas de estudios etológicos y demográficos sobre el <strong className="text-white font-medium">mono zocay (Plecturocebus ornatus)</strong>. Investigamos el impacto de la fragmentación del hábitat en sus grupos familiares y el papel vital de las cercas vivas como autopistas en el dosel.
           </p>
 
           {/* Clean Scientific Focus Badges */}

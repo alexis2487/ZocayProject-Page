@@ -42,11 +42,11 @@ export const ElProyectoPage: React.FC = () => {
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-white leading-tight font-normal mb-6">
-            El <span className="text-emerald-400">Zocay Project</span>: ciencia para salvar al Mono Socai
+            El <span className="text-emerald-400">Zocay Project</span>: ciencia para salvar al Mono Zocay
           </h1>
 
           <p className="text-lg text-[#e8e2d8]/80 font-sans font-light max-w-3xl leading-relaxed">
-            Una experiencia de investigación científica de largo plazo centrada en dar visibilidad, estudiar y proteger al mono socai (<em className="italic">Plecturocebus ornatus</em>) en los bosques fragmentados y comunidades rurales de los Llanos Orientales de Colombia.
+            Una experiencia de investigación científica de largo plazo centrada en dar visibilidad, estudiar y proteger al mono zocay (<em className="italic">Plecturocebus ornatus</em>) en los bosques fragmentados y comunidades rurales de los Llanos Orientales de Colombia.
           </p>
         </div>
       </div>
@@ -65,7 +65,7 @@ export const ElProyectoPage: React.FC = () => {
           </blockquote>
 
           <p className="text-[#e8e2d8]/85 leading-relaxed font-light">
-            La narrativa del proyecto es una experiencia de investigación de largo plazo centrada en la relación entre el mono socai, los ecosistemas fragmentados y las comunidades locales. El proyecto comenzó explícitamente en 2004 en una finca ganadera de los Llanos colombianos y ha evolucionado desde el estudio del mono zocay dentro de fragmentos boscosos hacia la ecología del paisaje, el monitoreo de biodiversidad y la conservación en paisajes humanizados.
+            La narrativa del proyecto es una experiencia de investigación de largo plazo centrada en la relación entre el mono zocay, los ecosistemas fragmentados y las comunidades locales. El proyecto comenzó explícitamente en 2004 en una finca ganadera de los Llanos colombianos y ha evolucionado desde el estudio del mono zocay dentro de fragmentos boscosos hacia la ecología del paisaje, el monitoreo de biodiversidad y la conservación en paisajes humanizados.
           </p>
         </section>
 

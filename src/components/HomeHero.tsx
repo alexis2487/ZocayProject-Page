@@ -19,8 +19,8 @@ export const HomeHero: React.FC = () => {
       {/* Dominant Background Image */}
       <div className="absolute inset-0 w-full h-full">
         <img
-          src="/images/hero-mono-socai.jpg"
-          alt="Mono Socai (Plecturocebus ornatus), especie protagonista y única en conservación del Zocay Project en el Meta, Colombia"
+          src="/images/hero-mono-zocay.jpg"
+          alt="Mono Zocay (Plecturocebus ornatus), especie protagonista y única en conservación del Zocay Project en el Meta, Colombia"
           className="w-full h-full object-cover object-center lg:object-[68%_center] transform scale-100 transition-transform duration-1000 ease-out"
           loading="eager"
         />
@@ -42,14 +42,14 @@ export const HomeHero: React.FC = () => {
 
           {/* Headline */}
           <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-serif text-[#e8e2d8] leading-[1.1] tracking-tight font-normal mb-6">
-            El Mono Socai <br />
+            El Mono Zocay <br />
             <span className="italic font-light text-white">y su hogar en el</span>{' '}
             <span className="text-emerald-400 font-medium">Meta</span>
           </h1>
 
           {/* Short Subtitle / Brief Description: Mono Zocay focused */}
           <p className="text-base sm:text-lg text-[#e8e2d8]/85 font-sans font-light leading-relaxed max-w-xl mb-10">
-            Ciencia, naturaleza y acción. Una iniciativa de investigación a largo plazo dedicada a dar visibilidad, estudiar y proteger al <strong className="text-white font-medium">mono socai (Plecturocebus ornatus)</strong>, especie protagonista y endémica en los bosques fragmentados de los Llanos Orientales.
+            Ciencia, naturaleza y acción. Una iniciativa de investigación a largo plazo dedicada a dar visibilidad, estudiar y proteger al <strong className="text-white font-medium">mono zocay (Plecturocebus ornatus)</strong>, especie protagonista y endémica en los bosques fragmentados de los Llanos Orientales.
           </p>
 
           {/* Minimalist Elegant Action Button */}

@@ -1,6 +1,6 @@
 # Zocay Project — Sitio Web Oficial & Rediseño Editorial
 
-> **Iniciativa científica de investigación, conservación y protección del Mono Socai (*Plecturocebus ornatus*) en los Llanos Orientales de Colombia.**  
+> **Iniciativa científica de investigación, conservación y protección del Mono Zocay (*Plecturocebus ornatus*) en los Llanos Orientales de Colombia.**  
 > Fundada en 2004 por la bióloga, primatóloga y ecóloga del paisaje **Dra. Xyomara Carretero-Pinzón** (Ph.D. The University of Queensland).
 
 ---
@@ -11,14 +11,14 @@ Este proyecto implementa el rediseño editorial, natural y cinematográfico del 
 
 $$\text{IMAGEN} > \text{MENSAJE} > \text{NAVEGACIÓN}$$
 
-**La especie en conservación y protagonista exclusiva de la web es el Mono Socai (*Plecturocebus ornatus*)**, cuya visibilidad e investigación científica constituyen el corazón del proyecto.
+**La especie en conservación y protagonista exclusiva de la web es el Mono Zocay (*Plecturocebus ornatus*)**, cuya visibilidad e investigación científica constituyen el corazón del proyecto.
 
 En lugar de sobrecargar el Home con tarjetas o catálogos, la página de inicio funciona como una **experiencia de inmersión visual en 4 capítulos consecutivos**:
 
-1. **01 — INICIO:** Hero visual dominante del Mono Socai (*Plecturocebus ornatus*) en el dosel del Meta, con tipografía editorial a la izquierda y coordenadas geográficas.
-2. **02 — INVESTIGACIÓN:** Composición asimétrica dedicada a la ciencia de campo, monitoreo demográfico del mono socai en fragmentos de bosque y el papel de las cercas vivas como autopistas de dosel.
-3. **03 — EL PROYECTO:** Composición panorámica del paisaje de la Orinoquia colombiana, introduciendo la trayectoria rigurosa de la Dra. Carretero-Pinzón dedicada a la conservación del mono socai desde 2004.
-4. **04 — APOYA LA CONSERVACIÓN:** Llamada a la acción enfocada y emotiva para proteger el hábitat del mono socai con dos botones diferenciados: acceso a la Tienda Oficial y Donaciones directas.
+1. **01 — INICIO:** Hero visual dominante del Mono Zocay (*Plecturocebus ornatus*) en el dosel del Meta, con tipografía editorial a la izquierda y coordenadas geográficas.
+2. **02 — INVESTIGACIÓN:** Composición asimétrica dedicada a la ciencia de campo, monitoreo demográfico del mono zocay en fragmentos de bosque y el papel de las cercas vivas como autopistas de dosel.
+3. **03 — EL PROYECTO:** Composición panorámica del paisaje de la Orinoquia colombiana, introduciendo la trayectoria rigurosa de la Dra. Carretero-Pinzón dedicada a la conservación del mono zocay desde 2004.
+4. **04 — APOYA LA CONSERVACIÓN:** Llamada a la acción enfocada y emotiva para proteger el hábitat del mono zocay con dos botones diferenciados: acceso a la Tienda Oficial y Donaciones directas.
 
 ---
 
@@ -27,11 +27,11 @@ En lugar de sobrecargar el Home con tarjetas o catálogos, la página de inicio 
 ```text
 HOME (/)
 │
-├── 01 — Inicio (Hero y bienvenida al universo del Mono Socai)
+├── 01 — Inicio (Hero y bienvenida al universo del Mono Zocay)
 ├── 02 — Investigación (Presentación visual de la ciencia del Zocay)
 │   └── /investigacion (Líneas de investigación centradas en Plecturocebus ornatus, metodología de campo, métricas)
 ├── 03 — El Proyecto (Territorio y dirección científica)
-│   └── /el-proyecto (Historia desde 2004, Dra. Carretero-Pinzón, perfil exhaustivo del Mono Socai, matrices productivas y cercas vivas)
+│   └── /el-proyecto (Historia desde 2004, Dra. Carretero-Pinzón, perfil exhaustivo del Mono Zocay, matrices productivas y cercas vivas)
 ├── 04 — Tienda / Donaciones (Llamado a la acción)
 │   ├── /tienda (Indumentaria y accesorios oficiales con causa)
 │   └── /donaciones (Aportes directos para financiar monitoreo y restauración de corredores)
@@ -50,7 +50,7 @@ Todos los datos institucionales, biográficos y ecológicos provienen estrictame
   * Vinculación a *School of Geography, Planning and Environmental Management* & *ARC Centre of Excellence for Environmental Decisions*
   * Pregrado en Biología y Maestría en Ciencias Biológicas — *Pontificia Universidad Javeriana* (Bogotá, Colombia)
 * **Especie Protagonista Exclusiva:** Tití del Meta / Mico Zocay (*Plecturocebus ornatus* / sinónimo *Callicebus ornatus*)
-* **Líneas Focales:** Demografía del mono socai, fragmentación de bosques de galería, cercas vivas como corredores biológicos, matrices ganaderas y ordenamiento territorial.
+* **Líneas Focales:** Demografía del mono zocay, fragmentación de bosques de galería, cercas vivas como corredores biológicos, matrices ganaderas y ordenamiento territorial.
 
 ---
 

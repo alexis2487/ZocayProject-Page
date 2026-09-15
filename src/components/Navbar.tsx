@@ -53,7 +53,7 @@ export const Navbar: React.FC = () => {
             </div>
             <div className="flex flex-col">
               <span className="font-serif tracking-widest text-sm md:text-base font-medium text-[#e8e2d8] group-hover:text-emerald-300 transition-colors uppercase">
-                Mono Socai
+                Mono Zocay
               </span>
               <span className="text-[10px] tracking-[0.25em] text-emerald-400/80 uppercase font-sans font-light">
                 Meta · Colombia

@@ -13,7 +13,7 @@ export const HomeProject: React.FC = () => {
       <div className="absolute inset-0 w-full h-full">
         <img
           src="/images/el-proyecto-paisaje.jpg"
-          alt="Paisaje panorámico de bosques de galería y sabanas en los Llanos Orientales del Meta, hábitat del mono socai"
+          alt="Paisaje panorámico de bosques de galería y sabanas en los Llanos Orientales del Meta, hábitat del mono zocay"
           className="w-full h-full object-cover object-center transform scale-100"
           loading="lazy"
         />
@@ -35,7 +35,7 @@ export const HomeProject: React.FC = () => {
 
           {/* Headline */}
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-[#e8e2d8] leading-[1.12] tracking-tight font-normal mb-6">
-            Una misión científica dedicada al <span className="italic text-emerald-400">Mono Socai</span> y su territorio.
+            Una misión científica dedicada al <span className="italic text-emerald-400">Mono Zocay</span> y su territorio.
           </h2>
 
           {/* Biologist Profile & Brief Project Description */}
@@ -50,7 +50,7 @@ export const HomeProject: React.FC = () => {
             <div>
               <p className="text-sm sm:text-base text-[#e8e2d8]/90 font-sans font-light leading-relaxed mb-2">
                 Iniciado en 2004 en una finca ganadera del Meta por la bióloga y primatóloga{' '}
-                <strong className="text-white font-medium">{projectData.director.name}</strong> (Ph.D. The University of Queensland), Zocay Project investiga, protege y visibiliza al mono socai (<em className="italic text-emerald-300">Plecturocebus ornatus</em>), generando evidencia para conectar bosques fragmentados mediante cercas vivas en la Orinoquia colombiana.
+                <strong className="text-white font-medium">{projectData.director.name}</strong> (Ph.D. The University of Queensland), Zocay Project investiga, protege y visibiliza al mono zocay (<em className="italic text-emerald-300">Plecturocebus ornatus</em>), generando evidencia para conectar bosques fragmentados mediante cercas vivas en la Orinoquia colombiana.
               </p>
               <span className="text-xs text-emerald-400/90 font-medium">
                 {projectData.director.name} · {projectData.director.title}
@@ -71,7 +71,7 @@ export const HomeProject: React.FC = () => {
             <div className="hidden sm:inline-block text-white/20">|</div>
             <div className="flex items-center gap-1.5 text-emerald-400 font-mono text-[11px]">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Especie Protagonista: Mono Socai</span>
+              <span>Especie Protagonista: Mono Zocay</span>
             </div>
           </div>
 

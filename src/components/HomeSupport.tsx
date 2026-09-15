@@ -12,7 +12,7 @@ export const HomeSupport: React.FC = () => {
       <div className="absolute inset-0 w-full h-full">
         <img
           src="/images/apoyo-conservacion.jpg"
-          alt="Comunidad y conservación activa sembrando árboles nativos y cercas vivas para el mono socai en el Meta, Colombia"
+          alt="Comunidad y conservación activa sembrando árboles nativos y cercas vivas para el mono zocay en el Meta, Colombia"
           className="w-full h-full object-cover object-center"
           loading="lazy"
         />
@@ -33,7 +33,7 @@ export const HomeSupport: React.FC = () => {
 
         {/* Headline */}
         <h2 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-[#e8e2d8] leading-[1.12] tracking-tight font-normal mb-6 max-w-2xl">
-          Tu apoyo protege al <span className="italic text-emerald-400 font-medium">Mono Socai</span> y sus bosques.
+          Tu apoyo protege al <span className="italic text-emerald-400 font-medium">Mono Zocay</span> y sus bosques.
         </h2>
 
         {/* Short Description */}

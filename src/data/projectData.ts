@@ -29,13 +29,13 @@ export interface ProjectMilestone {
 
 export const projectData = {
   name: "Zocay Project",
-  tagline: "El Mono Socai y la conservación de paisajes fragmentados en el Meta",
+  tagline: "El Mono Zocay y la conservación de paisajes fragmentados en el Meta",
   foundationYear: 2004,
   location: "Meta, Colombia — Llanos Orientales & Orinoquia",
   coordinates: "3.6225° N, 73.9828° W",
   
   summary: {
-    heroTitle: "El Mono Socai y su hogar en el Meta",
+    heroTitle: "El Mono Zocay y su hogar en el Meta",
     heroSubtitle: "Ciencia, naturaleza y acción para su preservación",
     heroDescription: "Iniciativa de investigación de largo plazo dedicada a dar visibilidad, generar evidencia científica y proteger al mono zocay (Plecturocebus ornatus) en los bosques y paisajes del Meta.",
     
@@ -99,14 +99,14 @@ A través de su producción científica y trabajo de campo, la Dra. Carretero-Pi
 
   // La especie en conservación y protagonista absoluta de la web
   monoZocay: {
-    name: "Mono Socai / Tití del Meta",
+    name: "Mono Zocay / Tití del Meta",
     scientificName: "Plecturocebus ornatus",
     synonyms: "Callicebus ornatus",
     category: "Especie Protagonista & Sombrilla",
     status: "Vulnerable (Lista Roja UICN) — Poblaciones en declive",
     endemic: "Endémica de Colombia (Llanos Orientales & Piedemonte del Meta)",
     habitat: "Bosques de galería, fragmentos remanentes y cercas vivas arboladas",
-    description: "El mono socai (Plecturocebus ornatus) es el corazón y la razón de ser de Zocay Project. Este primate neotropical es endémico de Colombia, restringido a los bosques del departamento del Meta y la cuenca del río Guayabero/Ariari. Se distingue por su pelaje denso de tonalidades castaño rojizas, patas de color rojizo vivo y una inconfundible diadema de pelo blanco inmaculado sobre la frente.",
+    description: "El mono zocay (Plecturocebus ornatus) es el corazón y la razón de ser de Zocay Project. Este primate neotropical es endémico de Colombia, restringido a los bosques del departamento del Meta y la cuenca del río Guayabero/Ariari. Se distingue por su pelaje denso de tonalidades castaño rojizas, patas de color rojizo vivo y una inconfundible diadema de pelo blanco inmaculado sobre la frente.",
     keyTraits: [
       {
         title: "Comportamiento Monógamo y Lazos Estrechos",
@@ -131,7 +131,7 @@ A través de su producción científica y trabajo de campo, la Dra. Carretero-Pi
       "Disminución de árboles nativos de fructificación que componen su dieta",
       "Aislamiento genético de grupos familiares atrapados en parches pequeños"
     ],
-    image: "/images/hero-mono-socai.jpg"
+    image: "/images/hero-mono-zocay.jpg"
   },
 
   scientificThemes: [
@@ -141,7 +141,7 @@ A través de su producción científica y trabajo de campo, la Dra. Carretero-Pi
     },
     {
       title: "Cercas Vivas como Corredores",
-      description: "Investigación pionera sobre cómo las hileras de árboles en fincas ganaderas permiten el tránsito seguro de tropas de mono socai."
+      description: "Investigación pionera sobre cómo las hileras de árboles en fincas ganaderas permiten el tránsito seguro de tropas de mono zocay."
     },
     {
       title: "Matrices Ganaderas & Dosel",

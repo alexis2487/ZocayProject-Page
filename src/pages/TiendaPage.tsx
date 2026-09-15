@@ -24,7 +24,7 @@ export const TiendaPage: React.FC = () => {
       name: "Gorra Edición Especial Zocay",
       category: "Indumentaria de Campo",
       priceCOP: "$ 75.000 COP",
-      description: "Gorra técnica de expedición en algodón orgánico y poliéster reciclado con el bordado oficial del Mono Socai.",
+      description: "Gorra técnica de expedición en algodón orgánico y poliéster reciclado con el bordado oficial del Mono Zocay.",
       impact: "Financia 2 horas de monitoreo y seguimiento demográfico en dosel."
     },
     {

@@ -19,8 +19,8 @@ export const BlogPage: React.FC = () => {
 
   const articles: Article[] = [
     {
-      slug: "comportamiento-social-mono-socai",
-      title: "Comportamiento social del mono socai en parches fragmentados",
+      slug: "comportamiento-social-mono-zocay",
+      title: "Comportamiento social del mono zocay en parches fragmentados",
       date: "12 abr 2025",
       category: "Comportamiento Animal",
       readTime: "6 min de lectura",
@@ -28,17 +28,17 @@ export const BlogPage: React.FC = () => {
       author: "Dra. Xyomara Carretero-Pinzón"
     },
     {
-      slug: "cercas-vivas-autopistas-mono-socai",
-      title: "Cercas vivas: autopistas en el dosel para el mono socai",
+      slug: "cercas-vivas-autopistas-mono-zocay",
+      title: "Cercas vivas: autopistas en el dosel para el mono zocay",
       date: "03 mar 2025",
       category: "Ecología del Paisaje",
       readTime: "8 min de lectura",
-      excerpt: "Cómo las hileras de árboles nativos reducen el aislamiento genético entre parches de bosque y permiten el tránsito seguro de tropas familiares de mono socai en paisajes ganaderos.",
+      excerpt: "Cómo las hileras de árboles nativos reducen el aislamiento genético entre parches de bosque y permiten el tránsito seguro de tropas familiares de mono zocay en paisajes ganaderos.",
       author: "Equipo Zocay Project"
     },
     {
-      slug: "demografia-viabilidad-socai-meta",
-      title: "Censos demográficos y viabilidad de tropas de mono socai en el Meta",
+      slug: "demografia-viabilidad-zocay-meta",
+      title: "Censos demográficos y viabilidad de tropas de mono zocay en el Meta",
       date: "18 feb 2025",
       category: "Monitoreo Biológico",
       readTime: "7 min de lectura",
@@ -68,7 +68,7 @@ export const BlogPage: React.FC = () => {
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-white leading-tight font-normal mb-6">
-            Notas de Campo y Publicaciones del <span className="text-emerald-400">Mono Socai</span>
+            Notas de Campo y Publicaciones del <span className="text-emerald-400">Mono Zocay</span>
           </h1>
 
           <p className="text-lg text-[#e8e2d8]/80 font-sans font-light max-w-3xl leading-relaxed">
