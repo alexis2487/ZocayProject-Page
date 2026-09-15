@@ -2,8 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Compass, ShieldCheck, Sparkles } from 'lucide-react';
 import { projectData } from '../data/projectData';
+import { useContent } from '../context/ContentContext';
 
 export const HomeProject: React.FC = () => {
+  const { director } = useContent();
   return (
     <section 
       id="seccion-el-proyecto"
@@ -43,25 +45,25 @@ export const HomeProject: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 mb-6 sm:mb-8 p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-[#060a08]/90 lg:bg-[#060a08]/80 backdrop-blur-md border border-white/10 shadow-2xl">
             <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-xl sm:rounded-2xl overflow-hidden border-2 border-emerald-400/80 shrink-0 shadow-lg shadow-black/80">
               <img
-                src={projectData.director.photo}
-                alt={projectData.director.name}
+                src={director.photo}
+                alt={director.name}
                 className="w-full h-full object-cover object-top"
               />
             </div>
             <div>
               <p className="text-xs sm:text-sm md:text-base text-[#e8e2d8]/90 font-sans font-light leading-relaxed mb-2">
                 Iniciado en 2004 en una finca ganadera del Meta por la bióloga y primatóloga{' '}
-                <strong className="text-white font-medium">{projectData.director.name}</strong> (Ph.D. The University of Queensland), Zocay Project investiga, protege y visibiliza al mono zocay (<em className="italic text-emerald-300">Plecturocebus ornatus</em>), generando evidencia para conectar bosques fragmentados mediante cercas vivas en la Orinoquia colombiana.
+                <strong className="text-white font-medium">{director.name}</strong> (Ph.D. The University of Queensland), Zocay Project investiga, protege y visibiliza al mono zocay (<em className="italic text-emerald-300">Plecturocebus ornatus</em>), generando evidencia para conectar bosques fragmentados mediante cercas vivas en la Orinoquia colombiana.
               </p>
               <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
                 <span className="text-xs text-emerald-400/90 font-medium">
-                  {projectData.director.name} · {projectData.director.title}
+                  {director.name} · {director.title}
                 </span>
 
                 {/* Social Networks of the Biologist */}
                 <div className="flex items-center gap-2">
                   <a
-                    href={projectData.director.socials.twitter}
+                    href={director.socials.twitter}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-1.5 rounded-full bg-white/5 border border-white/10 text-[#e8e2d8]/70 hover:text-white hover:border-emerald-400 hover:bg-emerald-950/40 transition-colors"
@@ -73,7 +75,7 @@ export const HomeProject: React.FC = () => {
                     </svg>
                   </a>
                   <a
-                    href={projectData.director.socials.linkedin}
+                    href={director.socials.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-1.5 rounded-full bg-white/5 border border-white/10 text-[#e8e2d8]/70 hover:text-white hover:border-emerald-400 hover:bg-emerald-950/40 transition-colors"
@@ -85,7 +87,7 @@ export const HomeProject: React.FC = () => {
                     </svg>
                   </a>
                   <a
-                    href={projectData.director.socials.instagram}
+                    href={director.socials.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-1.5 rounded-full bg-white/5 border border-white/10 text-[#e8e2d8]/70 hover:text-white hover:border-emerald-400 hover:bg-emerald-950/40 transition-colors"
@@ -107,7 +109,7 @@ export const HomeProject: React.FC = () => {
           <div className="flex flex-wrap items-center gap-y-2 gap-x-4 sm:gap-6 mb-6 sm:mb-8 text-[11px] sm:text-xs text-[#e8e2d8]/70 font-sans">
             <div className="flex items-center gap-1.5 sm:gap-2">
               <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400 shrink-0" />
-              <span>Dirección científica: {projectData.director.name}</span>
+              <span>Dirección científica: {director.name}</span>
             </div>
             <div className="flex items-center gap-1.5 sm:gap-2">
               <Compass className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400 shrink-0" />

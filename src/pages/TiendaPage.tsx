@@ -1,53 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ShieldCheck, Check } from 'lucide-react';
-
-interface Product {
-  id: string;
-  name: string;
-  category: string;
-  priceCOP: string;
-  description: string;
-  impact: string;
-  image: string;
-}
+import { useContent } from '../context/ContentContext';
 
 export const TiendaPage: React.FC = () => {
+  const { products } = useContent();
   const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  const products: Product[] = [
-    {
-      id: "gorra-edicion-especial",
-      name: "Gorra Edición Especial Zocay",
-      category: "Indumentaria de Campo",
-      priceCOP: "$ 75.000 COP",
-      description: "Gorra técnica de expedición en algodón y malla transpirable con el parche circular bordado oficial del Mono Zocay.",
-      impact: "Financia 2 horas de monitoreo y seguimiento demográfico en dosel.",
-      image: "/images/products/gorra-zocay.png"
-    },
-    {
-      id: "camiseta-conservacion",
-      name: "Camiseta Oficial Conservación",
-      category: "Indumentaria",
-      priceCOP: "$ 85.000 COP",
-      description: "Camiseta serigrafiada con tintas ecológicas que ilustra al Mono Zocay (Plecturocebus ornatus) y su hábitat de galería.",
-      impact: "Permite sembrar y georreferenciar 5 plántulas de árboles nativos para cercas vivas.",
-      image: "/images/products/camisa-zocay.png"
-    },
-    {
-      id: "taza-expedicion",
-      name: "Taza de Expedición Zocay",
-      category: "Accesorios",
-      priceCOP: "$ 45.000 COP",
-      description: "Taza esmaltada verde bosque para café de origen llanero, con el emblema Zocay grabada para campamentos y campo.",
-      impact: "Cubre insumos de bitácora y papelería científica para investigadores locales.",
-      image: "/images/products/taza-zocay.png"
-    }
-  ];
 
   return (
     <div className="w-full bg-[#060a08] text-[#e8e2d8] pt-20 sm:pt-24 pb-20 sm:pb-28">

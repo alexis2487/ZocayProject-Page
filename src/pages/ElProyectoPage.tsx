@@ -13,8 +13,11 @@ import {
   Heart
 } from 'lucide-react';
 import { projectData } from '../data/projectData';
+import { useContent } from '../context/ContentContext';
 
 export const ElProyectoPage: React.FC = () => {
+  const { director, timeline } = useContent();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -79,33 +82,33 @@ export const ElProyectoPage: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 items-start">
             <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 rounded-2xl overflow-hidden border-2 border-emerald-500/40 shadow-2xl shrink-0 bg-[#0d1512]">
               <img
-                src={projectData.director.photo}
-                alt={projectData.director.name}
+                src={director.photo}
+                alt={director.name}
                 className="w-full h-full object-cover object-top"
               />
             </div>
             <div>
               <h3 className="text-2xl sm:text-3xl font-serif text-white font-medium mb-1">
-                {projectData.director.name}
+                {director.name}
               </h3>
               <p className="text-emerald-400 text-sm font-sans tracking-wide mb-4">
-                {projectData.director.title}
+                {director.title}
               </p>
               <div className="space-y-2 text-xs text-[#e8e2d8]/75">
                 <div className="flex items-start gap-2">
                   <Award className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <span><strong>Doctorado (Ph.D.):</strong> {projectData.director.doctorate}</span>
+                  <span><strong>Doctorado (Ph.D.):</strong> {director.doctorate}</span>
                 </div>
                 <div className="flex items-start gap-2 pl-6 text-[#e8e2d8]/60">
-                  <span>Vinculación: {projectData.director.doctorateAffiliation}</span>
+                  <span>Vinculación: {director.doctorateAffiliation}</span>
                 </div>
                 <div className="flex items-start gap-2">
                   <Award className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <span><strong>Maestría:</strong> {projectData.director.graduate}</span>
+                  <span><strong>Maestría:</strong> {director.graduate}</span>
                 </div>
                 <div className="flex items-start gap-2">
                   <Award className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <span><strong>Pregrado:</strong> {projectData.director.undergraduate}</span>
+                  <span><strong>Pregrado:</strong> {director.undergraduate}</span>
                 </div>
               </div>
 
@@ -114,7 +117,7 @@ export const ElProyectoPage: React.FC = () => {
                 <span className="text-[11px] font-mono text-emerald-400 uppercase tracking-wider">Perfiles Oficiales:</span>
                 <div className="flex items-center gap-2">
                   <a
-                    href={projectData.director.socials.twitter}
+                    href={director.socials.twitter}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-[#e8e2d8] hover:text-white hover:border-emerald-400 hover:bg-emerald-950/40 transition-colors"
@@ -125,7 +128,7 @@ export const ElProyectoPage: React.FC = () => {
                     <span>X (Twitter)</span>
                   </a>
                   <a
-                    href={projectData.director.socials.linkedin}
+                    href={director.socials.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-[#e8e2d8] hover:text-white hover:border-emerald-400 hover:bg-emerald-950/40 transition-colors"
@@ -136,7 +139,7 @@ export const ElProyectoPage: React.FC = () => {
                     <span>LinkedIn</span>
                   </a>
                   <a
-                    href={projectData.director.socials.instagram}
+                    href={director.socials.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-[#e8e2d8] hover:text-white hover:border-emerald-400 hover:bg-emerald-950/40 transition-colors"
@@ -265,7 +268,7 @@ export const ElProyectoPage: React.FC = () => {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-            {projectData.history.timeline.map((item, idx) => (
+            {timeline.map((item, idx) => (
               <div 
                 key={idx}
                 className="p-5 rounded-xl border border-white/10 bg-[#090f0c] flex flex-col gap-2"

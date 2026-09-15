@@ -3,7 +3,11 @@ import { Link } from 'react-router-dom';
 import { Compass, Mail, MapPin } from 'lucide-react';
 import { projectData } from '../data/projectData';
 
+import { useContent } from '../context/ContentContext';
+
 export const Footer: React.FC = () => {
+  const { director } = useContent();
+
   return (
     <footer className="bg-[#040705] border-t border-emerald-950/40 text-[#e8e2d8]/70 py-12 sm:py-16 px-5 sm:px-8 md:px-12">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start justify-between gap-12">
@@ -54,6 +58,11 @@ export const Footer: React.FC = () => {
               <li>
                 <Link to="/blog" className="hover:text-emerald-300 transition-colors">Blog / Notas de campo</Link>
               </li>
+              <li className="pt-2 border-t border-white/5">
+                <Link to="/admin" className="text-emerald-400/80 hover:text-emerald-300 font-mono text-[11px] flex items-center gap-1.5 transition-colors">
+                  <span>Acceso CMS Admin →</span>
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -61,10 +70,10 @@ export const Footer: React.FC = () => {
             <div className="text-emerald-400 font-mono uppercase tracking-[0.2em] text-[11px] mb-4">
               Dirección Científica
             </div>
-            <p className="text-xs text-[#e8e2d8]/80 font-medium mb-1">{projectData.director.name}</p>
-            <p className="text-[11px] text-[#e8e2d8]/60 mb-1">{projectData.director.title}</p>
+            <p className="text-xs text-[#e8e2d8]/80 font-medium mb-1">{director.name}</p>
+            <p className="text-[11px] text-[#e8e2d8]/60 mb-1">{director.title}</p>
             <p className="text-[11px] text-[#e8e2d8]/50 max-w-xs leading-relaxed mb-4">
-              Ph.D. The University of Queensland · Pontificia Universidad Javeriana
+              {director.doctorate}
             </p>
             <div className="flex items-center gap-2 text-xs text-emerald-400 mb-3">
               <Mail className="w-3.5 h-3.5" />
@@ -74,7 +83,7 @@ export const Footer: React.FC = () => {
             {/* Social Links */}
             <div className="flex items-center gap-2 pt-1">
               <a
-                href={projectData.director.socials.twitter}
+                href={director.socials.twitter}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-1.5 rounded-full bg-white/5 border border-white/10 text-[#e8e2d8]/70 hover:text-white hover:border-emerald-400 hover:bg-emerald-950/40 transition-colors"
@@ -86,7 +95,7 @@ export const Footer: React.FC = () => {
                 </svg>
               </a>
               <a
-                href={projectData.director.socials.linkedin}
+                href={director.socials.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-1.5 rounded-full bg-white/5 border border-white/10 text-[#e8e2d8]/70 hover:text-white hover:border-emerald-400 hover:bg-emerald-950/40 transition-colors"

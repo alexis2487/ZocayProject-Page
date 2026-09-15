@@ -1,39 +1,16 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Microscope, BookOpen, Layers, Trees, Sparkles } from 'lucide-react';
-import { projectData } from '../data/projectData';
+import { useContent } from '../context/ContentContext';
+
+const LINE_ICONS = [Microscope, Trees, Layers, BookOpen];
 
 export const InvestigacionPage: React.FC = () => {
+  const { researchLines, metrics } = useContent();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  const researchLines = [
-    {
-      code: "LINEA-01",
-      title: "Demografía y Ecología Poblacional del Mono Zocay",
-      description: "Monitoreo longitudinal de tropas familiares de mono zocay (Plecturocebus ornatus). Estimación de densidad de grupos, tasas de natalidad, supervivencia de infantes y estructura de edad en fragmentos de bosque de galería en el Meta.",
-      icon: Microscope
-    },
-    {
-      code: "LINEA-02",
-      title: "Cercas Vivas como Corredores del Zocay",
-      description: "Evaluación cuantitativa del uso de linderos arbóreos por el mono zocay. Identificación de especies vegetales nativas de fructificación y diseño de parámetros de conectividad funcional para restaurar el tránsito del zocay entre parches aislados.",
-      icon: Trees
-    },
-    {
-      code: "LINEA-03",
-      title: "Matrices Ganaderas y Conducta del Zocay",
-      description: "Análisis de la respuesta etológica del mono zocay frente a matrices agropecuarias (pasturas ganaderas y sabanas antrópicas). Identificación de barreras espaciales y umbrales críticos de tamaño de parche.",
-      icon: Layers
-    },
-    {
-      code: "LINEA-04",
-      title: "Ordenamiento Territorial para la Conservación del Zocay",
-      description: "Traducción de datos biológicos de Plecturocebus ornatus en criterios técnicos para autoridades ambientales (Cormacarena), reservas de la sociedad civil y acuerdos de conservación con ganaderos locales.",
-      icon: BookOpen
-    }
-  ];
 
   return (
     <div className="w-full bg-[#060a08] text-[#e8e2d8] pt-20 sm:pt-24 pb-20 sm:pb-28">
@@ -68,7 +45,7 @@ export const InvestigacionPage: React.FC = () => {
       <div className="max-w-5xl mx-auto px-5 sm:px-8 md:px-12 py-12 sm:py-16 space-y-12 sm:space-y-16">
         {/* Metric Ribbons */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-          {projectData.metrics.map((m, idx) => (
+          {metrics.map((m, idx) => (
             <div key={idx} className="p-4 sm:p-6 rounded-xl border border-emerald-900/30 bg-[#0b1310] flex flex-col">
               <span className="text-2xl sm:text-3xl font-serif text-emerald-400 mb-1">{m.value}</span>
               <span className="text-xs font-sans text-white font-medium">{m.label}</span>
@@ -82,7 +59,7 @@ export const InvestigacionPage: React.FC = () => {
           <h2 className="text-2xl sm:text-3xl font-serif text-white">Líneas de Investigación Centradas en el Mono Zocay</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
             {researchLines.map((line, idx) => {
-              const Icon = line.icon;
+              const Icon = LINE_ICONS[idx % LINE_ICONS.length];
               return (
                 <div 
                   key={idx}

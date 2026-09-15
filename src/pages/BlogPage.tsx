@@ -1,51 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Calendar, Tag, User } from 'lucide-react';
-
-interface Article {
-  slug: string;
-  title: string;
-  date: string;
-  category: string;
-  readTime: string;
-  excerpt: string;
-  author: string;
-}
+import { ArrowLeft, Calendar, Tag, User, X, Sparkles } from 'lucide-react';
+import { useContent } from '../context/ContentContext';
+import { Article } from '../types/content';
 
 export const BlogPage: React.FC = () => {
+  const { articles } = useContent();
+  const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const articles: Article[] = [
-    {
-      slug: "comportamiento-social-mono-zocay",
-      title: "Comportamiento social del mono zocay en parches fragmentados",
-      date: "12 abr 2025",
-      category: "Comportamiento Animal",
-      readTime: "6 min de lectura",
-      excerpt: "Observaciones focales sobre las rutinas de forrajeo matutino, duetos territoriales y la cohesión de parejas monógamas de Plecturocebus ornatus en remanentes boscosos de San Martín, Meta.",
-      author: "Dra. Xyomara Carretero-Pinzón"
-    },
-    {
-      slug: "cercas-vivas-autopistas-mono-zocay",
-      title: "Cercas vivas: autopistas en el dosel para el mono zocay",
-      date: "03 mar 2025",
-      category: "Ecología del Paisaje",
-      readTime: "8 min de lectura",
-      excerpt: "Cómo las hileras de árboles nativos reducen el aislamiento genético entre parches de bosque y permiten el tránsito seguro de tropas familiares de mono zocay en paisajes ganaderos.",
-      author: "Equipo Zocay Project"
-    },
-    {
-      slug: "demografia-viabilidad-zocay-meta",
-      title: "Censos demográficos y viabilidad de tropas de mono zocay en el Meta",
-      date: "18 feb 2025",
-      category: "Monitoreo Biológico",
-      readTime: "7 min de lectura",
-      excerpt: "Análisis longitudinal de 20 años sobre las tasas de natalidad, supervivencia de infantes y densidad poblacional de Plecturocebus ornatus en fragmentos menores a 10 hectáreas.",
-      author: "Dra. Xyomara Carretero-Pinzón"
-    }
-  ];
+  const publicArticles = articles.filter(a => a.status !== 'draft');
 
   return (
     <div className="w-full bg-[#060a08] text-[#e8e2d8] pt-20 sm:pt-24 pb-20 sm:pb-28">
@@ -79,10 +46,11 @@ export const BlogPage: React.FC = () => {
 
       <div className="max-w-5xl mx-auto px-5 sm:px-8 md:px-12 py-12 sm:py-16 space-y-8">
         <div className="space-y-6">
-          {articles.map((item) => (
+          {publicArticles.map((item) => (
             <article 
               key={item.slug}
-              className="p-5 sm:p-8 rounded-2xl border border-white/5 bg-[#090f0c] hover:border-emerald-500/30 transition-all duration-300 group flex flex-col md:flex-row md:items-center justify-between gap-6"
+              onClick={() => setSelectedArticle(item)}
+              className="p-5 sm:p-8 rounded-2xl border border-white/5 bg-[#090f0c] hover:border-emerald-500/40 transition-all duration-300 group flex flex-col md:flex-row md:items-center justify-between gap-6 cursor-pointer"
             >
               <div className="max-w-2xl space-y-3">
                 <div className="flex flex-wrap items-center gap-3 text-xs">
@@ -115,13 +83,84 @@ export const BlogPage: React.FC = () => {
 
               <div className="shrink-0">
                 <span className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-emerald-400 font-medium group-hover:translate-x-1 transition-transform">
-                  Leer nota completa →
+                  Leer informe completo →
                 </span>
               </div>
             </article>
           ))}
         </div>
+
+        {/* Footer info for scientists / administrators */}
+        <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#e8e2d8]/50">
+          <span>Publicaciones revisadas por la Dra. Xyomara Carretero-Pinzón (Zocay Project)</span>
+          <Link
+            to="/admin/informes"
+            className="inline-flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 transition-colors"
+          >
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Acceso al CMS para subir nuevos informes</span>
+          </Link>
+        </div>
       </div>
+
+      {/* MODAL: Full Article Reader */}
+      {selectedArticle && (
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+          <div className="w-full max-w-3xl bg-[#090f0c] border border-emerald-900/50 rounded-3xl p-6 sm:p-10 space-y-6 max-h-[90vh] overflow-y-auto shadow-2xl relative">
+            <button
+              onClick={() => setSelectedArticle(null)}
+              className="absolute top-6 right-6 p-2 rounded-full bg-white/5 hover:bg-white/10 text-white transition-colors"
+              aria-label="Cerrar informe"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="space-y-3 pr-8">
+              <div className="flex flex-wrap items-center gap-3 text-xs">
+                <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 font-mono text-[10px] uppercase">
+                  {selectedArticle.category}
+                </span>
+                <span className="text-white/20">•</span>
+                <span className="text-[#e8e2d8]/60 flex items-center gap-1">
+                  <Calendar className="w-3.5 h-3.5 text-emerald-400" />
+                  {selectedArticle.date}
+                </span>
+                <span className="text-white/20">•</span>
+                <span className="text-[#e8e2d8]/50 font-mono">{selectedArticle.readTime}</span>
+              </div>
+
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-serif text-white leading-tight">
+                {selectedArticle.title}
+              </h1>
+
+              <div className="flex items-center gap-2 pt-1 text-xs text-emerald-400/90 font-medium">
+                <User className="w-4 h-4" />
+                <span>{selectedArticle.author}</span>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-xl bg-[#060a08] border-l-2 border-emerald-400 text-xs sm:text-sm text-[#e8e2d8]/85 font-light leading-relaxed italic">
+              {selectedArticle.excerpt}
+            </div>
+
+            <div className="pt-4 border-t border-white/10 text-sm sm:text-base text-[#e8e2d8]/90 font-light leading-relaxed whitespace-pre-line space-y-4">
+              {selectedArticle.content || selectedArticle.excerpt}
+            </div>
+
+            <div className="pt-6 border-t border-white/10 flex items-center justify-between">
+              <span className="text-[11px] text-[#e8e2d8]/50 font-mono">
+                Zocay Project · Meta, Colombia
+              </span>
+              <button
+                onClick={() => setSelectedArticle(null)}
+                className="px-6 py-2.5 rounded-full bg-emerald-400 text-emerald-950 text-xs uppercase tracking-wider font-semibold hover:bg-emerald-300 transition-colors"
+              >
+                Cerrar Lectura
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

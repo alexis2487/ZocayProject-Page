@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Heart, Check, ShieldCheck, Gift } from 'lucide-react';
 
+import { useContent } from '../context/ContentContext';
+
 export const DonacionesPage: React.FC = () => {
+  const { donationTiers } = useContent();
   const [selectedAmount, setSelectedAmount] = useState<number>(100000);
   const [customAmount, setCustomAmount] = useState<string>('');
   const [isCompleted, setIsCompleted] = useState(false);
@@ -13,32 +16,7 @@ export const DonacionesPage: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const tiers = [
-    {
-      amount: 50000,
-      label: "$ 50.000 COP",
-      usd: "~ $13 USD",
-      impact: "Financia el mantenimiento de una cámara trampa en dosel arbóreo durante un mes."
-    },
-    {
-      amount: 100000,
-      label: "$ 100.000 COP",
-      usd: "~ $25 USD",
-      impact: "Siembra y mantenimiento de 10 árboles nativos para enriquecer una cerca viva como corredor biológico."
-    },
-    {
-      amount: 250000,
-      label: "$ 250.000 COP",
-      usd: "~ $65 USD",
-      impact: "Cubre un día completo de censo y monitoreo biológico en fragmentos aislados por investigadoras locales."
-    },
-    {
-      amount: 500000,
-      label: "$ 500.000 COP",
-      usd: "~ $130 USD",
-      impact: "Beca de apoyo para tesis de pregrado de estudiantes de biología colombianos en el Meta."
-    }
-  ];
+  const tiers = donationTiers;
 
   const handleDonate = (e: React.FormEvent) => {
     e.preventDefault();
