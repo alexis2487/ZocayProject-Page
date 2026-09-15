@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Calendar, Tag, User, X, Sparkles } from 'lucide-react';
+import { ArrowLeft, Calendar, Tag, User, X } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 import { Article } from '../types/content';
 
@@ -90,16 +90,9 @@ export const BlogPage: React.FC = () => {
           ))}
         </div>
 
-        {/* Footer info for scientists / administrators */}
-        <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#e8e2d8]/50">
-          <span>Publicaciones revisadas por la Dra. Xyomara Carretero-Pinzón (Zocay Project)</span>
-          <Link
-            to="/admin/informes"
-            className="inline-flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 transition-colors"
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Acceso al CMS para subir nuevos informes</span>
-          </Link>
+        {/* Footer info */}
+        <div className="pt-8 border-t border-white/10 text-xs text-[#e8e2d8]/50">
+          <span>Publicaciones científicas revisadas y avaladas por la Dra. Xyomara Carretero-Pinzón (Zocay Project)</span>
         </div>
       </div>
 
