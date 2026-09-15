@@ -56,6 +56,7 @@ export const projectData = {
     name: "Dra. Xyomara Carretero-Pinzón",
     title: "Bióloga, Primatóloga y Ecóloga del Paisaje",
     role: "Fundadora e Investigadora Principal de Zocay Project",
+    photo: "/images/xyomara-carretero.jpg",
     doctorate: "Ph.D. en Ecología del Paisaje y Gestión Ambiental — The University of Queensland (Australia)",
     doctorateAffiliation: "School of Geography, Planning and Environmental Management & ARC Centre of Excellence for Environmental Decisions",
     graduate: "Maestría en Ciencias Biológicas — Pontificia Universidad Javeriana (Bogotá, Colombia)",

@@ -34,21 +34,35 @@ export const HomeProject: React.FC = () => {
           </div>
 
           {/* Headline */}
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-[#e8e2d8] leading-[1.12] tracking-tight font-normal mb-5">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-[#e8e2d8] leading-[1.12] tracking-tight font-normal mb-6">
             Una misión científica dedicada al <span className="italic text-emerald-400">Mono Socai</span> y su territorio.
           </h2>
 
-          {/* Authentic, rigorously verified brief text focusing on Mono Zocay */}
-          <p className="text-base sm:text-lg text-[#e8e2d8]/85 font-sans font-light leading-relaxed mb-6">
-            Iniciado en 2004 en una finca ganadera del Meta por la bióloga y primatóloga{' '}
-            <strong className="text-white font-medium">Dra. Xyomara Carretero-Pinzón</strong> (Ph.D. The University of Queensland), Zocay Project investiga, protege y visibiliza al mono socai (<em className="italic text-emerald-300">Plecturocebus ornatus</em>), generando evidencia para conectar bosques fragmentados mediante cercas vivas en la Orinoquia colombiana.
-          </p>
+          {/* Biologist Profile & Brief Project Description */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 mb-8 p-6 rounded-2xl bg-[#060a08]/80 backdrop-blur-md border border-white/10 shadow-2xl">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden border-2 border-emerald-400/80 shrink-0 shadow-lg shadow-black/80">
+              <img
+                src={projectData.director.photo}
+                alt={projectData.director.name}
+                className="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div>
+              <p className="text-sm sm:text-base text-[#e8e2d8]/90 font-sans font-light leading-relaxed mb-2">
+                Iniciado en 2004 en una finca ganadera del Meta por la bióloga y primatóloga{' '}
+                <strong className="text-white font-medium">{projectData.director.name}</strong> (Ph.D. The University of Queensland), Zocay Project investiga, protege y visibiliza al mono socai (<em className="italic text-emerald-300">Plecturocebus ornatus</em>), generando evidencia para conectar bosques fragmentados mediante cercas vivas en la Orinoquia colombiana.
+              </p>
+              <span className="text-xs text-emerald-400/90 font-medium">
+                {projectData.director.name} · {projectData.director.title}
+              </span>
+            </div>
+          </div>
 
           {/* Director & Territory Micro-Meta */}
           <div className="flex flex-wrap items-center gap-y-3 gap-x-6 mb-8 text-xs text-[#e8e2d8]/70 font-sans">
             <div className="flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>Dirección científica: Dra. Xyomara Carretero-Pinzón</span>
+              <span>Dirección científica: {projectData.director.name}</span>
             </div>
             <div className="flex items-center gap-2">
               <Compass className="w-4 h-4 text-emerald-400" />
@@ -57,7 +71,7 @@ export const HomeProject: React.FC = () => {
             <div className="hidden sm:inline-block text-white/20">|</div>
             <div className="flex items-center gap-1.5 text-emerald-400 font-mono text-[11px]">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Especie Protagonista Exclusiva: Mono Socai</span>
+              <span>Especie Protagonista: Mono Socai</span>
             </div>
           </div>
 

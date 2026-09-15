@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  GraduationCap, 
   MapPin, 
   Calendar, 
   Award, 
@@ -78,8 +77,12 @@ export const ElProyectoPage: React.FC = () => {
           </div>
 
           <div className="flex flex-col md:flex-row gap-8 items-start">
-            <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-emerald-950/60 border border-emerald-500/30 flex items-center justify-center shrink-0">
-              <GraduationCap className="w-12 h-12 text-emerald-400" />
+            <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl overflow-hidden border-2 border-emerald-500/40 shadow-2xl shrink-0 bg-[#0d1512]">
+              <img
+                src={projectData.director.photo}
+                alt={projectData.director.name}
+                className="w-full h-full object-cover object-top"
+              />
             </div>
             <div>
               <h3 className="text-2xl sm:text-3xl font-serif text-white font-medium mb-1">
