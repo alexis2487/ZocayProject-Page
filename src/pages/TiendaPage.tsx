@@ -13,12 +13,16 @@ import {
 } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 import { useLanguage } from '../context/LanguageContext';
+import { useTranslatedProducts } from '../hooks/useAutoTranslate';
 import { Product } from '../types/content';
 
 export const TiendaPage: React.FC = () => {
   const { products } = useContent();
   const { t, language } = useLanguage();
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
+
+  const translatedProducts = useTranslatedProducts(products, language);
+  const selectedProduct = translatedProducts.find(p => p.id === selectedProductId) || null;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -28,16 +32,16 @@ export const TiendaPage: React.FC = () => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        setSelectedProduct(null);
+        setSelectedProductId(null);
       }
     };
-    if (selectedProduct) {
+    if (selectedProductId) {
       window.addEventListener('keydown', handleKeyDown);
     }
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [selectedProduct]);
+  }, [selectedProductId]);
 
   const getWhatsAppUrl = (p: Product) => {
     const text = language === 'en'
@@ -89,7 +93,7 @@ export const TiendaPage: React.FC = () => {
       <div className="max-w-5xl mx-auto px-5 sm:px-8 md:px-12 py-12 sm:py-16 space-y-12 sm:space-y-16">
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-          {products.map((p) => {
+          {translatedProducts.map((p) => {
             const isAvailable = p.inStock !== false;
 
             return (
@@ -136,7 +140,7 @@ export const TiendaPage: React.FC = () => {
                     <strong>{t.tiendaPage.impactLabel}</strong> {p.impact}
                   </div>
                   <button
-                    onClick={() => setSelectedProduct(p)}
+                    onClick={() => setSelectedProductId(p.id)}
                     className={`w-full py-3.5 rounded-full text-xs uppercase tracking-[0.18em] font-medium transition-all duration-200 flex items-center justify-center gap-2 ${
                       isAvailable
                         ? 'border border-emerald-500/40 bg-emerald-950/40 text-emerald-300 hover:bg-emerald-400 hover:text-emerald-950 shadow-lg shadow-emerald-950/40'
@@ -176,13 +180,13 @@ export const TiendaPage: React.FC = () => {
       {selectedProduct && (
         <div 
           onClick={(e) => {
-            if (e.target === e.currentTarget) setSelectedProduct(null);
+            if (e.target === e.currentTarget) setSelectedProductId(null);
           }}
           className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
         >
           <div className="w-full max-w-lg bg-[#0a120e] border border-emerald-800/40 rounded-3xl p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto shadow-2xl relative">
             <button
-              onClick={() => setSelectedProduct(null)}
+              onClick={() => setSelectedProductId(null)}
               className="absolute top-5 right-5 p-2 rounded-full bg-white/5 hover:bg-white/10 text-[#e8e2d8] transition-colors"
               aria-label="Cerrar modal"
             >

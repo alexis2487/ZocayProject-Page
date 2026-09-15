@@ -3,12 +3,16 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, Calendar, Tag, User, X } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 import { useLanguage } from '../context/LanguageContext';
-import { Article } from '../types/content';
+import { useTranslatedArticles } from '../hooks/useAutoTranslate';
 
 export const BlogPage: React.FC = () => {
   const { articles } = useContent();
-  const { t } = useLanguage();
-  const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
+  const { t, language } = useLanguage();
+  const [selectedArticleSlug, setSelectedArticleSlug] = useState<string | null>(null);
+
+  const translatedArticles = useTranslatedArticles(articles, language);
+  const publicArticles = translatedArticles.filter(a => a.status !== 'draft');
+  const selectedArticle = publicArticles.find(a => a.slug === selectedArticleSlug) || null;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -17,18 +21,16 @@ export const BlogPage: React.FC = () => {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        setSelectedArticle(null);
+        setSelectedArticleSlug(null);
       }
     };
-    if (selectedArticle) {
+    if (selectedArticleSlug) {
       window.addEventListener('keydown', handleKeyDown);
     }
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [selectedArticle]);
-
-  const publicArticles = articles.filter(a => a.status !== 'draft');
+  }, [selectedArticleSlug]);
 
   return (
     <div className="w-full bg-[#060a08] text-[#e8e2d8] pt-20 sm:pt-24 pb-20 sm:pb-28">
@@ -70,7 +72,7 @@ export const BlogPage: React.FC = () => {
             publicArticles.map((item) => (
               <article 
                 key={item.slug}
-                onClick={() => setSelectedArticle(item)}
+                onClick={() => setSelectedArticleSlug(item.slug)}
                 className="p-5 sm:p-8 rounded-2xl border border-white/5 bg-[#090f0c] hover:border-emerald-500/40 transition-all duration-300 group flex flex-col md:flex-row md:items-center justify-between gap-6 cursor-pointer"
               >
                 <div className="max-w-2xl space-y-3">
@@ -98,7 +100,7 @@ export const BlogPage: React.FC = () => {
 
                   <div className="flex items-center gap-2 pt-2 text-xs text-[#e8e2d8]/60">
                     <User className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>{item.author}</span>
+                    <span>Por {item.author}</span>
                   </div>
                 </div>
 
@@ -122,13 +124,13 @@ export const BlogPage: React.FC = () => {
       {selectedArticle && (
         <div 
           onClick={(e) => {
-            if (e.target === e.currentTarget) setSelectedArticle(null);
+            if (e.target === e.currentTarget) setSelectedArticleSlug(null);
           }}
           className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
         >
           <div className="w-full max-w-3xl bg-[#090f0c] border border-emerald-900/50 rounded-3xl p-6 sm:p-10 space-y-6 max-h-[90vh] overflow-y-auto shadow-2xl relative">
             <button
-              onClick={() => setSelectedArticle(null)}
+              onClick={() => setSelectedArticleSlug(null)}
               className="absolute top-6 right-6 p-2 rounded-full bg-white/5 hover:bg-white/10 text-white transition-colors"
               aria-label={t.blogPage.closeReadingBtn}
             >
@@ -172,7 +174,7 @@ export const BlogPage: React.FC = () => {
                 Zocay Project · Meta, Colombia
               </span>
               <button
-                onClick={() => setSelectedArticle(null)}
+                onClick={() => setSelectedArticleSlug(null)}
                 className="px-6 py-2.5 rounded-full bg-emerald-400 text-emerald-950 text-xs uppercase tracking-wider font-semibold hover:bg-emerald-300 transition-colors"
               >
                 {t.blogPage.closeReadingBtn}

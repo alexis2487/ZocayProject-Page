@@ -14,11 +14,13 @@ import {
 import { projectData } from '../data/projectData';
 import { useContent } from '../context/ContentContext';
 import { useLanguage } from '../context/LanguageContext';
+import { useTranslatedTimeline } from '../hooks/useAutoTranslate';
 import { sanitizeUrl } from '../lib/security';
 
 export const ElProyectoPage: React.FC = () => {
   const { director, timeline } = useContent();
   const { t, language } = useLanguage();
+  const translatedTimeline = useTranslatedTimeline(timeline, language);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -269,7 +271,7 @@ export const ElProyectoPage: React.FC = () => {
           <h2 className="text-2xl sm:text-3xl font-serif text-white">{t.elProyectoPage.sec4Title}</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-            {timeline.map((item, idx) => (
+            {translatedTimeline.map((item, idx) => (
               <div 
                 key={idx}
                 className="p-5 rounded-xl border border-white/10 bg-[#090f0c] flex flex-col gap-2"
