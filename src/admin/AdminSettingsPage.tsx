@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import { 
   Database, 
-  Check, 
-  Copy, 
   RefreshCw, 
   Key, 
   Server,
   RotateCcw,
   ShieldCheck,
   ShieldAlert,
-  Save,
-  CheckCircle2
+  Save
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useContent } from '../context/ContentContext';
@@ -21,116 +18,6 @@ import {
   saveCustomSupabaseCredentials, 
   clearCustomSupabaseCredentials 
 } from '../lib/supabase';
-
-const RLS_FIX_SQL = `-- ==============================================================================
--- CORRECCIÓN INMEDIATA DE POLÍTICAS RLS EN SUPABASE PARA ZOCAY PROJECT
--- ==============================================================================
--- Copia este código, ve a tu panel de Supabase:
--- SQL Editor -> New Query -> Pega esto y haz clic en "RUN"
--- ==============================================================================
-
--- 1. HABILITAR RLS EN TODAS LAS TABLAS
-ALTER TABLE public.articles ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.site_content ENABLE ROW LEVEL SECURITY;
-
--- 2. POLÍTICAS DE LECTURA PÚBLICA (Para visitantes de la web)
-DROP POLICY IF EXISTS "Permitir lectura publica de informes" ON public.articles;
-CREATE POLICY "Permitir lectura publica de informes"
-  ON public.articles FOR SELECT
-  TO public
-  USING (true);
-
-DROP POLICY IF EXISTS "Permitir lectura publica de productos" ON public.products;
-CREATE POLICY "Permitir lectura publica de productos"
-  ON public.products FOR SELECT
-  TO public
-  USING (true);
-
-DROP POLICY IF EXISTS "Permitir lectura publica de contenidos" ON public.site_content;
-CREATE POLICY "Permitir lectura publica de contenidos"
-  ON public.site_content FOR SELECT
-  TO public
-  USING (true);
-
--- 3. POLÍTICAS DE GESTIÓN TOTAL (INSERT, UPDATE, DELETE) PARA EL CMS
-DROP POLICY IF EXISTS "Permitir gestion total a usuarios autenticados en informes" ON public.articles;
-DROP POLICY IF EXISTS "Permitir gestion total en informes" ON public.articles;
-CREATE POLICY "Permitir gestion total en informes"
-  ON public.articles FOR ALL
-  TO public
-  USING (true)
-  WITH CHECK (true);
-
-DROP POLICY IF EXISTS "Permitir gestion total a usuarios autenticados en productos" ON public.products;
-DROP POLICY IF EXISTS "Permitir gestion total en productos" ON public.products;
-CREATE POLICY "Permitir gestion total en productos"
-  ON public.products FOR ALL
-  TO public
-  USING (true)
-  WITH CHECK (true);
-
-DROP POLICY IF EXISTS "Permitir gestion total a usuarios autenticados en contenidos" ON public.site_content;
-DROP POLICY IF EXISTS "Permitir gestion total en contenidos" ON public.site_content;
-CREATE POLICY "Permitir gestion total en contenidos"
-  ON public.site_content FOR ALL
-  TO public
-  USING (true)
-  WITH CHECK (true);`;
-
-const FULL_SCHEMA_SQL = `-- SCHEMA COMPLETO ZOCAY PROJECT
-CREATE TABLE IF NOT EXISTS public.articles (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  slug TEXT UNIQUE NOT NULL,
-  title TEXT NOT NULL,
-  category TEXT NOT NULL,
-  date TEXT NOT NULL,
-  read_time TEXT DEFAULT '5 min de lectura',
-  author TEXT DEFAULT 'Dra. Xyomara Carretero-Pinzón',
-  excerpt TEXT NOT NULL,
-  content TEXT DEFAULT '',
-  image TEXT DEFAULT '',
-  status TEXT DEFAULT 'published' CHECK (status IN ('published', 'draft')),
-  created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
-  updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS public.products (
-  id TEXT PRIMARY KEY,
-  name TEXT NOT NULL,
-  category TEXT NOT NULL,
-  price_cop TEXT NOT NULL,
-  description TEXT NOT NULL,
-  impact TEXT NOT NULL,
-  image TEXT NOT NULL,
-  in_stock BOOLEAN DEFAULT true,
-  created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
-  updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS public.site_content (
-  section_key TEXT PRIMARY KEY,
-  data JSONB NOT NULL,
-  updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
-);
-
-ALTER TABLE public.articles ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.site_content ENABLE ROW LEVEL SECURITY;
-
-DROP POLICY IF EXISTS "Permitir lectura publica de informes" ON public.articles;
-CREATE POLICY "Permitir lectura publica de informes" ON public.articles FOR SELECT TO public USING (true);
-DROP POLICY IF EXISTS "Permitir lectura publica de productos" ON public.products;
-CREATE POLICY "Permitir lectura publica de productos" ON public.products FOR SELECT TO public USING (true);
-DROP POLICY IF EXISTS "Permitir lectura publica de contenidos" ON public.site_content;
-CREATE POLICY "Permitir lectura publica de contenidos" ON public.site_content FOR SELECT TO public USING (true);
-
-DROP POLICY IF EXISTS "Permitir gestion total en informes" ON public.articles;
-CREATE POLICY "Permitir gestion total en informes" ON public.articles FOR ALL TO public USING (true) WITH CHECK (true);
-DROP POLICY IF EXISTS "Permitir gestion total en productos" ON public.products;
-CREATE POLICY "Permitir gestion total en productos" ON public.products FOR ALL TO public USING (true) WITH CHECK (true);
-DROP POLICY IF EXISTS "Permitir gestion total en contenidos" ON public.site_content;
-CREATE POLICY "Permitir gestion total en contenidos" ON public.site_content FOR ALL TO public USING (true) WITH CHECK (true);`;
 
 export const AdminSettingsPage: React.FC = () => {
   const { isConfigured, isDemoMode } = useAuth();
@@ -144,8 +31,6 @@ export const AdminSettingsPage: React.FC = () => {
   } | null>(null);
 
   const [isTesting, setIsTesting] = useState(false);
-  const [copiedRls, setCopiedRls] = useState(false);
-  const [copiedFull, setCopiedFull] = useState(false);
   const [resetConfirm, setResetConfirm] = useState(false);
 
   // Custom key form state
@@ -158,18 +43,6 @@ export const AdminSettingsPage: React.FC = () => {
     const res = await testSupabaseConnection();
     setIsTesting(false);
     setTestResult(res);
-  };
-
-  const handleCopyRls = () => {
-    navigator.clipboard.writeText(RLS_FIX_SQL);
-    setCopiedRls(true);
-    setTimeout(() => setCopiedRls(false), 2500);
-  };
-
-  const handleCopyFull = () => {
-    navigator.clipboard.writeText(FULL_SCHEMA_SQL);
-    setCopiedFull(true);
-    setTimeout(() => setCopiedFull(false), 2500);
   };
 
   const handleSaveCustomKey = (e: React.FormEvent) => {
@@ -195,7 +68,7 @@ export const AdminSettingsPage: React.FC = () => {
           Configuración de Supabase & Persistencia Cloud
         </h1>
         <p className="text-xs text-[#e8e2d8]/70 font-light mt-1">
-          Diagnóstico en vivo de lectura/escritura, corrección de políticas RLS y sincronización inteligente sin pérdida de datos.
+          Diagnóstico de conexión en tiempo real y sincronización de contenidos con la base de datos PostgreSQL.
         </p>
       </div>
 
@@ -207,7 +80,7 @@ export const AdminSettingsPage: React.FC = () => {
               <Server className="w-5 h-5 text-emerald-400" />
             </div>
             <div>
-              <div className="text-sm font-serif text-white">Estado de la Conexión Supabase</div>
+              <div className="text-sm font-serif text-white">Estado de la Base de Datos Supabase</div>
               <div className="text-xs text-emerald-400/80 font-mono truncate max-w-xs sm:max-w-md">
                 {supabaseUrl}
               </div>
@@ -281,13 +154,6 @@ export const AdminSettingsPage: React.FC = () => {
                 {testResult.message}
               </div>
             </div>
-
-            {/* If write is blocked, highlight solution */}
-            {testResult.canRead && !testResult.canWrite && (
-              <div className="pl-7 pt-2 border-t border-amber-500/20 text-xs text-amber-100/90 leading-relaxed">
-                <strong>¿Por qué ocurre esto?</strong> La base de datos está conectada y permite leer, pero las políticas de seguridad (RLS) bloquean las inserciones desde el cliente anónimo. Para resolverlo, simplemente copia el script <strong>"Corrección RLS"</strong> de abajo y ejecútalo en el <strong>SQL Editor</strong> de tu panel de Supabase.
-              </div>
-            )}
           </div>
         )}
 
@@ -329,71 +195,6 @@ export const AdminSettingsPage: React.FC = () => {
             </div>
           </form>
         )}
-      </div>
-
-      {/* SOLUTION CARD: RLS Quick Fix SQL Script */}
-      <div className="p-6 sm:p-8 rounded-3xl border border-emerald-500/30 bg-[#070e0a] space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/10">
-          <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-            <div>
-              <h2 className="text-sm font-serif text-white">
-                Solución Inmediata: Script de Corrección de Permisos RLS
-              </h2>
-              <p className="text-[11px] text-emerald-400/80 font-mono">
-                Permite que el CMS guarde, actualice y publique informes en la nube
-              </p>
-            </div>
-          </div>
-
-          <button
-            onClick={handleCopyRls}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-400 text-emerald-950 hover:bg-emerald-300 text-xs font-semibold transition-colors shrink-0 shadow-lg shadow-emerald-500/20"
-          >
-            {copiedRls ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-            <span>{copiedRls ? '¡Copiado al Portapapeles!' : 'Copiar Script RLS'}</span>
-          </button>
-        </div>
-
-        <div className="p-4 rounded-xl bg-[#040705] border border-white/5 font-mono text-[11px] text-emerald-300/90 overflow-x-auto max-h-56 leading-relaxed">
-          <pre>{RLS_FIX_SQL}</pre>
-        </div>
-
-        <div className="text-[11px] text-[#e8e2d8]/70 leading-relaxed space-y-1">
-          <p>
-            <strong>Instrucciones de aplicación (toma 10 segundos):</strong>
-          </p>
-          <ol className="list-decimal list-inside space-y-0.5 text-[#e8e2d8]/80">
-            <li>Haz clic en el botón verde <strong>"Copiar Script RLS"</strong> arriba.</li>
-            <li>Abre tu consola de Supabase y ve a la sección <strong className="text-white">SQL Editor</strong> en el menú izquierdo.</li>
-            <li>Haz clic en <strong className="text-white">"New Query"</strong>, pega el código copiado y presiona <strong className="text-emerald-400">"Run"</strong>.</li>
-            <li>Regresa aquí y haz clic en <strong>"Probar Conexión Completa"</strong> para verificar que la escritura esté 100% activa.</li>
-          </ol>
-        </div>
-      </div>
-
-      {/* FULL SCHEMA SQL */}
-      <div className="p-6 rounded-3xl border border-white/5 bg-[#080d0a] space-y-4">
-        <div className="flex items-center justify-between pb-3 border-b border-white/5">
-          <div className="flex items-center gap-2">
-            <Key className="w-4 h-4 text-[#e8e2d8]/50" />
-            <h2 className="text-xs font-serif text-white">
-              Script SQL Completo (Tablas + Políticas + Estructura Inicial)
-            </h2>
-          </div>
-
-          <button
-            onClick={handleCopyFull}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-xs text-[#e8e2d8]/80 transition-colors"
-          >
-            {copiedFull ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-            <span>{copiedFull ? 'Copiado' : 'Copiar Esquema Completo'}</span>
-          </button>
-        </div>
-
-        <div className="p-4 rounded-xl bg-[#040705] border border-white/5 font-mono text-[11px] text-[#e8e2d8]/60 overflow-x-auto max-h-40 leading-relaxed">
-          <pre>{FULL_SCHEMA_SQL}</pre>
-        </div>
       </div>
 
       {/* Reset Data Section */}
