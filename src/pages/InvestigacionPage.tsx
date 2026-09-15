@@ -36,43 +36,43 @@ export const InvestigacionPage: React.FC = () => {
   ];
 
   return (
-    <div className="w-full bg-[#060a08] text-[#e8e2d8] pt-24 pb-28">
+    <div className="w-full bg-[#060a08] text-[#e8e2d8] pt-20 sm:pt-24 pb-20 sm:pb-28">
       {/* Header Banner */}
-      <div className="relative py-20 px-6 md:px-12 border-b border-emerald-950/40 bg-gradient-to-b from-[#0a130f] via-[#060a08] to-[#060a08]">
+      <div className="relative py-12 sm:py-16 md:py-20 px-5 sm:px-8 md:px-12 border-b border-emerald-950/40 bg-gradient-to-b from-[#0a130f] via-[#060a08] to-[#060a08]">
         <div className="max-w-5xl mx-auto">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-emerald-400 hover:text-emerald-300 transition-colors mb-8"
+            className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-emerald-400 hover:text-emerald-300 transition-colors mb-6 sm:mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Volver al Inicio</span>
           </Link>
 
-          <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-full border border-emerald-500/30 bg-[#060a08]/60 backdrop-blur-md mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/30 bg-[#060a08]/60 backdrop-blur-md mb-4 sm:mb-6">
             <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-            <span className="text-[11px] uppercase tracking-[0.22em] text-emerald-300 font-sans font-medium">
+            <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] sm:tracking-[0.22em] text-emerald-300 font-sans font-medium">
               INVESTIGACIÓN CIENTÍFICA DEL MONO ZOCAY
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-white leading-tight font-normal mb-6">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-serif text-white leading-tight font-normal mb-4 sm:mb-6">
             Ciencia y Monitoreo del <span className="text-emerald-400">Mono Zocay</span>
           </h1>
 
-          <p className="text-lg text-[#e8e2d8]/80 font-sans font-light max-w-3xl leading-relaxed">
+          <p className="text-base sm:text-lg text-[#e8e2d8]/80 font-sans font-light max-w-3xl leading-relaxed">
             Más de dos décadas de monitoreo cuantitativo en los Llanos Orientales. Generamos ciencia rigurosa orientada a la protección del mono zocay (<em className="italic">Plecturocebus ornatus</em>) y la conectividad de sus bosques.
           </p>
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-6 md:px-12 py-16 space-y-16">
+      <div className="max-w-5xl mx-auto px-5 sm:px-8 md:px-12 py-12 sm:py-16 space-y-12 sm:space-y-16">
         {/* Metric Ribbons */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
           {projectData.metrics.map((m, idx) => (
-            <div key={idx} className="p-6 rounded-xl border border-emerald-900/30 bg-[#0b1310] flex flex-col">
-              <span className="text-3xl font-serif text-emerald-400 mb-1">{m.value}</span>
+            <div key={idx} className="p-4 sm:p-6 rounded-xl border border-emerald-900/30 bg-[#0b1310] flex flex-col">
+              <span className="text-2xl sm:text-3xl font-serif text-emerald-400 mb-1">{m.value}</span>
               <span className="text-xs font-sans text-white font-medium">{m.label}</span>
-              <span className="text-[11px] text-[#e8e2d8]/50 mt-1">{m.detail}</span>
+              <span className="text-[10px] sm:text-[11px] text-[#e8e2d8]/50 mt-1">{m.detail}</span>
             </div>
           ))}
         </div>

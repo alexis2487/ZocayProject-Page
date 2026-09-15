@@ -47,38 +47,38 @@ export const DonacionesPage: React.FC = () => {
   };
 
   return (
-    <div className="w-full bg-[#060a08] text-[#e8e2d8] pt-24 pb-28">
+    <div className="w-full bg-[#060a08] text-[#e8e2d8] pt-20 sm:pt-24 pb-20 sm:pb-28">
       {/* Header Banner */}
-      <div className="relative py-20 px-6 md:px-12 border-b border-emerald-950/40 bg-gradient-to-b from-[#0a130f] via-[#060a08] to-[#060a08]">
+      <div className="relative py-12 sm:py-16 md:py-20 px-5 sm:px-8 md:px-12 border-b border-emerald-950/40 bg-gradient-to-b from-[#0a130f] via-[#060a08] to-[#060a08]">
         <div className="max-w-4xl mx-auto text-center">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-emerald-400 hover:text-emerald-300 transition-colors mb-8"
+            className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-emerald-400 hover:text-emerald-300 transition-colors mb-6 sm:mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Volver al Inicio</span>
           </Link>
 
-          <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-full border border-emerald-500/30 bg-[#060a08]/60 backdrop-blur-md mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/30 bg-[#060a08]/60 backdrop-blur-md mb-4 sm:mb-6">
             <Heart className="w-3.5 h-3.5 text-emerald-400" />
-            <span className="text-[11px] uppercase tracking-[0.22em] text-emerald-300 font-sans font-medium">
+            <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] sm:tracking-[0.22em] text-emerald-300 font-sans font-medium">
               FONDO DE INVESTIGACIÓN & CONSERVACIÓN
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-white leading-tight font-normal mb-6">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-serif text-white leading-tight font-normal mb-4 sm:mb-6">
             Apoya directamente al Zocay Project
           </h1>
 
-          <p className="text-lg text-[#e8e2d8]/80 font-sans font-light max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg text-[#e8e2d8]/80 font-sans font-light max-w-2xl mx-auto leading-relaxed">
             Tu generosidad garantiza la continuidad del monitoreo biológico de largo plazo y la protección de los bosques de galería en el Meta.
           </p>
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto px-6 md:px-12 py-16">
+      <div className="max-w-3xl mx-auto px-5 sm:px-8 md:px-12 py-12 sm:py-16">
         {isCompleted ? (
-          <div className="p-10 rounded-2xl border border-emerald-500/40 bg-[#0b1310] text-center space-y-6 animate-fadeIn">
+          <div className="p-6 sm:p-10 rounded-2xl border border-emerald-500/40 bg-[#0b1310] text-center space-y-6 animate-fadeIn">
             <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto">
               <Check className="w-8 h-8" />
             </div>

@@ -108,8 +108,8 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-[#060a08]/98 backdrop-blur-xl flex flex-col pt-24 px-8 pb-10 lg:hidden">
-          <div className="flex items-center gap-2 text-emerald-400 text-xs tracking-widest uppercase mb-6 pb-2 border-b border-emerald-900/30">
+        <div className="fixed inset-0 z-40 bg-[#060a08]/98 backdrop-blur-xl flex flex-col pt-24 px-6 sm:px-8 pb-8 overflow-y-auto lg:hidden">
+          <div className="flex items-center gap-2 text-emerald-400 text-xs tracking-widest uppercase mb-6 pb-2 border-b border-emerald-900/30 shrink-0">
             <Compass className="w-4 h-4" />
             <span>Navegación del Proyecto</span>
           </div>

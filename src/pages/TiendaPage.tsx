@@ -50,46 +50,46 @@ export const TiendaPage: React.FC = () => {
   ];
 
   return (
-    <div className="w-full bg-[#060a08] text-[#e8e2d8] pt-24 pb-28">
+    <div className="w-full bg-[#060a08] text-[#e8e2d8] pt-20 sm:pt-24 pb-20 sm:pb-28">
       {/* Editorial Header Banner */}
-      <div className="relative py-20 px-6 md:px-12 border-b border-emerald-950/40 bg-gradient-to-b from-[#0a130f] via-[#060a08] to-[#060a08]">
+      <div className="relative py-12 sm:py-16 md:py-20 px-5 sm:px-8 md:px-12 border-b border-emerald-950/40 bg-gradient-to-b from-[#0a130f] via-[#060a08] to-[#060a08]">
         <div className="max-w-5xl mx-auto">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-emerald-400 hover:text-emerald-300 transition-colors mb-8"
+            className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-emerald-400 hover:text-emerald-300 transition-colors mb-6 sm:mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Volver al Inicio</span>
           </Link>
 
-          <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-full border border-emerald-500/30 bg-[#060a08]/60 backdrop-blur-md mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/30 bg-[#060a08]/60 backdrop-blur-md mb-4 sm:mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            <span className="text-[11px] uppercase tracking-[0.22em] text-emerald-300 font-sans font-medium">
+            <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] sm:tracking-[0.22em] text-emerald-300 font-sans font-medium">
               TIENDA OFICIAL CON CAUSA
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-white leading-tight font-normal mb-6">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-serif text-white leading-tight font-normal mb-4 sm:mb-6">
             Productos que financian la conservación
           </h1>
 
-          <p className="text-lg text-[#e8e2d8]/80 font-sans font-light max-w-3xl leading-relaxed">
+          <p className="text-base sm:text-lg text-[#e8e2d8]/80 font-sans font-light max-w-3xl leading-relaxed">
             El 100% de los excedentes generados por la tienda oficial se destina a expediciones científicas, adquisición de insumos de campo y siembra de cercas vivas para el Mono Zocay en el departamento del Meta.
           </p>
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-6 md:px-12 py-16 space-y-16">
+      <div className="max-w-5xl mx-auto px-5 sm:px-8 md:px-12 py-12 sm:py-16 space-y-12 sm:space-y-16">
         {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
           {products.map((p) => (
             <div 
               key={p.id}
-              className="p-6 rounded-2xl border border-white/10 bg-[#090f0c] flex flex-col justify-between hover:border-emerald-500/40 transition-all duration-300 group shadow-xl"
+              className="p-5 sm:p-6 rounded-2xl border border-white/10 bg-[#090f0c] flex flex-col justify-between hover:border-emerald-500/40 transition-all duration-300 group shadow-xl"
             >
               <div>
                 {/* Product Photo Showcase */}
-                <div className="w-full h-64 rounded-xl overflow-hidden bg-[#0d1512] border border-white/5 mb-6 relative flex items-center justify-center p-4 group-hover:border-emerald-500/30 transition-colors">
+                <div className="w-full h-52 sm:h-64 rounded-xl overflow-hidden bg-[#0d1512] border border-white/5 mb-5 sm:mb-6 relative flex items-center justify-center p-4 group-hover:border-emerald-500/30 transition-colors">
                   <img
                     src={p.image}
                     alt={p.name}
@@ -139,7 +139,7 @@ export const TiendaPage: React.FC = () => {
         </div>
 
         {/* Support Reassurance */}
-        <div className="p-8 rounded-2xl border border-emerald-900/30 bg-[#0b1310] flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="p-5 sm:p-8 rounded-2xl border border-emerald-900/30 bg-[#0b1310] flex flex-col md:flex-row items-start sm:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
             <ShieldCheck className="w-8 h-8 text-emerald-400 shrink-0" />
             <div>

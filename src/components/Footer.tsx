@@ -5,7 +5,7 @@ import { projectData } from '../data/projectData';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-[#040705] border-t border-emerald-950/40 text-[#e8e2d8]/70 py-16 px-6 md:px-12">
+    <footer className="bg-[#040705] border-t border-emerald-950/40 text-[#e8e2d8]/70 py-12 sm:py-16 px-5 sm:px-8 md:px-12">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start justify-between gap-12">
         {/* Identity */}
         <div className="max-w-sm">

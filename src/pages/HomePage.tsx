@@ -10,7 +10,7 @@ export const HomePage: React.FC = () => {
   }, []);
 
   return (
-    <main className="w-full bg-[#060a08] overflow-hidden">
+    <main className="w-full bg-[#060a08] overflow-x-hidden">
       {/* 01 — INICIO / HERO */}
       <HomeHero />
 

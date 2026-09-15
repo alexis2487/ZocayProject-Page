@@ -22,62 +22,62 @@ export const ElProyectoPage: React.FC = () => {
   const { monoZocay } = projectData;
 
   return (
-    <div className="w-full bg-[#060a08] text-[#e8e2d8] pt-24 pb-28">
+    <div className="w-full bg-[#060a08] text-[#e8e2d8] pt-20 sm:pt-24 pb-20 sm:pb-28">
       {/* Editorial Header Banner */}
-      <div className="relative py-20 px-6 md:px-12 border-b border-emerald-950/40 bg-gradient-to-b from-[#0a130f] via-[#060a08] to-[#060a08]">
+      <div className="relative py-12 sm:py-16 md:py-20 px-5 sm:px-8 md:px-12 border-b border-emerald-950/40 bg-gradient-to-b from-[#0a130f] via-[#060a08] to-[#060a08]">
         <div className="max-w-5xl mx-auto">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-emerald-400 hover:text-emerald-300 transition-colors mb-8"
+            className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-emerald-400 hover:text-emerald-300 transition-colors mb-6 sm:mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Volver al Inicio</span>
           </Link>
 
-          <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-full border border-emerald-500/30 bg-[#060a08]/60 backdrop-blur-md mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/30 bg-[#060a08]/60 backdrop-blur-md mb-4 sm:mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            <span className="text-[11px] uppercase tracking-[0.22em] text-emerald-300 font-sans font-medium">
+            <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] sm:tracking-[0.22em] text-emerald-300 font-sans font-medium">
               EL PROYECTO & LA ESPECIE PROTAGONISTA
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-white leading-tight font-normal mb-6">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-serif text-white leading-tight font-normal mb-4 sm:mb-6">
             El <span className="text-emerald-400">Zocay Project</span>: ciencia para salvar al Mono Zocay
           </h1>
 
-          <p className="text-lg text-[#e8e2d8]/80 font-sans font-light max-w-3xl leading-relaxed">
+          <p className="text-base sm:text-lg text-[#e8e2d8]/80 font-sans font-light max-w-3xl leading-relaxed">
             Una experiencia de investigación científica de largo plazo centrada en dar visibilidad, estudiar y proteger al mono zocay (<em className="italic">Plecturocebus ornatus</em>) en los bosques fragmentados y comunidades rurales de los Llanos Orientales de Colombia.
           </p>
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-6 md:px-12 py-16 space-y-20">
+      <div className="max-w-5xl mx-auto px-5 sm:px-8 md:px-12 py-12 sm:py-16 space-y-14 sm:space-y-20">
         {/* 1. ¿Qué es el Zocay Project? */}
-        <section className="space-y-6">
-          <div className="flex items-center gap-3 text-emerald-400 text-xs font-mono tracking-widest uppercase">
+        <section className="space-y-4 sm:space-y-6">
+          <div className="flex items-center gap-2 sm:gap-3 text-emerald-400 text-xs font-mono tracking-widest uppercase">
             <Compass className="w-4 h-4" />
             <span>01. Definición & Propósito</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-serif text-white">¿Qué es el Zocay Project?</h2>
           
-          <blockquote className="border-l-2 border-emerald-500 pl-6 py-2 text-lg font-serif italic text-emerald-200/90 leading-relaxed bg-emerald-950/20 rounded-r-lg">
+          <blockquote className="border-l-2 border-emerald-500 pl-4 sm:pl-6 py-2 text-base sm:text-lg font-serif italic text-emerald-200/90 leading-relaxed bg-emerald-950/20 rounded-r-lg">
             "El Zocay Project es una iniciativa de investigación, conservación, educación y protección de la biodiversidad de los Llanos Orientales de Colombia, fundada por la bióloga, primatóloga y ecóloga de paisaje Dr. Xyomara Carretero-Pinzón en 2004."
           </blockquote>
 
-          <p className="text-[#e8e2d8]/85 leading-relaxed font-light">
+          <p className="text-sm sm:text-base text-[#e8e2d8]/85 leading-relaxed font-light">
             La narrativa del proyecto es una experiencia de investigación de largo plazo centrada en la relación entre el mono zocay, los ecosistemas fragmentados y las comunidades locales. El proyecto comenzó explícitamente en 2004 en una finca ganadera de los Llanos colombianos y ha evolucionado desde el estudio del mono zocay dentro de fragmentos boscosos hacia la ecología del paisaje, el monitoreo de biodiversidad y la conservación en paisajes humanizados.
           </p>
         </section>
 
         {/* 2. Dirección Científica: Dra. Xyomara Carretero-Pinzón */}
-        <section className="p-8 sm:p-10 rounded-2xl border border-emerald-900/40 bg-[#0b1310]/80 backdrop-blur-md space-y-8">
-          <div className="flex items-center gap-3 text-emerald-400 text-xs font-mono tracking-widest uppercase">
+        <section className="p-5 sm:p-8 md:p-10 rounded-2xl border border-emerald-900/40 bg-[#0b1310]/80 backdrop-blur-md space-y-6 sm:space-y-8">
+          <div className="flex items-center gap-2 sm:gap-3 text-emerald-400 text-xs font-mono tracking-widest uppercase">
             <ShieldCheck className="w-4 h-4" />
             <span>02. Dirección & Liderazgo Científico</span>
           </div>
 
-          <div className="flex flex-col md:flex-row gap-8 items-start">
-            <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl overflow-hidden border-2 border-emerald-500/40 shadow-2xl shrink-0 bg-[#0d1512]">
+          <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 items-start">
+            <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 rounded-2xl overflow-hidden border-2 border-emerald-500/40 shadow-2xl shrink-0 bg-[#0d1512]">
               <img
                 src={projectData.director.photo}
                 alt={projectData.director.name}
@@ -173,30 +173,30 @@ export const ElProyectoPage: React.FC = () => {
             <span>03. La Especie en Conservación: Protagonista del Proyecto</span>
           </div>
 
-          <div className="rounded-3xl border border-emerald-500/30 bg-[#090f0c] overflow-hidden">
+          <div className="rounded-2xl sm:rounded-3xl border border-emerald-500/30 bg-[#090f0c] overflow-hidden">
             {/* Visual Hero of Mono Zocay */}
-            <div className="relative h-96 w-full overflow-hidden">
+            <div className="relative h-64 sm:h-80 md:h-96 w-full overflow-hidden">
               <img
                 src={monoZocay.image}
                 alt={monoZocay.name}
                 className="w-full h-full object-cover object-[center_35%]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#090f0c] via-transparent to-black/30" />
-              <div className="absolute top-6 left-6 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-emerald-500/40 text-xs text-emerald-300 font-mono">
+              <div className="absolute top-4 left-4 sm:top-6 sm:left-6 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/70 backdrop-blur-md border border-emerald-500/40 text-[10px] sm:text-xs text-emerald-300 font-mono">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>Única Especie en Conservación del Proyecto</span>
               </div>
-              <div className="absolute bottom-6 left-6 right-6">
-                <h2 className="text-3xl sm:text-4xl font-serif text-white">{monoZocay.name}</h2>
-                <div className="italic text-base font-serif text-emerald-400">
+              <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif text-white">{monoZocay.name}</h2>
+                <div className="italic text-sm sm:text-base font-serif text-emerald-400">
                   {monoZocay.scientificName} ({monoZocay.synonyms})
                 </div>
               </div>
             </div>
 
             {/* In-depth details */}
-            <div className="p-8 sm:p-10 space-y-8">
-              <p className="text-base sm:text-lg text-[#e8e2d8]/90 font-light leading-relaxed">
+            <div className="p-5 sm:p-8 md:p-10 space-y-6 sm:space-y-8">
+              <p className="text-sm sm:text-base lg:text-lg text-[#e8e2d8]/90 font-light leading-relaxed">
                 {monoZocay.description}
               </p>
 
