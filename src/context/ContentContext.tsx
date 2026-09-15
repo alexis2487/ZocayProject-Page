@@ -10,6 +10,7 @@ import {
 } from '../types/content';
 import { projectData as defaultProjectData } from '../data/projectData';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
+import { DEFAULT_WOMPI_CHECKOUT_URL, DEFAULT_PAYPAL_URL } from '../data/paymentConfig';
 
 // Initial default articles
 const INITIAL_ARTICLES: Article[] = [
@@ -159,6 +160,8 @@ interface ContentContextType {
   donationTiers: DonationTier[];
   director: DirectorProfile;
   timeline: TimelineEvent[];
+  wompiUrl: string;
+  paypalUrl: string;
   isSyncing: boolean;
   lastUpdated: string | null;
 
@@ -172,6 +175,8 @@ interface ContentContextType {
   updateDirector: (director: Partial<DirectorProfile>) => Promise<{ success: boolean; error?: string }>;
   updateTimeline: (timeline: TimelineEvent[]) => Promise<{ success: boolean; error?: string }>;
   updateDonationTiers: (tiers: DonationTier[]) => Promise<{ success: boolean; error?: string }>;
+  updateWompiUrl: (url: string) => Promise<{ success: boolean; error?: string }>;
+  updatePaypalUrl: (url: string) => Promise<{ success: boolean; error?: string }>;
   syncFromSupabase: () => Promise<void>;
   resetToDefaults: () => void;
 }
@@ -186,6 +191,8 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [donationTiers, setDonationTiers] = useState<DonationTier[]>(INITIAL_DONATION_TIERS);
   const [director, setDirector] = useState<DirectorProfile>(defaultProjectData.director);
   const [timeline, setTimeline] = useState<TimelineEvent[]>(defaultProjectData.history.timeline);
+  const [wompiUrl, setWompiUrl] = useState<string>(DEFAULT_WOMPI_CHECKOUT_URL);
+  const [paypalUrl, setPaypalUrl] = useState<string>(DEFAULT_PAYPAL_URL);
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
   const [lastUpdated, setLastUpdated] = useState<string | null>(null);
 
@@ -206,6 +213,8 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
         if (parsed.donationTiers) setDonationTiers(parsed.donationTiers);
         if (parsed.director) setDirector(parsed.director);
         if (parsed.timeline) setTimeline(parsed.timeline);
+        if (parsed.wompiUrl) setWompiUrl(parsed.wompiUrl);
+        if (parsed.paypalUrl) setPaypalUrl(parsed.paypalUrl);
         if (parsed.lastUpdated) setLastUpdated(parsed.lastUpdated);
       }
     } catch (e) {
@@ -240,6 +249,8 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
         donationTiers,
         director,
         timeline,
+        wompiUrl,
+        paypalUrl,
         ...prevData,
         ...overrides,
         lastUpdated: now,
@@ -675,6 +686,36 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
     return { success: true };
   };
 
+  const updateWompiUrl = async (newUrl: string): Promise<{ success: boolean; error?: string }> => {
+    const clean = newUrl.trim() || DEFAULT_WOMPI_CHECKOUT_URL;
+    setWompiUrl(clean);
+    persistLocally({ wompiUrl: clean });
+    if (isSupabaseConfigured) {
+      const { error } = await supabase.from('site_content').upsert({
+        section_key: 'payment_settings',
+        data: { wompiUrl: clean, paypalUrl },
+        updated_at: new Date().toISOString(),
+      });
+      if (error) return { success: false, error: error.message };
+    }
+    return { success: true };
+  };
+
+  const updatePaypalUrl = async (newUrl: string): Promise<{ success: boolean; error?: string }> => {
+    const clean = newUrl.trim() || DEFAULT_PAYPAL_URL;
+    setPaypalUrl(clean);
+    persistLocally({ paypalUrl: clean });
+    if (isSupabaseConfigured) {
+      const { error } = await supabase.from('site_content').upsert({
+        section_key: 'payment_settings',
+        data: { wompiUrl, paypalUrl: clean },
+        updated_at: new Date().toISOString(),
+      });
+      if (error) return { success: false, error: error.message };
+    }
+    return { success: true };
+  };
+
   const resetToDefaults = () => {
     setArticles(INITIAL_ARTICLES);
     setProducts(INITIAL_PRODUCTS);
@@ -683,6 +724,8 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setDonationTiers(INITIAL_DONATION_TIERS);
     setDirector(defaultProjectData.director);
     setTimeline(defaultProjectData.history.timeline);
+    setWompiUrl(DEFAULT_WOMPI_CHECKOUT_URL);
+    setPaypalUrl(DEFAULT_PAYPAL_URL);
     localStorage.removeItem(LOCAL_STORAGE_KEY);
     setLastUpdated(new Date().toISOString());
   };
@@ -697,6 +740,8 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
         donationTiers,
         director,
         timeline,
+        wompiUrl,
+        paypalUrl,
         isSyncing,
         lastUpdated,
         saveArticle,
@@ -708,6 +753,8 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
         updateDirector,
         updateTimeline,
         updateDonationTiers,
+        updateWompiUrl,
+        updatePaypalUrl,
         syncFromSupabase,
         resetToDefaults,
       }}

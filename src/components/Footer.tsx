@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Compass, Mail, MapPin } from 'lucide-react';
+import { Compass, Mail, MapPin, ShieldCheck } from 'lucide-react';
 import { projectData } from '../data/projectData';
 import { useContent } from '../context/ContentContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -133,8 +133,19 @@ export const Footer: React.FC = () => {
         </div>
       </div>
 
+      {/* Payment trust line */}
+      <div className="max-w-7xl mx-auto mt-10 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#e8e2d8]/50 gap-3">
+        <div className="flex items-center gap-2">
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+          <span>{t.footer.wompiBadge}</span>
+        </div>
+        <Link to="/donaciones" className="text-emerald-400 hover:text-emerald-300 transition-colors font-mono text-[10px] uppercase tracking-wider">
+          Canales de Pago Wompi →
+        </Link>
+      </div>
+
       {/* Bottom Sub-footer */}
-      <div className="max-w-7xl mx-auto mt-12 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#e8e2d8]/40 gap-4">
+      <div className="max-w-7xl mx-auto mt-6 pt-4 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#e8e2d8]/40 gap-4">
         <div>
           © {new Date().getFullYear()} Zocay Project. {t.footer.rights}
         </div>

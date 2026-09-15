@@ -68,8 +68,14 @@ export const HomeSupport: React.FC = () => {
         </div>
 
         {/* Reassurance note */}
-        <div className="mt-8 sm:mt-12 text-[11px] sm:text-xs text-[#e8e2d8]/60 font-sans tracking-wide max-w-lg">
+        <div className="mt-8 sm:mt-10 text-[11px] sm:text-xs text-[#e8e2d8]/60 font-sans tracking-wide max-w-lg">
           {t.support.reassurance}
+        </div>
+
+        {/* Wompi Payment Trust Badge */}
+        <div className="mt-4 sm:mt-5 inline-flex flex-wrap items-center justify-center gap-2 px-4 py-1.5 rounded-full border border-emerald-500/25 bg-[#060a08]/80 backdrop-blur-md text-[11px] text-[#e8e2d8]/80 font-sans">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+          <span>{t.support.paymentBadge}</span>
         </div>
       </div>
     </section>

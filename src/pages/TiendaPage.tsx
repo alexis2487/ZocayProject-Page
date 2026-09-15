@@ -9,15 +9,19 @@ import {
   Mail, 
   HeartHandshake, 
   PackageCheck,
-  AlertCircle
+  AlertCircle,
+  CreditCard,
+  ExternalLink,
+  Globe
 } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useTranslatedProducts } from '../hooks/useAutoTranslate';
 import { Product } from '../types/content';
+import { openWompiCheckout, openPayPalCheckout } from '../data/paymentConfig';
 
 export const TiendaPage: React.FC = () => {
-  const { products } = useContent();
+  const { products, wompiUrl, paypalUrl } = useContent();
   const { t, language } = useLanguage();
   const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
 
@@ -237,26 +241,58 @@ export const TiendaPage: React.FC = () => {
               </div>
             )}
 
-            <div className="space-y-2">
+            <div className="space-y-2.5">
               <span className="block text-[11px] font-mono uppercase tracking-wider text-emerald-400/90">
                 {t.tiendaPage.modalChannelSelect}
               </span>
+
+              {/* Action: Wompi Instant Checkout (Colombia) */}
+              <div className="p-3 rounded-2xl bg-gradient-to-r from-emerald-950/40 to-[#060a08] border border-emerald-500/30 space-y-2">
+                <button
+                  type="button"
+                  onClick={() => openWompiCheckout(wompiUrl)}
+                  className="w-full py-3.5 px-4 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-emerald-950 font-semibold text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20"
+                >
+                  <CreditCard className="w-4 h-4" />
+                  <span>{t.tiendaPage.modalWompiBtn}</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </button>
+                <p className="text-[11px] text-[#e8e2d8]/70 text-center font-light leading-relaxed px-2">
+                  {t.tiendaPage.modalWompiDesc}
+                </p>
+              </div>
+
+              {/* Action: PayPal International Checkout */}
+              <div className="p-3 rounded-2xl bg-gradient-to-r from-[#071723]/60 to-[#060a08] border border-[#0070BA]/40 space-y-2">
+                <button
+                  type="button"
+                  onClick={() => openPayPalCheckout(paypalUrl)}
+                  className="w-full py-3.5 px-4 rounded-xl bg-[#0070BA] hover:bg-[#005ea6] text-white font-semibold text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2 shadow-lg shadow-[#0070BA]/20"
+                >
+                  <Globe className="w-4 h-4 text-white" />
+                  <span>{t.tiendaPage.modalPayPalBtn}</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </button>
+                <p className="text-[11px] text-[#e8e2d8]/70 text-center font-light leading-relaxed px-2">
+                  {t.tiendaPage.modalPayPalDesc}
+                </p>
+              </div>
 
               {/* Action: WhatsApp */}
               <a
                 href={getWhatsAppUrl(selectedProduct)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-3.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-emerald-950 font-medium text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20"
+                className="w-full py-3 px-4 rounded-xl border border-white/15 bg-white/5 hover:bg-white/10 text-white font-medium text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
               >
-                <MessageCircle className="w-4 h-4" />
+                <MessageCircle className="w-4 h-4 text-emerald-400" />
                 <span>{t.tiendaPage.modalWhatsAppBtn}</span>
               </a>
 
               {/* Action: Email */}
               <a
                 href={getMailtoUrl(selectedProduct)}
-                className="w-full py-3.5 px-4 rounded-xl border border-white/15 bg-white/5 hover:bg-white/10 text-white font-medium text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
+                className="w-full py-3 px-4 rounded-xl border border-white/15 bg-white/5 hover:bg-white/10 text-white font-medium text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
               >
                 <Mail className="w-4 h-4 text-emerald-400" />
                 <span>{t.tiendaPage.modalEmailBtn}</span>

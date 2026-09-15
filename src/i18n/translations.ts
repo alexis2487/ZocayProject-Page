@@ -50,6 +50,7 @@ export interface Translations {
     shopBtn: string;
     donateBtn: string;
     reassurance: string;
+    paymentBadge: string;
   };
   footer: {
     description: string;
@@ -59,6 +60,7 @@ export interface Translations {
     rights: string;
     location: string;
     contactLabel: string;
+    wompiBadge: string;
   };
   investigacionPage: {
     bannerTag: string;
@@ -140,6 +142,10 @@ export interface Translations {
     modalTag: string;
     modalOutOfStockNote: string;
     modalChannelSelect: string;
+    modalWompiBtn: string;
+    modalWompiDesc: string;
+    modalPayPalBtn: string;
+    modalPayPalDesc: string;
     modalWhatsAppBtn: string;
     modalEmailBtn: string;
     modalShippingNote: string;
@@ -156,6 +162,20 @@ export interface Translations {
     namePlaceholder: string;
     emailPlaceholder: string;
     submitBtn: string;
+    wompiBtn: string;
+    wompiDirectBtn: string;
+    wompiCardTitle: string;
+    wompiCardDesc: string;
+    wompiRedirectNotice: string;
+    wompiReopenBtn: string;
+    paypalBtn: string;
+    paypalDirectBtn: string;
+    paypalCardTitle: string;
+    paypalCardDesc: string;
+    paypalRedirectNotice: string;
+    paypalReopenBtn: string;
+    manualTransferTitle: string;
+    manualTransferDesc: string;
     reassuranceText: string;
     successTitle: string;
     successMessage: string;
@@ -246,6 +266,7 @@ export const translations: Record<Language, Translations> = {
       shopBtn: 'Ir a la tienda',
       donateBtn: 'Hacer una donación',
       reassurance: 'Cada aporte, por pequeño que parezca, financia jornadas de campo y equipos de monitoreo para el zocay.',
+      paymentBadge: 'Pagos seguros: Wompi (Colombia: PSE · Nequi · Tarjetas) · PayPal (Internacional)',
     },
     footer: {
       description: 'Iniciativa de investigación científica, monitoreo de primates neotropicales y conservación de paisajes fragmentados en la Orinoquia colombiana.',
@@ -255,6 +276,7 @@ export const translations: Record<Language, Translations> = {
       rights: 'Todos los derechos reservados.',
       location: 'Llanos Orientales, Colombia',
       contactLabel: 'contacto@zocayproject.org',
+      wompiBadge: 'Pagos y donaciones procesados por Wompi Bancolombia y PayPal Internacional',
     },
     investigacionPage: {
       bannerTag: 'INVESTIGACIÓN CIENTÍFICA DEL MONO ZOCAY',
@@ -355,9 +377,13 @@ export const translations: Record<Language, Translations> = {
       modalTag: 'Adquisición Oficial con Causa',
       modalOutOfStockNote: 'Este artículo se encuentra temporalmente agotado. Puedes contactar al equipo para reservarlo en la próxima tirada artesanal.',
       modalChannelSelect: 'Selecciona tu canal preferido para coordinar:',
+      modalWompiBtn: 'Pagar en Línea con Wompi',
+      modalWompiDesc: 'Pago seguro e instantáneo con PSE, Nequi, Tarjetas o Botón Bancolombia.',
+      modalPayPalBtn: 'Pagar con PayPal (Internacional)',
+      modalPayPalDesc: 'Pago internacional seguro en USD / EUR con tarjeta o cuenta PayPal.',
       modalWhatsAppBtn: 'Coordinar Pedido vía WhatsApp',
       modalEmailBtn: 'Solicitar por Correo Electrónico',
-      modalShippingNote: 'Envíos a toda Colombia',
+      modalShippingNote: 'Envíos a toda Colombia e Internacionales',
       modalFundsNote: '100% fondos de conservación',
     },
     donacionesPage: {
@@ -371,6 +397,20 @@ export const translations: Record<Language, Translations> = {
       namePlaceholder: 'Nombre completo o Institución',
       emailPlaceholder: 'Correo electrónico',
       submitBtn: 'Confirmar Aporte a la Conservación',
+      wompiBtn: 'Donar en Línea con Wompi (Colombia: PSE, Nequi, Tarjetas)',
+      wompiDirectBtn: 'Donación rápida con Wompi (Link directo)',
+      wompiCardTitle: 'Pasarela Oficial Wompi (Colombia)',
+      wompiCardDesc: 'Procesamiento encriptado y seguro por Grupo Bancolombia. Acepta PSE (cualquier banco), Nequi, Tarjetas de crédito/débito y Botón Bancolombia.',
+      wompiRedirectNotice: 'Hemos abierto la pasarela oficial segura de Wompi en una nueva pestaña para completar tu transacción.',
+      wompiReopenBtn: 'Abrir pasarela Wompi nuevamente',
+      paypalBtn: 'Donar con PayPal (Internacional / USD)',
+      paypalDirectBtn: 'Donación internacional con PayPal (Link directo)',
+      paypalCardTitle: 'Pasarela Internacional PayPal',
+      paypalCardDesc: 'Recomendada para donantes fuera de Colombia. Acepta pagos y aportes globales en USD/EUR con tarjeta o cuenta PayPal.',
+      paypalRedirectNotice: 'Hemos abierto la pasarela oficial de PayPal (paypal.me) en una nueva pestaña para procesar tu aporte internacional.',
+      paypalReopenBtn: 'Abrir pasarela PayPal nuevamente',
+      manualTransferTitle: 'Otras formas de aporte: Transferencia Bancaria Directa',
+      manualTransferDesc: 'Si prefieres realizar tu aporte mediante transferencia manual desde tu app bancaria, puedes utilizar nuestras cuentas oficiales:',
       reassuranceText: 'Transparencia institucional · Reportes de impacto semestrales',
       successTitle: '¡Gracias por tu compromiso, ',
       successMessage: 'Hemos registrado tu intención de aporte por un valor de ',
@@ -459,6 +499,7 @@ export const translations: Record<Language, Translations> = {
       shopBtn: 'Visit the Shop',
       donateBtn: 'Make a Donation',
       reassurance: 'Every contribution, no matter how modest, funds field expeditions and monitoring equipment for the zocay.',
+      paymentBadge: 'Secure checkout: Wompi (Colombia: PSE · Nequi · Cards) · PayPal (International)',
     },
     footer: {
       description: 'Scientific research, neotropical primate monitoring, and fragmented landscape conservation initiative in the Colombian Orinoquia.',
@@ -468,6 +509,7 @@ export const translations: Record<Language, Translations> = {
       rights: 'All rights reserved.',
       location: 'Eastern Plains, Colombia',
       contactLabel: 'contacto@zocayproject.org',
+      wompiBadge: 'Secure payments powered by Wompi Bancolombia and PayPal International',
     },
     investigacionPage: {
       bannerTag: 'SCIENTIFIC RESEARCH ON THE ZOCAY MONKEY',
@@ -568,9 +610,13 @@ export const translations: Record<Language, Translations> = {
       modalTag: 'Official Cause-Driven Acquisition',
       modalOutOfStockNote: 'This handcrafted item is temporarily sold out. You can contact our team to reserve one from our next artisanal batch.',
       modalChannelSelect: 'Choose your preferred channel to coordinate:',
+      modalWompiBtn: 'Pay Online with Wompi',
+      modalWompiDesc: 'Fast, secure checkout with PSE, Nequi, Credit/Debit Cards, or Bancolombia button.',
+      modalPayPalBtn: 'Pay Online with PayPal (International)',
+      modalPayPalDesc: 'Fast, secure international payment in USD/EUR with card or PayPal account.',
       modalWhatsAppBtn: 'Coordinate Order via WhatsApp',
       modalEmailBtn: 'Request via Email',
-      modalShippingNote: 'Nationwide shipping across Colombia',
+      modalShippingNote: 'Nationwide & International shipping',
       modalFundsNote: '100% dedicated to conservation',
     },
     donacionesPage: {
@@ -584,6 +630,20 @@ export const translations: Record<Language, Translations> = {
       namePlaceholder: 'Full name or Institution',
       emailPlaceholder: 'Email address',
       submitBtn: 'Confirm Conservation Contribution',
+      wompiBtn: 'Donate Online with Wompi (Colombia: PSE, Nequi, Cards)',
+      wompiDirectBtn: 'Quick 1-Click Wompi Checkout',
+      wompiCardTitle: 'Official Wompi Payment Gateway (Colombia)',
+      wompiCardDesc: 'Instant, secure processing backed by Bancolombia. Accepts PSE (all banks), Nequi, Cards, and Bancolombia.',
+      wompiRedirectNotice: 'We have opened the official Wompi secure gateway in a new tab to complete your donation.',
+      wompiReopenBtn: 'Reopen Wompi Gateway',
+      paypalBtn: 'Donate with PayPal (International / USD)',
+      paypalDirectBtn: 'Quick 1-Click PayPal Checkout (International)',
+      paypalCardTitle: 'International PayPal Gateway',
+      paypalCardDesc: 'Recommended for supporters outside Colombia. Accepts global contributions in USD/EUR via credit/debit card or PayPal account.',
+      paypalRedirectNotice: 'We have opened the official PayPal gateway (paypal.me) in a new tab to process your international donation.',
+      paypalReopenBtn: 'Reopen PayPal Gateway',
+      manualTransferTitle: 'Alternative method: Direct Bank Wire / Transfer',
+      manualTransferDesc: 'If you prefer manual transfer through your banking app, you can use these official accounts:',
       reassuranceText: 'Institutional transparency · Biannual impact reports',
       successTitle: 'Thank you for your commitment, ',
       successMessage: 'We have recorded your donation pledge for the amount of ',
