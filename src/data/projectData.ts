@@ -57,6 +57,11 @@ export const projectData = {
     title: "Bióloga, Primatóloga y Ecóloga del Paisaje",
     role: "Fundadora e Investigadora Principal de Zocay Project",
     photo: "/images/xyomara-carretero.jpg",
+    socials: {
+      twitter: "https://x.com/DrXCarreteroPi",
+      linkedin: "https://co.linkedin.com/in/xyomara-carretero-pinzon-83b74117",
+      instagram: "https://www.instagram.com/xyomaracarreteroproyectozocay?stkn=MWI4bG83azg5MzNldw=="
+    },
     doctorate: "Ph.D. en Ecología del Paisaje y Gestión Ambiental — The University of Queensland (Australia)",
     doctorateAffiliation: "School of Geography, Planning and Environmental Management & ARC Centre of Excellence for Environmental Decisions",
     graduate: "Maestría en Ciencias Biológicas — Pontificia Universidad Javeriana (Bogotá, Colombia)",
