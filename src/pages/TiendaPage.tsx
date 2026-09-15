@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, ShoppingBag, ShieldCheck, Check } from 'lucide-react';
+import { ArrowLeft, ShieldCheck, Check } from 'lucide-react';
 
 interface Product {
   id: string;
@@ -9,6 +9,7 @@ interface Product {
   priceCOP: string;
   description: string;
   impact: string;
+  image: string;
 }
 
 export const TiendaPage: React.FC = () => {
@@ -24,24 +25,27 @@ export const TiendaPage: React.FC = () => {
       name: "Gorra Edición Especial Zocay",
       category: "Indumentaria de Campo",
       priceCOP: "$ 75.000 COP",
-      description: "Gorra técnica de expedición en algodón orgánico y poliéster reciclado con el bordado oficial del Mono Zocay.",
-      impact: "Financia 2 horas de monitoreo y seguimiento demográfico en dosel."
+      description: "Gorra técnica de expedición en algodón y malla transpirable con el parche circular bordado oficial del Mono Zocay.",
+      impact: "Financia 2 horas de monitoreo y seguimiento demográfico en dosel.",
+      image: "/images/products/gorra-zocay.png"
     },
     {
       id: "camiseta-conservacion",
       name: "Camiseta Oficial Conservación",
       category: "Indumentaria",
       priceCOP: "$ 85.000 COP",
-      description: "Camiseta serigrafiada con tintas ecológicas a base de agua que ilustra al tití del Meta (Plecturocebus ornatus) y las cercas vivas.",
-      impact: "Permite sembrar y georreferenciar 5 plántulas de árboles nativos."
+      description: "Camiseta serigrafiada con tintas ecológicas que ilustra al Mono Zocay (Plecturocebus ornatus) y su hábitat de galería.",
+      impact: "Permite sembrar y georreferenciar 5 plántulas de árboles nativos para cercas vivas.",
+      image: "/images/products/camisa-zocay.png"
     },
     {
       id: "taza-expedicion",
       name: "Taza de Expedición Zocay",
       category: "Accesorios",
       priceCOP: "$ 45.000 COP",
-      description: "Taza térmica esmaltada para café de origen llanero, resistente para trabajo de campo en selva y campamentos.",
-      impact: "Cubre insumos de bitácora y papelería científica para investigadores."
+      description: "Taza esmaltada verde bosque para café de origen llanero, con el emblema Zocay grabada para campamentos y campo.",
+      impact: "Cubre insumos de bitácora y papelería científica para investigadores locales.",
+      image: "/images/products/taza-zocay.png"
     }
   ];
 
@@ -70,28 +74,37 @@ export const TiendaPage: React.FC = () => {
           </h1>
 
           <p className="text-lg text-[#e8e2d8]/80 font-sans font-light max-w-3xl leading-relaxed">
-            El 100% de los excedentes generados por la tienda oficial se destina a expediciones científicas, adquisición de insumos de campo y siembra de cercas vivas en el departamento del Meta.
+            El 100% de los excedentes generados por la tienda oficial se destina a expediciones científicas, adquisición de insumos de campo y siembra de cercas vivas para el Mono Zocay en el departamento del Meta.
           </p>
         </div>
       </div>
 
       <div className="max-w-5xl mx-auto px-6 md:px-12 py-16 space-y-16">
         {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {products.map((p) => (
             <div 
               key={p.id}
-              className="p-6 rounded-2xl border border-white/10 bg-[#090f0c] flex flex-col justify-between hover:border-emerald-500/40 transition-all duration-300 group"
+              className="p-6 rounded-2xl border border-white/10 bg-[#090f0c] flex flex-col justify-between hover:border-emerald-500/40 transition-all duration-300 group shadow-xl"
             >
               <div>
-                <div className="w-12 h-12 rounded-xl bg-emerald-950/50 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-6 group-hover:scale-110 transition-transform">
-                  <ShoppingBag className="w-6 h-6" />
+                {/* Product Photo Showcase */}
+                <div className="w-full h-64 rounded-xl overflow-hidden bg-[#0d1512] border border-white/5 mb-6 relative flex items-center justify-center p-4 group-hover:border-emerald-500/30 transition-colors">
+                  <img
+                    src={p.image}
+                    alt={p.name}
+                    className="max-h-full max-w-full object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                  />
+                  <span className="absolute top-3 left-3 text-[10px] font-mono uppercase tracking-wider px-2.5 py-1 rounded-md bg-[#060a08]/85 text-emerald-300 border border-emerald-500/30">
+                    {p.category}
+                  </span>
                 </div>
-                <div className="text-[11px] font-mono text-emerald-400/80 uppercase tracking-wider mb-1">
-                  {p.category}
-                </div>
-                <h3 className="text-xl font-serif text-white mb-2">{p.name}</h3>
-                <div className="text-lg font-serif text-emerald-300 font-medium mb-4">
+
+                <h3 className="text-xl font-serif text-white mb-1 group-hover:text-emerald-300 transition-colors">
+                  {p.name}
+                </h3>
+                <div className="text-lg font-serif text-emerald-400 font-medium mb-3">
                   {p.priceCOP}
                 </div>
                 <p className="text-xs text-[#e8e2d8]/75 leading-relaxed font-light mb-6">
@@ -105,12 +118,16 @@ export const TiendaPage: React.FC = () => {
                 </div>
                 <button
                   onClick={() => setSelectedProduct(p.id)}
-                  className="w-full py-3 rounded-full text-xs uppercase tracking-[0.18em] font-medium border border-emerald-500/40 bg-emerald-950/40 text-emerald-300 hover:bg-emerald-400 hover:text-emerald-950 transition-colors flex items-center justify-center gap-2"
+                  className={`w-full py-3.5 rounded-full text-xs uppercase tracking-[0.18em] font-medium transition-all duration-200 flex items-center justify-center gap-2 ${
+                    selectedProduct === p.id
+                      ? 'bg-emerald-400 text-emerald-950 font-semibold shadow-lg shadow-emerald-500/20'
+                      : 'border border-emerald-500/40 bg-emerald-950/40 text-emerald-300 hover:bg-emerald-400 hover:text-emerald-950'
+                  }`}
                 >
                   {selectedProduct === p.id ? (
                     <>
-                      <Check className="w-3.5 h-3.5" />
-                      <span>Seleccionado</span>
+                      <Check className="w-4 h-4" />
+                      <span>Producto Seleccionado</span>
                     </>
                   ) : (
                     <span>Solicitar / Reservar</span>
@@ -128,7 +145,7 @@ export const TiendaPage: React.FC = () => {
             <div>
               <div className="font-serif text-white text-base">Transparencia y Trazabilidad</div>
               <div className="text-xs text-[#e8e2d8]/70 font-light">
-                Cada adquisición recibe un certificado digital de apoyo y reporte semestral de impacto de conservación.
+                Cada adquisición recibe un certificado digital de apoyo a la conservación del Mono Zocay y un reporte semestral de impacto.
               </div>
             </div>
           </div>
