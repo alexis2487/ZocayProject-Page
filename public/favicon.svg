@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <circle cx="24" cy="24" r="22" stroke="#22c55e" stroke-width="1.5" fill="#0b1310"/>
+  <!-- Stylized primate silhouette & leaf accent -->
+  <path d="M24 10 C18 10 14 14 14 20 C14 24 16 26 18 28 C17 31 16 34 18 36 C20 38 23 37 25 35 C27 33 28 30 28 27 C31 27 34 24 34 20 C34 14 30 10 24 10 Z" fill="#e8e2d8" opacity="0.95"/>
+  <circle cx="21" cy="18" r="1.5" fill="#0b1310"/>
+  <path d="M19 14 Q24 12 28 14" stroke="#e8e2d8" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Leaf accent -->
+  <path d="M29 27 C33 26 36 29 36 33 C33 34 29 31 29 27 Z" fill="#22c55e"/>
+</svg>
