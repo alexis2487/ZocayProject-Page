@@ -12,7 +12,7 @@ export const HomeSupport: React.FC = () => {
       <div className="absolute inset-0 w-full h-full">
         <img
           src="/images/apoyo-conservacion.jpg"
-          alt="Comunidad y conservación activa sembrando árboles nativos en el Meta, Colombia"
+          alt="Comunidad y conservación activa sembrando árboles nativos y cercas vivas para el mono socai en el Meta, Colombia"
           className="w-full h-full object-cover object-center"
           loading="lazy"
         />
@@ -33,12 +33,12 @@ export const HomeSupport: React.FC = () => {
 
         {/* Headline */}
         <h2 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-[#e8e2d8] leading-[1.12] tracking-tight font-normal mb-6 max-w-2xl">
-          Tu apoyo protege los bosques y la <span className="italic text-emerald-400 font-medium">vida silvestre</span>.
+          Tu apoyo protege al <span className="italic text-emerald-400 font-medium">Mono Socai</span> y sus bosques.
         </h2>
 
         {/* Short Description */}
         <p className="text-base sm:text-lg text-[#e8e2d8]/85 font-sans font-light leading-relaxed max-w-xl mb-12">
-          Tu apoyo contribuye al trabajo continuo de investigación científica, monitoreo biológico de largo plazo y protección de los primates del Meta y sus hábitats.
+          Tu contribución financia directamente el monitoreo biológico de largo plazo, el censo de tropas familiares y la siembra de cercas vivas que conectan el dosel del mono zocay en el Meta.
         </p>
 
         {/* Two Minimalist Elegant Action Buttons */}
@@ -66,7 +66,7 @@ export const HomeSupport: React.FC = () => {
 
         {/* Reassurance note */}
         <div className="mt-12 text-xs text-[#e8e2d8]/60 font-sans tracking-wide">
-          Cada aporte, por pequeño que parezca, financia jornadas de campo y equipos de monitoreo.
+          Cada aporte, por pequeño que parezca, financia jornadas de campo y equipos de monitoreo para el zocay.
         </div>
       </div>
     </section>

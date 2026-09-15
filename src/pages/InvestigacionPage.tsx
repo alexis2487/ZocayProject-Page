@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, Microscope, BookOpen, Layers, Trees } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Microscope, BookOpen, Layers, Trees, Sparkles } from 'lucide-react';
 import { projectData } from '../data/projectData';
 
 export const InvestigacionPage: React.FC = () => {
@@ -11,26 +11,26 @@ export const InvestigacionPage: React.FC = () => {
   const researchLines = [
     {
       code: "LINEA-01",
-      title: "Ecología de Poblaciones y Demografía de Primates",
-      description: "Monitoreo longitudinal de tropas de tití del Meta (Plecturocebus ornatus), mono nocturno (Aotus brumbacki) y mono ardilla (Saimiri cassiquiarensis albigena). Estimación de densidad poblacional, tasas de natalidad, supervivencia y estructura de edad en fragmentos de bosque.",
+      title: "Demografía y Ecología Poblacional del Mono Socai",
+      description: "Monitoreo longitudinal de tropas familiares de mono socai (Plecturocebus ornatus). Estimación de densidad de grupos, tasas de natalidad, supervivencia de infantes y estructura de edad en fragmentos de bosque de galería en el Meta.",
       icon: Microscope
     },
     {
       code: "LINEA-02",
-      title: "Conectividad del Paisaje y Cercas Vivas",
-      description: "Evaluación cuantitativa del uso de corredores arbóreos lineales por mamíferos arborícolas. Identificación de especies vegetales clave en linderos ganaderos y diseño de parámetros de conectividad funcional para restauración ecológica.",
+      title: "Cercas Vivas como Corredores del Zocay",
+      description: "Evaluación cuantitativa del uso de linderos arbóreos por el mono socai. Identificación de especies vegetales nativas de fructificación y diseño de parámetros de conectividad funcional para restaurar el tránsito del zocay entre parches aislados.",
       icon: Trees
     },
     {
       code: "LINEA-03",
-      title: "Matrices Agropecuarias y Comportamiento",
-      description: "Análisis de la permeabilidad de matrices productivas (pastos de pastoreo bovino, cultivos de palma y sabanas antrópicas) frente al desplazamiento y flujo genético de especies neotropicales.",
+      title: "Matrices Ganaderas y Conducta del Zocay",
+      description: "Análisis de la respuesta etológica del mono socai frente a matrices agropecuarias (pasturas ganaderas y sabanas antrópicas). Identificación de barreras espaciales y umbrales críticos de tamaño de parche.",
       icon: Layers
     },
     {
       code: "LINEA-04",
-      title: "Ordenamiento Territorial y Conservación Aplicada",
-      description: "Traducción de datos biológicos en criterios técnicos para autoridades ambientales regionales (Cormacarena), reservas naturales de la sociedad civil y planes de ordenamiento de cuencas en el departamento del Meta.",
+      title: "Ordenamiento Territorial para la Conservación del Zocay",
+      description: "Traducción de datos biológicos de Plecturocebus ornatus en criterios técnicos para autoridades ambientales (Cormacarena), reservas de la sociedad civil y acuerdos de conservación con ganaderos locales.",
       icon: BookOpen
     }
   ];
@@ -49,18 +49,18 @@ export const InvestigacionPage: React.FC = () => {
           </Link>
 
           <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-full border border-emerald-500/30 bg-[#060a08]/60 backdrop-blur-md mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
             <span className="text-[11px] uppercase tracking-[0.22em] text-emerald-300 font-sans font-medium">
-              INVESTIGACIÓN CIENTÍFICA & MONITOREO
+              INVESTIGACIÓN CIENTÍFICA DEL MONO SOCAI
             </span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-white leading-tight font-normal mb-6">
-            Líneas de Investigación y Producción Científica
+            Ciencia y Monitoreo del <span className="text-emerald-400">Mono Socai</span>
           </h1>
 
           <p className="text-lg text-[#e8e2d8]/80 font-sans font-light max-w-3xl leading-relaxed">
-            Más de dos décadas de monitoreo cuantitativo en los Llanos Orientales. Generamos ciencia rigurosa orientada a la toma de decisiones para salvar primates y conectar paisajes.
+            Más de dos décadas de monitoreo cuantitativo en los Llanos Orientales. Generamos ciencia rigurosa orientada a la protección del mono socai (<em className="italic">Plecturocebus ornatus</em>) y la conectividad de sus bosques.
           </p>
         </div>
       </div>
@@ -79,7 +79,7 @@ export const InvestigacionPage: React.FC = () => {
 
         {/* Research Lines */}
         <div className="space-y-6">
-          <h2 className="text-2xl sm:text-3xl font-serif text-white">Ejes Temáticos de Investigación</h2>
+          <h2 className="text-2xl sm:text-3xl font-serif text-white">Líneas de Investigación Centradas en el Mono Socai</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
             {researchLines.map((line, idx) => {
               const Icon = line.icon;
@@ -108,12 +108,14 @@ export const InvestigacionPage: React.FC = () => {
 
         {/* Methodology & Fieldwork */}
         <section className="p-8 rounded-2xl border border-white/10 bg-[#090f0c] space-y-6">
-          <h2 className="text-xl sm:text-2xl font-serif text-white">Metodología de Campo Rigurosa</h2>
+          <h2 className="text-xl sm:text-2xl font-serif text-white">Metodología de Campo y Monitoreo Etológico</h2>
           <p className="text-sm text-[#e8e2d8]/80 leading-relaxed font-light">
-            El trabajo se fundamenta en censos por transectos lineales, muestreo focal de comportamiento (focal-animal sampling), fototrampeo en dosel arbóreo y análisis espacial mediante sistemas de información geográfica (SIG) y ecología cuantitativa del paisaje desarrollada en The University of Queensland.
+            El trabajo se fundamenta en censos por transectos lineales, muestreo focal continuo del comportamiento de tropas de mono socai (focal-animal sampling), fototrampeo en dosel arbóreo y análisis de conectividad del paisaje desarrollado por la Dra. Xyomara Carretero-Pinzón (The University of Queensland).
           </p>
           <div className="pt-4 border-t border-white/5 flex items-center gap-4 text-xs text-[#e8e2d8]/60">
             <span>Investigadora Principal: <strong>Dra. Xyomara Carretero-Pinzón</strong></span>
+            <span>•</span>
+            <span>Especie Foco: Plecturocebus ornatus</span>
             <span>•</span>
             <span>Meta, Colombia</span>
           </div>

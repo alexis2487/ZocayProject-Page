@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Compass, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Compass, ShieldCheck, Sparkles } from 'lucide-react';
 import { projectData } from '../data/projectData';
 
 export const HomeProject: React.FC = () => {
@@ -13,7 +13,7 @@ export const HomeProject: React.FC = () => {
       <div className="absolute inset-0 w-full h-full">
         <img
           src="/images/el-proyecto-paisaje.jpg"
-          alt="Paisaje panorámico de bosques de galería y sabanas en los Llanos Orientales del Meta, Colombia"
+          alt="Paisaje panorámico de bosques de galería y sabanas en los Llanos Orientales del Meta, hábitat del mono socai"
           className="w-full h-full object-cover object-center transform scale-100"
           loading="lazy"
         />
@@ -35,14 +35,13 @@ export const HomeProject: React.FC = () => {
 
           {/* Headline */}
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-[#e8e2d8] leading-[1.12] tracking-tight font-normal mb-5">
-            Más que primates, es el territorio:{' '}
-            <span className="italic text-emerald-400">conservación en paisajes vivos</span>.
+            Una misión científica dedicada al <span className="italic text-emerald-400">Mono Socai</span> y su territorio.
           </h2>
 
-          {/* Authentic, rigorously verified brief text */}
+          {/* Authentic, rigorously verified brief text focusing on Mono Zocay */}
           <p className="text-base sm:text-lg text-[#e8e2d8]/85 font-sans font-light leading-relaxed mb-6">
             Iniciado en 2004 en una finca ganadera del Meta por la bióloga y primatóloga{' '}
-            <strong className="text-white font-medium">Dra. Xyomara Carretero-Pinzón</strong> (Ph.D. The University of Queensland), Zocay Project investiga la relación entre primates neotropicales, bosques fragmentados y matrices productivas para promover la conectividad ecológica en la Orinoquia colombiana.
+            <strong className="text-white font-medium">Dra. Xyomara Carretero-Pinzón</strong> (Ph.D. The University of Queensland), Zocay Project investiga, protege y visibiliza al mono socai (<em className="italic text-emerald-300">Plecturocebus ornatus</em>), generando evidencia para conectar bosques fragmentados mediante cercas vivas en la Orinoquia colombiana.
           </p>
 
           {/* Director & Territory Micro-Meta */}
@@ -53,11 +52,12 @@ export const HomeProject: React.FC = () => {
             </div>
             <div className="flex items-center gap-2">
               <Compass className="w-4 h-4 text-emerald-400" />
-              <span>Llanos Orientales · Desde 2004</span>
+              <span>Llanos Orientales · Desde {projectData.foundationYear}</span>
             </div>
             <div className="hidden sm:inline-block text-white/20">|</div>
-            <div className="text-emerald-400/90 font-mono text-[11px]">
-              {projectData.focalSpecies.length} Especies Focales · Bosques de Galería
+            <div className="flex items-center gap-1.5 text-emerald-400 font-mono text-[11px]">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Especie Protagonista Exclusiva: Mono Socai</span>
             </div>
           </div>
 

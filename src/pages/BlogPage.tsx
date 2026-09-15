@@ -24,25 +24,25 @@ export const BlogPage: React.FC = () => {
       date: "12 abr 2025",
       category: "Comportamiento Animal",
       readTime: "6 min de lectura",
-      excerpt: "Observaciones focales sobre las rutinas de forrajeo matutino y la cohesión de parejas monógamas de Plecturocebus ornatus en remanentes boscosos de San Martín, Meta.",
+      excerpt: "Observaciones focales sobre las rutinas de forrajeo matutino, duetos territoriales y la cohesión de parejas monógamas de Plecturocebus ornatus en remanentes boscosos de San Martín, Meta.",
       author: "Dra. Xyomara Carretero-Pinzón"
     },
     {
-      slug: "cercas-vivas-autopistas-biodiversidad",
-      title: "Cercas vivas: de límites de potrero a autopistas de biodiversidad",
+      slug: "cercas-vivas-autopistas-mono-socai",
+      title: "Cercas vivas: autopistas en el dosel para el mono socai",
       date: "03 mar 2025",
       category: "Ecología del Paisaje",
       readTime: "8 min de lectura",
-      excerpt: "Cómo hileras de árboles nativos reducen el aislamiento genético entre parches de bosque y facilitan el desplazamiento seguro de mamíferos en paisajes ganaderos.",
+      excerpt: "Cómo las hileras de árboles nativos reducen el aislamiento genético entre parches de bosque y permiten el tránsito seguro de tropas familiares de mono socai en paisajes ganaderos.",
       author: "Equipo Zocay Project"
     },
     {
-      slug: "hallazgos-poblacionales-meta",
-      title: "Nuevos hallazgos en la demografía del mono nocturno de Brumback",
+      slug: "demografia-viabilidad-socai-meta",
+      title: "Censos demográficos y viabilidad de tropas de mono socai en el Meta",
       date: "18 feb 2025",
       category: "Monitoreo Biológico",
-      readTime: "5 min de lectura",
-      excerpt: "Resultados de los censos nocturnos mediante cámaras trampa en el dosel superior y evaluación del estado de conservación de Aotus brumbacki en la cuenca del río Meta.",
+      readTime: "7 min de lectura",
+      excerpt: "Análisis longitudinal de 20 años sobre las tasas de natalidad, supervivencia de infantes y densidad poblacional de Plecturocebus ornatus en fragmentos menores a 10 hectáreas.",
       author: "Dra. Xyomara Carretero-Pinzón"
     }
   ];
@@ -63,16 +63,16 @@ export const BlogPage: React.FC = () => {
           <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-full border border-emerald-500/30 bg-[#060a08]/60 backdrop-blur-md mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
             <span className="text-[11px] uppercase tracking-[0.22em] text-emerald-300 font-sans font-medium">
-              BITÁCORA DE CAMPO & DIVULGACIÓN
+              BITÁCORA DE CAMPO & DIVULGACIÓN CIENTÍFICA
             </span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif text-white leading-tight font-normal mb-6">
-            Notas de Campo y Publicaciones
+            Notas de Campo y Publicaciones del <span className="text-emerald-400">Mono Socai</span>
           </h1>
 
           <p className="text-lg text-[#e8e2d8]/80 font-sans font-light max-w-3xl leading-relaxed">
-            Historias, avances investigativos y reflexiones desde el corazón de los Llanos Orientales. La ciencia explicada para todos los públicos.
+            Historias, avances investigativos y reflexiones desde el corazón de los Llanos Orientales para dar visibilidad a la conservación de <em className="italic">Plecturocebus ornatus</em>.
           </p>
         </div>
       </div>
