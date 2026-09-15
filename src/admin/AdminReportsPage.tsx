@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 import { Article } from '../types/content';
+import { generateSafeSlug, sanitizeText } from '../lib/security';
 
 const DEFAULT_CATEGORIES = [
   'Monitoreo Biológico',
@@ -90,12 +91,8 @@ export const AdminReportsPage: React.FC = () => {
     if (!editingArticle) return;
     const updates: Partial<Article> = { title: newTitle };
     // Auto-generate slug if empty or newly created
-    if (!editingArticle.id || editingArticle.slug === '') {
-      updates.slug = newTitle
-        .toLowerCase()
-        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/(^-|-$)/g, '');
+    if (!editingArticle.id || !editingArticle.slug) {
+      updates.slug = generateSafeSlug(newTitle);
     }
     setEditingArticle({ ...editingArticle, ...updates });
   };
@@ -110,7 +107,22 @@ export const AdminReportsPage: React.FC = () => {
     setIsSaving(true);
     setFeedbackMsg(null);
 
-    const res = await saveArticle(editingArticle);
+    const finalSlug = (editingArticle.slug && editingArticle.slug.trim() !== '')
+      ? generateSafeSlug(editingArticle.slug)
+      : generateSafeSlug(editingArticle.title);
+
+    const cleanArticle: Partial<Article> = {
+      ...editingArticle,
+      title: sanitizeText(editingArticle.title || ''),
+      slug: finalSlug,
+      author: sanitizeText(editingArticle.author || 'Dra. Xyomara Carretero-Pinzón'),
+      category: sanitizeText(editingArticle.category || 'Monitoreo Biológico'),
+      readTime: sanitizeText(editingArticle.readTime || '5 min de lectura'),
+      excerpt: sanitizeText(editingArticle.excerpt || ''),
+      content: editingArticle.content?.trim() || '',
+    };
+
+    const res = await saveArticle(cleanArticle);
     setIsSaving(false);
 
     if (res.success) {

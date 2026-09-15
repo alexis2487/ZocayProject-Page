@@ -20,7 +20,7 @@ import {
 } from '../lib/supabase';
 
 export const AdminSettingsPage: React.FC = () => {
-  const { isConfigured, isDemoMode } = useAuth();
+  const { isConfigured } = useAuth();
   const { syncFromSupabase, resetToDefaults, isSyncing } = useContent();
 
   const [testResult, setTestResult] = useState<{ 
@@ -92,11 +92,6 @@ export const AdminSettingsPage: React.FC = () => {
               <span className="px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-mono text-xs flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span>Supabase Conectado</span>
-              </span>
-            ) : isDemoMode ? (
-              <span className="px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 font-mono text-xs flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-amber-400" />
-                <span>Modo Local / Demo</span>
               </span>
             ) : (
               <span className="px-3 py-1 rounded-full bg-red-500/15 border border-red-500/30 text-red-300 font-mono text-xs">

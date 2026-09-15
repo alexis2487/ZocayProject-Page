@@ -22,7 +22,7 @@ interface AdminLayoutProps {
 }
 
 export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
-  const { user, signOut, isDemoMode, isConfigured } = useAuth();
+  const { user, signOut, isConfigured } = useAuth();
   const { lastUpdated } = useContent();
   const location = useLocation();
   const navigate = useNavigate();
@@ -43,24 +43,17 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#040705] text-[#e8e2d8] flex flex-col md:flex-row">
-      {/* Sidebar */}
-      <aside className="w-full md:w-72 bg-[#060a08] border-r border-emerald-950/40 flex flex-col shrink-0">
-        {/* Brand */}
-        <div className="p-6 border-b border-emerald-950/40">
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-9 h-9 rounded-full border border-emerald-500/40 bg-[#0d1512] flex items-center justify-center">
-              <Sparkles className="w-4 h-4 text-emerald-400" />
-            </div>
-            <div>
-              <div className="font-serif text-sm font-medium text-white group-hover:text-emerald-300 transition-colors uppercase tracking-wider">
-                Zocay Project
-              </div>
-              <div className="text-[10px] text-emerald-400 font-mono tracking-widest uppercase">
-                Panel CMS Admin
-              </div>
-            </div>
-          </Link>
+    <div className="min-h-screen bg-[#060a08] text-[#e8e2d8] flex flex-col md:flex-row">
+      {/* Sidebar Navigation */}
+      <aside className="w-full md:w-64 bg-[#080e0b] border-r border-emerald-950/40 flex flex-col justify-between shrink-0">
+        <div className="p-6 border-b border-white/5">
+          <div className="flex items-center gap-2 text-xs text-emerald-400 font-mono uppercase tracking-widest mb-1">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Zocay Admin</span>
+          </div>
+          <h2 className="text-lg font-serif text-white">
+            Panel de Gestión
+          </h2>
 
           {/* Connection status badge */}
           <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[11px]">
@@ -72,13 +65,9 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               <span className="px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-mono text-[10px]">
                 Supabase Conectado
               </span>
-            ) : isDemoMode ? (
-              <span className="px-2 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 font-mono text-[10px]">
-                Modo Local / Demo
-              </span>
             ) : (
-              <span className="px-2 py-0.5 rounded-full bg-white/10 text-[#e8e2d8]/60 font-mono text-[10px]">
-                Desconectado
+              <span className="px-2 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 font-mono text-[10px]">
+                Sin Conexión Cloud
               </span>
             )}
           </div>

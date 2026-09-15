@@ -16,7 +16,7 @@ import { useAuth } from '../context/AuthContext';
 
 export const AdminDashboard: React.FC = () => {
   const { articles, products, researchLines, donationTiers } = useContent();
-  const { isConfigured, isDemoMode } = useAuth();
+  const { isConfigured } = useAuth();
 
   const publishedCount = articles.filter(a => a.status !== 'draft').length;
   const draftCount = articles.filter(a => a.status === 'draft').length;
@@ -59,7 +59,7 @@ export const AdminDashboard: React.FC = () => {
       </div>
 
       {/* Database status banner if in demo */}
-      {!isConfigured && isDemoMode && (
+      {!isConfigured && (
         <div className="p-4 rounded-2xl border border-amber-500/30 bg-amber-950/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs">
           <div className="flex items-center gap-3">
             <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" />

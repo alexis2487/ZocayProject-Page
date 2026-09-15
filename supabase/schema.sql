@@ -46,47 +46,60 @@ ALTER TABLE public.articles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.site_content ENABLE ROW LEVEL SECURITY;
 
--- 4.1. Lectura pública para cualquier visitante de la web (anon y authenticated)
+-- 4.1. TABLA: articles
+-- Lectura pública para visitantes (exclusivo para artículos publicados)
 DROP POLICY IF EXISTS "Permitir lectura publica de informes" ON public.articles;
-CREATE POLICY "Permitir lectura publica de informes"
+DROP POLICY IF EXISTS "Lectura publica de articulos publicados" ON public.articles;
+CREATE POLICY "Lectura publica de articulos publicados"
   ON public.articles FOR SELECT
-  TO public
+  TO anon
+  USING (status = 'published');
+
+-- Lectura completa para administradores autenticados
+DROP POLICY IF EXISTS "Lectura completa para administradores autenticados" ON public.articles;
+CREATE POLICY "Lectura completa para administradores autenticados"
+  ON public.articles FOR SELECT
+  TO authenticated
   USING (true);
 
+-- Gestión total (INSERT, UPDATE, DELETE) EXCLUSIVO para administradores autenticados
+DROP POLICY IF EXISTS "Permitir gestion total en informes" ON public.articles;
+DROP POLICY IF EXISTS "Gestion total de informes para autenticados" ON public.articles;
+CREATE POLICY "Gestion total de informes para autenticados"
+  ON public.articles FOR ALL
+  TO authenticated
+  USING (true)
+  WITH CHECK (true);
+
+-- 4.2. TABLA: products
 DROP POLICY IF EXISTS "Permitir lectura publica de productos" ON public.products;
-CREATE POLICY "Permitir lectura publica de productos"
+DROP POLICY IF EXISTS "Lectura publica de productos" ON public.products;
+CREATE POLICY "Lectura publica de productos"
   ON public.products FOR SELECT
   TO public
   USING (true);
 
+DROP POLICY IF EXISTS "Permitir gestion total en productos" ON public.products;
+DROP POLICY IF EXISTS "Gestion de productos solo para autenticados" ON public.products;
+CREATE POLICY "Gestion de productos solo para autenticados"
+  ON public.products FOR ALL
+  TO authenticated
+  USING (true)
+  WITH CHECK (true);
+
+-- 4.3. TABLA: site_content
 DROP POLICY IF EXISTS "Permitir lectura publica de contenidos" ON public.site_content;
-CREATE POLICY "Permitir lectura publica de contenidos"
+DROP POLICY IF EXISTS "Lectura publica de contenidos del sitio" ON public.site_content;
+CREATE POLICY "Lectura publica de contenidos del sitio"
   ON public.site_content FOR SELECT
   TO public
   USING (true);
 
--- 4.2. Gestión total (INSERT, UPDATE, DELETE) para administración (anon y authenticated)
-DROP POLICY IF EXISTS "Permitir gestion total a usuarios autenticados en informes" ON public.articles;
-DROP POLICY IF EXISTS "Permitir gestion total en informes" ON public.articles;
-CREATE POLICY "Permitir gestion total en informes"
-  ON public.articles FOR ALL
-  TO public
-  USING (true)
-  WITH CHECK (true);
-
-DROP POLICY IF EXISTS "Permitir gestion total a usuarios autenticados en productos" ON public.products;
-DROP POLICY IF EXISTS "Permitir gestion total en productos" ON public.products;
-CREATE POLICY "Permitir gestion total en productos"
-  ON public.products FOR ALL
-  TO public
-  USING (true)
-  WITH CHECK (true);
-
-DROP POLICY IF EXISTS "Permitir gestion total a usuarios autenticados en contenidos" ON public.site_content;
 DROP POLICY IF EXISTS "Permitir gestion total en contenidos" ON public.site_content;
-CREATE POLICY "Permitir gestion total en contenidos"
+DROP POLICY IF EXISTS "Gestion de contenidos solo para autenticados" ON public.site_content;
+CREATE POLICY "Gestion de contenidos solo para autenticados"
   ON public.site_content FOR ALL
-  TO public
+  TO authenticated
   USING (true)
   WITH CHECK (true);
 

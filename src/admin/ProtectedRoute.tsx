@@ -8,7 +8,7 @@ interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const { user, loading, isDemoMode } = useAuth();
+  const { user, loading } = useAuth();
 
   if (loading) {
     return (
@@ -16,13 +16,14 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
         <div className="w-12 h-12 rounded-full border-2 border-emerald-400 border-t-transparent animate-spin mb-4" />
         <div className="flex items-center gap-2 text-xs font-mono text-emerald-400">
           <Sparkles className="w-4 h-4 animate-pulse" />
-          <span>Cargando panel de administración...</span>
+          <span>Verificando credenciales de administración...</span>
         </div>
       </div>
     );
   }
 
-  if (!user && !isDemoMode) {
+  // Si no hay usuario autenticado en Supabase, denegar acceso y enviar al login
+  if (!user) {
     return <Navigate to="/admin/login" replace />;
   }
 

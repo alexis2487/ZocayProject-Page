@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Compass, Check, Calendar, Plus, Trash2, ShieldCheck } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 import { DirectorProfile, TimelineEvent } from '../types/content';
+import { sanitizeUrl } from '../lib/security';
 
 export const AdminProjectPage: React.FC = () => {
   const { director, timeline, updateDirector, updateTimeline } = useContent();
@@ -48,7 +49,15 @@ export const AdminProjectPage: React.FC = () => {
 
   const handleSaveAll = async () => {
     setIsSaving(true);
-    await updateDirector(dirProfile);
+    const cleanProfile: DirectorProfile = {
+      ...dirProfile,
+      socials: {
+        twitter: sanitizeUrl(dirProfile.socials?.twitter || ''),
+        linkedin: sanitizeUrl(dirProfile.socials?.linkedin || ''),
+        instagram: sanitizeUrl(dirProfile.socials?.instagram || ''),
+      },
+    };
+    await updateDirector(cleanProfile);
     await updateTimeline(events);
     setIsSaving(false);
     setFeedback('¡Perfil de la Directora y trayectoria histórica actualizados!');

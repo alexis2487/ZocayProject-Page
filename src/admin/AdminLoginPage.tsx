@@ -1,18 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Sparkles, Lock, Mail, ArrowRight, ShieldCheck, AlertCircle } from 'lucide-react';
+import { Sparkles, Lock, Mail, ArrowRight, ShieldCheck, AlertCircle, Eye, EyeOff, Clock } from 'lucide-react';
 
 export const AdminLoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { signIn, enableDemoMode, isConfigured } = useAuth();
+
+  // Protección anti-fuerza bruta en cliente
+  const [failedAttempts, setFailedAttempts] = useState(0);
+  const [lockoutUntil, setLockoutUntil] = useState<number | null>(null);
+  const [countdown, setCountdown] = useState(0);
+
+  const { signIn, user } = useAuth();
   const navigate = useNavigate();
+
+  // Si ya hay usuario autenticado, redirigir al panel
+  useEffect(() => {
+    if (user) {
+      navigate('/admin', { replace: true });
+    }
+  }, [user, navigate]);
+
+  // Manejador del temporizador de bloqueo
+  useEffect(() => {
+    if (!lockoutUntil) return;
+
+    const interval = setInterval(() => {
+      const remaining = Math.ceil((lockoutUntil - Date.now()) / 1000);
+      if (remaining <= 0) {
+        setLockoutUntil(null);
+        setCountdown(0);
+        setErrorMsg('');
+        clearInterval(interval);
+      } else {
+        setCountdown(remaining);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [lockoutUntil]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Si está bloqueado por intentos fallidos
+    if (lockoutUntil && Date.now() < lockoutUntil) {
+      setErrorMsg(`Acceso bloqueado por seguridad. Espera ${countdown} segundos.`);
+      return;
+    }
+
     setErrorMsg('');
     setIsSubmitting(true);
 
@@ -20,16 +60,25 @@ export const AdminLoginPage: React.FC = () => {
     setIsSubmitting(false);
 
     if (res.success) {
+      setFailedAttempts(0);
+      setLockoutUntil(null);
       navigate('/admin');
     } else {
-      setErrorMsg(res.error || 'Error al iniciar sesión.');
+      const attempts = failedAttempts + 1;
+      setFailedAttempts(attempts);
+
+      if (attempts >= 5) {
+        const lockTime = Date.now() + 60 * 1000; // 60 segundos de bloqueo
+        setLockoutUntil(lockTime);
+        setCountdown(60);
+        setErrorMsg('Demasiados intentos fallidos consecutivos. Formulario bloqueado por 60 segundos.');
+      } else {
+        setErrorMsg(res.error || 'Credenciales no válidas.');
+      }
     }
   };
 
-  const handleDemoAccess = () => {
-    enableDemoMode();
-    navigate('/admin');
-  };
+  const isLocked = Boolean(lockoutUntil && countdown > 0);
 
   return (
     <div className="min-h-screen bg-[#060a08] text-[#e8e2d8] flex items-center justify-center p-6 relative overflow-hidden">
@@ -48,21 +97,42 @@ export const AdminLoginPage: React.FC = () => {
             Zocay Project CMS
           </h1>
           <p className="text-xs text-emerald-400 font-mono tracking-widest uppercase">
-            Panel de Administración & Contenidos
+            Acceso Seguro a la Administración
           </p>
         </div>
 
         {/* Login Card */}
         <div className="p-8 rounded-3xl border border-emerald-900/40 bg-[#0a110d]/90 backdrop-blur-xl shadow-2xl space-y-6">
-          <div className="flex items-center gap-2 pb-3 border-b border-white/5 text-xs text-[#e8e2d8]/70">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span>Acceso exclusivo para la dirección científica</span>
+          <div className="flex items-center justify-between pb-3 border-b border-white/5 text-xs text-[#e8e2d8]/70">
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              <span>Autenticación Cifrada Supabase</span>
+            </div>
+            <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
+              Admin
+            </span>
           </div>
 
+          {/* Alerta de bloqueo o error */}
           {errorMsg && (
-            <div className="p-4 rounded-xl bg-red-950/40 border border-red-800/40 flex items-start gap-3 text-xs text-red-200 animate-fadeIn">
-              <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
-              <span>{errorMsg}</span>
+            <div className={`p-4 rounded-xl flex items-start gap-3 text-xs animate-fadeIn ${
+              isLocked 
+                ? 'bg-amber-950/40 border border-amber-500/40 text-amber-200' 
+                : 'bg-red-950/40 border border-red-800/40 text-red-200'
+            }`}>
+              {isLocked ? (
+                <Clock className="w-4 h-4 text-amber-400 shrink-0 mt-0.5 animate-pulse" />
+              ) : (
+                <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+              )}
+              <div className="leading-relaxed">
+                <span>{errorMsg}</span>
+                {isLocked && (
+                  <div className="mt-1 font-mono font-semibold text-amber-300">
+                    Tiempo restante: {countdown}s
+                  </div>
+                )}
+              </div>
             </div>
           )}
 
@@ -76,10 +146,11 @@ export const AdminLoginPage: React.FC = () => {
                 <input
                   type="email"
                   required
+                  disabled={isLocked || isSubmitting}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="xyomara@zocayproject.org"
-                  className="w-full pl-11 pr-4 py-3 rounded-xl border border-white/10 bg-[#070c09] text-white text-xs placeholder-[#e8e2d8]/30 focus:outline-none focus:border-emerald-500 transition-colors"
+                  placeholder="admin@zocayproject.org"
+                  className="w-full pl-11 pr-4 py-3 rounded-xl border border-white/10 bg-[#070c09] text-white text-xs placeholder-[#e8e2d8]/30 focus:outline-none focus:border-emerald-500 transition-colors disabled:opacity-40"
                 />
               </div>
             </div>
@@ -91,23 +162,34 @@ export const AdminLoginPage: React.FC = () => {
               <div className="relative">
                 <Lock className="w-4 h-4 text-[#e8e2d8]/40 absolute left-4 top-1/2 -translate-y-1/2" />
                 <input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   required
+                  disabled={isLocked || isSubmitting}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full pl-11 pr-4 py-3 rounded-xl border border-white/10 bg-[#070c09] text-white text-xs placeholder-[#e8e2d8]/30 focus:outline-none focus:border-emerald-500 transition-colors"
+                  className="w-full pl-11 pr-11 py-3 rounded-xl border border-white/10 bg-[#070c09] text-white text-xs placeholder-[#e8e2d8]/30 focus:outline-none focus:border-emerald-500 transition-colors disabled:opacity-40 font-mono"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#e8e2d8]/40 hover:text-white transition-colors"
+                  aria-label={showPassword ? 'Ocultar contraseña' : 'Ver contraseña'}
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
               </div>
             </div>
 
             <button
               type="submit"
-              disabled={isSubmitting}
-              className="w-full py-3.5 rounded-full text-xs uppercase tracking-[0.2em] font-medium text-emerald-950 bg-emerald-400 hover:bg-emerald-300 transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 disabled:opacity-50"
+              disabled={isSubmitting || isLocked}
+              className="w-full py-3.5 rounded-full text-xs uppercase tracking-[0.2em] font-medium text-emerald-950 bg-emerald-400 hover:bg-emerald-300 transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? (
-                <span>Validando credenciales...</span>
+                <span>Validando sesión segura...</span>
+              ) : isLocked ? (
+                <span>Bloqueado temporalmente</span>
               ) : (
                 <>
                   <span>Ingresar al CMS</span>
@@ -117,21 +199,8 @@ export const AdminLoginPage: React.FC = () => {
             </button>
           </form>
 
-          {/* Quick Demo Access Button */}
-          <div className="pt-4 border-t border-white/10 text-center space-y-3">
-            <button
-              type="button"
-              onClick={handleDemoAccess}
-              className="w-full py-2.5 px-4 rounded-xl text-xs font-medium text-emerald-300/80 bg-emerald-950/30 border border-emerald-500/20 hover:bg-emerald-950/60 hover:text-white transition-all flex items-center justify-center gap-2"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Ingresar como Dra. Xyomara (Modo Acceso Rápido)</span>
-            </button>
-            <div className="text-[11px] text-[#e8e2d8]/50">
-              {isConfigured
-                ? 'Conectado a la base de datos Supabase.'
-                : 'Claves Supabase en modo local/desarrollo.'}
-            </div>
+          <div className="pt-3 border-t border-white/5 text-center text-[11px] text-[#e8e2d8]/40">
+            Sesión protegida por políticas de autenticación y Row Level Security (RLS).
           </div>
         </div>
 

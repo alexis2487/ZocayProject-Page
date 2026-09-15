@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Compass, ShieldCheck, Sparkles } from 'lucide-react';
 import { projectData } from '../data/projectData';
 import { useContent } from '../context/ContentContext';
+import { sanitizeUrl } from '../lib/security';
 
 export const HomeProject: React.FC = () => {
   const { director } = useContent();
@@ -63,7 +64,7 @@ export const HomeProject: React.FC = () => {
                 {/* Social Networks of the Biologist */}
                 <div className="flex items-center gap-2">
                   <a
-                    href={director.socials.twitter}
+                    href={sanitizeUrl(director.socials?.twitter)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-1.5 rounded-full bg-white/5 border border-white/10 text-[#e8e2d8]/70 hover:text-white hover:border-emerald-400 hover:bg-emerald-950/40 transition-colors"
@@ -75,7 +76,7 @@ export const HomeProject: React.FC = () => {
                     </svg>
                   </a>
                   <a
-                    href={director.socials.linkedin}
+                    href={sanitizeUrl(director.socials?.linkedin)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-1.5 rounded-full bg-white/5 border border-white/10 text-[#e8e2d8]/70 hover:text-white hover:border-emerald-400 hover:bg-emerald-950/40 transition-colors"
@@ -87,7 +88,7 @@ export const HomeProject: React.FC = () => {
                     </svg>
                   </a>
                   <a
-                    href={director.socials.instagram}
+                    href={sanitizeUrl(director.socials?.instagram)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-1.5 rounded-full bg-white/5 border border-white/10 text-[#e8e2d8]/70 hover:text-white hover:border-emerald-400 hover:bg-emerald-950/40 transition-colors"

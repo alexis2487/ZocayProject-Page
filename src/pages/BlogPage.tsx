@@ -12,6 +12,20 @@ export const BlogPage: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedArticle(null);
+      }
+    };
+    if (selectedArticle) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedArticle]);
+
   const publicArticles = articles.filter(a => a.status !== 'draft');
 
   return (
@@ -98,7 +112,12 @@ export const BlogPage: React.FC = () => {
 
       {/* MODAL: Full Article Reader */}
       {selectedArticle && (
-        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+        <div 
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setSelectedArticle(null);
+          }}
+          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+        >
           <div className="w-full max-w-3xl bg-[#090f0c] border border-emerald-900/50 rounded-3xl p-6 sm:p-10 space-y-6 max-h-[90vh] overflow-y-auto shadow-2xl relative">
             <button
               onClick={() => setSelectedArticle(null)}

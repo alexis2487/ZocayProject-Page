@@ -1,44 +1,31 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
+import { isValidEmail } from '../lib/security';
 
 interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
-  isDemoMode: boolean;
   isConfigured: boolean;
   signIn: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   signOut: () => Promise<void>;
-  enableDemoMode: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-const DEMO_USER_STORAGE_KEY = 'zocay_demo_admin_user';
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [isDemoMode, setIsDemoMode] = useState<boolean>(false);
 
   useEffect(() => {
-    // 1. Check if demo session is stored
-    const storedDemo = localStorage.getItem(DEMO_USER_STORAGE_KEY);
-    if (storedDemo) {
-      try {
-        const parsed = JSON.parse(storedDemo);
-        setUser(parsed);
-        setIsDemoMode(true);
-        setLoading(false);
-        return;
-      } catch {
-        localStorage.removeItem(DEMO_USER_STORAGE_KEY);
-      }
+    // 1. Limpieza de cualquier sesión de prueba / demo obsoleta por seguridad
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('zocay_demo_admin_user');
     }
 
-    // 2. Check Supabase session if configured
+    // 2. Comprobar sesión activa de Supabase
     if (isSupabaseConfigured) {
       supabase.auth.getSession().then(({ data: { session } }) => {
         setSession(session);
@@ -60,89 +47,69 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  const signIn = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
-    // If Supabase is configured, attempt real authentication
-    if (isSupabaseConfigured) {
-      try {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
+  const signIn = async (emailInput: string, passwordInput: string): Promise<{ success: boolean; error?: string }> => {
+    const email = emailInput.trim().toLowerCase();
+    const password = passwordInput.trim();
 
-        if (error) {
-          // If auth fails on Supabase, return Spanish user-friendly error
-          let msg = error.message;
-          if (msg.includes('Invalid login credentials')) {
-            msg = 'Credenciales inválidas. Verifica tu correo y contraseña en Supabase Auth.';
-          } else if (msg.includes('Email not confirmed')) {
-            msg = 'El correo electrónico no ha sido confirmado en Supabase.';
-          }
-          return { success: false, error: msg };
-        }
+    // Validación básica de entrada
+    if (!email || !password) {
+      return { success: false, error: 'Por favor ingresa tanto el correo como la contraseña.' };
+    }
 
-        setUser(data.user);
-        setSession(data.session);
-        setIsDemoMode(false);
-        localStorage.removeItem(DEMO_USER_STORAGE_KEY);
-        return { success: true };
-      } catch (err: any) {
-        return { success: false, error: err.message || 'Error de conexión con Supabase.' };
+    if (!isValidEmail(email)) {
+      return { success: false, error: 'El formato de correo electrónico no es válido.' };
+    }
+
+    if (!isSupabaseConfigured) {
+      return { 
+        success: false, 
+        error: 'El servicio de autenticación con la base de datos no está disponible. Verifica las credenciales.' 
+      };
+    }
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        // Protección contra enumeración de usuarios: Respuesta genérica de seguridad
+        return { 
+          success: false, 
+          error: 'Credenciales incorrectas o acceso no autorizado. Por favor verifica tus datos.' 
+        };
       }
-    }
 
-    // Fallback: Demo / Offline Mode when Supabase keys are not configured yet
-    if (email.trim() && password.length >= 4) {
-      const demoUser = {
-        id: 'demo-xyomara-admin',
-        email: email.trim().toLowerCase(),
-        user_metadata: {
-          full_name: 'Dra. Xyomara Carretero-Pinzón',
-          role: 'Director & Lead Researcher',
-        },
-        app_metadata: {},
-        aud: 'authenticated',
-        created_at: new Date().toISOString(),
-      } as unknown as User;
+      if (!data.session || !data.user) {
+        return { 
+          success: false, 
+          error: 'No se pudo inicializar la sesión de administrador.' 
+        };
+      }
 
-      setUser(demoUser);
-      setIsDemoMode(true);
-      localStorage.setItem(DEMO_USER_STORAGE_KEY, JSON.stringify(demoUser));
+      setUser(data.user);
+      setSession(data.session);
       return { success: true };
+    } catch {
+      return { 
+        success: false, 
+        error: 'Error de red o comunicación al contactar el servidor de autenticación.' 
+      };
     }
-
-    return { success: false, error: 'Por favor ingresa un correo válido y contraseña (mínimo 4 caracteres).' };
   };
 
   const signOut = async () => {
-    if (isSupabaseConfigured) {
-      try {
+    try {
+      if (isSupabaseConfigured) {
         await supabase.auth.signOut();
-      } catch (e) {
-        console.error('Error signing out from Supabase', e);
       }
+    } catch (e) {
+      console.error('Error al cerrar sesión', e);
+    } finally {
+      setUser(null);
+      setSession(null);
     }
-    setUser(null);
-    setSession(null);
-    setIsDemoMode(false);
-    localStorage.removeItem(DEMO_USER_STORAGE_KEY);
-  };
-
-  const enableDemoMode = () => {
-    const demoUser = {
-      id: 'demo-xyomara-admin',
-      email: 'xyomara@zocayproject.org',
-      user_metadata: {
-        full_name: 'Dra. Xyomara Carretero-Pinzón',
-        role: 'Directora Científica',
-      },
-      app_metadata: {},
-      aud: 'authenticated',
-      created_at: new Date().toISOString(),
-    } as unknown as User;
-
-    setUser(demoUser);
-    setIsDemoMode(true);
-    localStorage.setItem(DEMO_USER_STORAGE_KEY, JSON.stringify(demoUser));
   };
 
   return (
@@ -151,11 +118,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         user,
         session,
         loading,
-        isDemoMode,
         isConfigured: isSupabaseConfigured,
         signIn,
         signOut,
-        enableDemoMode,
       }}
     >
       {children}

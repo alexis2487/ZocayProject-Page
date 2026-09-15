@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 import { Product } from '../types/content';
+import { sanitizeText } from '../lib/security';
 
 export const AdminProductsPage: React.FC = () => {
   const { products, saveProduct, deleteProduct } = useContent();
@@ -44,7 +45,16 @@ export const AdminProductsPage: React.FC = () => {
     if (!editingProduct || !editingProduct.name?.trim()) return;
 
     setIsSaving(true);
-    const res = await saveProduct(editingProduct);
+    const cleanProduct: Partial<Product> = {
+      ...editingProduct,
+      name: sanitizeText(editingProduct.name.trim()),
+      category: sanitizeText(editingProduct.category || 'Indumentaria'),
+      priceCOP: sanitizeText(editingProduct.priceCOP || '$ 0 COP'),
+      description: sanitizeText(editingProduct.description || ''),
+      impact: sanitizeText(editingProduct.impact || ''),
+    };
+
+    const res = await saveProduct(cleanProduct);
     setIsSaving(false);
 
     if (res.success) {
