@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ContentProvider } from './context/ContentContext';
+import { LanguageProvider } from './context/LanguageContext';
 
 // Public Components & Pages
 import { Navbar } from './components/Navbar';
@@ -38,7 +39,8 @@ export const App: React.FC = () => {
   return (
     <AuthProvider>
       <ContentProvider>
-        <Router>
+        <LanguageProvider>
+          <Router>
           <Routes>
             {/* Admin CMS Authentication */}
             <Route path="/admin/login" element={<AdminLoginPage />} />
@@ -169,6 +171,7 @@ export const App: React.FC = () => {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Router>
+        </LanguageProvider>
       </ContentProvider>
     </AuthProvider>
   );

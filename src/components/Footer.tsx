@@ -2,12 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Compass, Mail, MapPin } from 'lucide-react';
 import { projectData } from '../data/projectData';
-
 import { useContent } from '../context/ContentContext';
+import { useLanguage } from '../context/LanguageContext';
 import { sanitizeUrl } from '../lib/security';
 
 export const Footer: React.FC = () => {
   const { director } = useContent();
+  const { t } = useLanguage();
 
   return (
     <footer className="bg-[#040705] border-t border-emerald-950/40 text-[#e8e2d8]/70 py-12 sm:py-16 px-5 sm:px-8 md:px-12">
@@ -26,7 +27,7 @@ export const Footer: React.FC = () => {
             </span>
           </div>
           <p className="text-xs leading-relaxed text-[#e8e2d8]/60 mb-4">
-            Iniciativa de investigación científica, monitoreo de primates neotropicales y conservación de paisajes fragmentados en la Orinoquia colombiana.
+            {t.footer.description}
           </p>
           <div className="text-[11px] text-emerald-400/80 flex items-center gap-1.5">
             <MapPin className="w-3.5 h-3.5" />
@@ -38,26 +39,26 @@ export const Footer: React.FC = () => {
         <div className="flex flex-col sm:flex-row gap-10 sm:gap-16 text-xs">
           <div>
             <div className="text-emerald-400 font-mono uppercase tracking-[0.2em] text-[11px] mb-4">
-              Navegación
+              {t.footer.navTitle}
             </div>
             <ul className="space-y-2.5">
               <li>
-                <Link to="/" className="hover:text-emerald-300 transition-colors">Inicio</Link>
+                <Link to="/" className="hover:text-emerald-300 transition-colors">{t.nav.home}</Link>
               </li>
               <li>
-                <Link to="/investigacion" className="hover:text-emerald-300 transition-colors">Investigación</Link>
+                <Link to="/investigacion" className="hover:text-emerald-300 transition-colors">{t.nav.research}</Link>
               </li>
               <li>
-                <Link to="/el-proyecto" className="hover:text-emerald-300 transition-colors">El Proyecto</Link>
+                <Link to="/el-proyecto" className="hover:text-emerald-300 transition-colors">{t.nav.project}</Link>
               </li>
               <li>
-                <Link to="/tienda" className="hover:text-emerald-300 transition-colors">Tienda Oficial</Link>
+                <Link to="/tienda" className="hover:text-emerald-300 transition-colors">{t.nav.shop}</Link>
               </li>
               <li>
-                <Link to="/donaciones" className="hover:text-emerald-300 transition-colors">Donaciones</Link>
+                <Link to="/donaciones" className="hover:text-emerald-300 transition-colors">{t.nav.donate}</Link>
               </li>
               <li>
-                <Link to="/blog" className="hover:text-emerald-300 transition-colors">Blog / Notas de campo</Link>
+                <Link to="/blog" className="hover:text-emerald-300 transition-colors">{t.nav.blog}</Link>
               </li>
               <li className="pt-2 border-t border-white/5">
                 <Link to="/admin" className="text-emerald-400/80 hover:text-emerald-300 font-mono text-[11px] flex items-center gap-1.5 transition-colors">
@@ -69,7 +70,7 @@ export const Footer: React.FC = () => {
 
           <div>
             <div className="text-emerald-400 font-mono uppercase tracking-[0.2em] text-[11px] mb-4">
-              Dirección Científica
+              {t.footer.directorTitle}
             </div>
             <p className="text-xs text-[#e8e2d8]/80 font-medium mb-1">{director.name}</p>
             <p className="text-[11px] text-[#e8e2d8]/60 mb-1">{director.title}</p>
@@ -78,7 +79,7 @@ export const Footer: React.FC = () => {
             </p>
             <div className="flex items-center gap-2 text-xs text-emerald-400 mb-3">
               <Mail className="w-3.5 h-3.5" />
-              <span className="text-[11px] text-[#e8e2d8]/70">contacto@zocayproject.org</span>
+              <span className="text-[11px] text-[#e8e2d8]/70">{t.footer.contactLabel}</span>
             </div>
 
             {/* Social Links */}
@@ -135,12 +136,12 @@ export const Footer: React.FC = () => {
       {/* Bottom Sub-footer */}
       <div className="max-w-7xl mx-auto mt-12 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#e8e2d8]/40 gap-4">
         <div>
-          © {new Date().getFullYear()} Zocay Project. Todos los derechos reservados.
+          © {new Date().getFullYear()} Zocay Project. {t.footer.rights}
         </div>
         <div className="flex items-center gap-4">
           <span className="flex items-center gap-1.5 text-emerald-500/70">
             <Compass className="w-3.5 h-3.5" />
-            <span>Llanos Orientales, Colombia</span>
+            <span>{t.footer.location}</span>
           </span>
         </div>
       </div>

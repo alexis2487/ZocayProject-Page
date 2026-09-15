@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Microscope, Trees, Sparkles } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export const HomeResearch: React.FC = () => {
+  const { t } = useLanguage();
+
   return (
     <section 
       id="seccion-investigacion"
@@ -29,41 +32,41 @@ export const HomeResearch: React.FC = () => {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/30 bg-[#060a08]/80 backdrop-blur-md mb-4 sm:mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
             <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] sm:tracking-[0.22em] text-emerald-300 font-sans font-medium">
-              02 — INVESTIGACIÓN CIENTÍFICA
+              {t.research.chapterTag}
             </span>
           </div>
 
           {/* Headline */}
           <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-serif text-[#e8e2d8] leading-[1.15] tracking-tight font-normal mb-4 sm:mb-5">
-            Ciencia y monitoreo para comprender y proteger al <span className="italic text-emerald-400">Mono Zocay</span>.
+            {t.research.headline} <span className="italic text-emerald-400">{t.research.headlineAccent}</span>.
           </h2>
 
           {/* Short Description */}
           <p className="text-xs sm:text-sm md:text-base text-[#e8e2d8]/85 font-sans font-light leading-relaxed mb-5 sm:mb-6">
-            Más de dos décadas de estudios etológicos y demográficos sobre el <strong className="text-white font-medium">mono zocay (Plecturocebus ornatus)</strong>. Investigamos el impacto de la fragmentación del hábitat en sus grupos familiares y el papel vital de las cercas vivas como autopistas en el dosel.
+            {t.research.description}
           </p>
 
-          {/* Clean Scientific Focus Badges: Adaptive horizontal/vertical on mobile */}
+          {/* Clean Scientific Focus Badges */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-2.5 mb-6 sm:mb-8 text-xs">
             <div className="p-2.5 sm:p-3 rounded-xl border border-white/10 bg-[#0d1512]/70 backdrop-blur-sm flex items-center sm:flex-col sm:items-start gap-2.5 sm:gap-1">
               <Microscope className="w-4 h-4 text-emerald-400 shrink-0" />
               <div>
-                <span className="text-white font-medium text-xs block sm:inline">Monitoreo</span>
-                <span className="text-[10px] text-[#e8e2d8]/60 sm:block sm:mt-0.5 sm:ml-0 ml-1.5">Demografía</span>
+                <span className="text-white font-medium text-xs block sm:inline">{t.research.badge1Title}</span>
+                <span className="text-[10px] text-[#e8e2d8]/60 sm:block sm:mt-0.5 sm:ml-0 ml-1.5">{t.research.badge1Sub}</span>
               </div>
             </div>
             <div className="p-2.5 sm:p-3 rounded-xl border border-white/10 bg-[#0d1512]/70 backdrop-blur-sm flex items-center sm:flex-col sm:items-start gap-2.5 sm:gap-1">
               <Trees className="w-4 h-4 text-emerald-400 shrink-0" />
               <div>
-                <span className="text-white font-medium text-xs block sm:inline">Cercas Vivas</span>
-                <span className="text-[10px] text-[#e8e2d8]/60 sm:block sm:mt-0.5 sm:ml-0 ml-1.5">Corredores</span>
+                <span className="text-white font-medium text-xs block sm:inline">{t.research.badge2Title}</span>
+                <span className="text-[10px] text-[#e8e2d8]/60 sm:block sm:mt-0.5 sm:ml-0 ml-1.5">{t.research.badge2Sub}</span>
               </div>
             </div>
             <div className="p-2.5 sm:p-3 rounded-xl border border-white/10 bg-[#0d1512]/70 backdrop-blur-sm flex items-center sm:flex-col sm:items-start gap-2.5 sm:gap-1">
               <Sparkles className="w-4 h-4 text-emerald-400 shrink-0" />
               <div>
-                <span className="text-white font-medium text-xs block sm:inline">Preservación</span>
-                <span className="text-[10px] text-[#e8e2d8]/60 sm:block sm:mt-0.5 sm:ml-0 ml-1.5">Dosel llanero</span>
+                <span className="text-white font-medium text-xs block sm:inline">{t.research.badge3Title}</span>
+                <span className="text-[10px] text-[#e8e2d8]/60 sm:block sm:mt-0.5 sm:ml-0 ml-1.5">{t.research.badge3Sub}</span>
               </div>
             </div>
           </div>
@@ -74,7 +77,7 @@ export const HomeResearch: React.FC = () => {
               to="/investigacion"
               className="inline-flex items-center justify-center gap-3 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full text-xs uppercase tracking-[0.18em] sm:tracking-[0.2em] font-medium text-white border border-emerald-500/40 bg-emerald-950/40 backdrop-blur-sm hover:bg-emerald-400 hover:text-emerald-950 hover:border-emerald-400 transition-all duration-300 group shadow-lg"
             >
-              <span>Ver investigaciones</span>
+              <span>{t.research.cta}</span>
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </div>

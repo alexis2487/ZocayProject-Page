@@ -2,8 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, MapPin, ChevronDown, Sparkles } from 'lucide-react';
 import { projectData } from '../data/projectData';
+import { useLanguage } from '../context/LanguageContext';
 
 export const HomeHero: React.FC = () => {
+  const { t } = useLanguage();
+
   const scrollToNext = () => {
     const nextSection = document.getElementById('seccion-investigacion');
     if (nextSection) {
@@ -37,20 +40,20 @@ export const HomeHero: React.FC = () => {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/30 bg-[#060a08]/80 backdrop-blur-md mb-4 sm:mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
             <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] sm:tracking-[0.22em] text-emerald-300 font-sans font-medium">
-              01 — INICIO · PROYECTO DE PRESERVACIÓN
+              {t.hero.chapterTag}
             </span>
           </div>
 
           {/* Headline */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif text-[#e8e2d8] leading-[1.12] sm:leading-[1.1] tracking-tight font-normal mb-4 sm:mb-6">
-            El Mono Zocay <br />
-            <span className="italic font-light text-white">y su hogar en el</span>{' '}
-            <span className="text-emerald-400 font-medium">Meta</span>
+            {t.hero.headlineMain} <br />
+            <span className="italic font-light text-white">{t.hero.headlineSub1}</span>{' '}
+            <span className="text-emerald-400 font-medium">{t.hero.headlineSub2}</span>
           </h1>
 
           {/* Short Subtitle / Brief Description: Mono Zocay focused */}
           <p className="text-sm sm:text-base lg:text-lg text-[#e8e2d8]/85 font-sans font-light leading-relaxed max-w-xl mb-6 sm:mb-10">
-            Ciencia, naturaleza y acción. Una iniciativa de investigación a largo plazo dedicada a dar visibilidad, estudiar y proteger al <strong className="text-white font-medium">mono zocay (Plecturocebus ornatus)</strong>, especie protagonista y endémica en los bosques fragmentados de los Llanos Orientales.
+            {t.hero.description}
           </p>
 
           {/* Minimalist Elegant Action Button */}
@@ -59,7 +62,7 @@ export const HomeHero: React.FC = () => {
               to="/el-proyecto"
               className="inline-flex items-center justify-center gap-3 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full text-xs uppercase tracking-[0.18em] sm:tracking-[0.2em] font-medium text-white border border-emerald-500/40 bg-emerald-950/40 backdrop-blur-sm hover:bg-emerald-400 hover:text-emerald-950 hover:border-emerald-400 transition-all duration-300 group shadow-lg shadow-emerald-950/30"
             >
-              <span>Conoce el proyecto</span>
+              <span>{t.hero.ctaProject}</span>
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </div>
@@ -73,7 +76,7 @@ export const HomeHero: React.FC = () => {
             <div className="hidden sm:inline-block text-white/30">•</div>
             <div className="flex items-center gap-1.5 italic font-serif text-emerald-300/90">
               <Sparkles className="w-3 h-3 text-emerald-400 shrink-0" />
-              <span>Especie Protagonista: Plecturocebus ornatus</span>
+              <span>{t.hero.protagonistSpecies}</span>
             </div>
           </div>
         </div>
@@ -83,9 +86,9 @@ export const HomeHero: React.FC = () => {
       <button
         onClick={scrollToNext}
         className="absolute bottom-8 right-8 z-10 hidden md:flex flex-col items-center gap-2 text-[10px] uppercase tracking-[0.25em] text-[#e8e2d8]/50 hover:text-emerald-400 transition-colors focus:outline-none"
-        aria-label="Desplazarse a la sección de investigación"
+        aria-label={t.hero.explore}
       >
-        <span>Explorar</span>
+        <span>{t.hero.explore}</span>
         <ChevronDown className="w-4 h-4 animate-bounce text-emerald-400" />
       </button>
     </section>

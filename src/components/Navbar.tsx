@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ArrowUpRight, Compass } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
+import { LanguageSelector } from './LanguageSelector';
 
 export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const { t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,11 +24,11 @@ export const Navbar: React.FC = () => {
   }, [location.pathname]);
 
   const navLinks = [
-    { label: 'Inicio', path: '/' },
-    { label: 'Investigación', path: '/investigacion' },
-    { label: 'El Proyecto', path: '/el-proyecto' },
-    { label: 'Tienda / Donaciones', path: '/tienda' },
-    { label: 'Blog', path: '/blog' },
+    { label: t.nav.home, path: '/' },
+    { label: t.nav.research, path: '/investigacion' },
+    { label: t.nav.project, path: '/el-proyecto' },
+    { label: t.nav.shop, path: '/tienda' },
+    { label: t.nav.blog, path: '/blog' },
   ];
 
   return (
@@ -37,7 +40,7 @@ export const Navbar: React.FC = () => {
             : 'bg-gradient-to-b from-[#060a08]/80 via-[#060a08]/40 to-transparent py-5'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 md:px-12 flex items-center justify-between">
           {/* Brand Logo */}
           <Link
             to="/"
@@ -56,7 +59,7 @@ export const Navbar: React.FC = () => {
                 Mono Zocay
               </span>
               <span className="text-[10px] tracking-[0.25em] text-emerald-400/80 uppercase font-sans font-light">
-                Meta · Colombia
+                {t.nav.speciesSubtitle}
               </span>
             </div>
           </Link>
@@ -84,35 +87,45 @@ export const Navbar: React.FC = () => {
             })}
           </nav>
 
-          {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center gap-4">
+          {/* Desktop Actions (Language Boxlist + Donate Button) */}
+          <div className="hidden lg:flex items-center gap-3">
+            <LanguageSelector />
+
             <Link
               to="/donaciones"
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs uppercase tracking-wider font-medium text-emerald-300 border border-emerald-500/40 bg-emerald-950/20 hover:bg-emerald-500 hover:text-emerald-950 transition-all duration-300 group"
             >
-              <span>Donar</span>
+              <span>{t.nav.donate}</span>
               <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
           </div>
 
-          {/* Mobile Hamburger Button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 rounded-lg text-[#e8e2d8] hover:text-emerald-400 transition-colors focus:outline-none"
-            aria-label={mobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          {/* Mobile Right Controls: Language Selector + Hamburger Button */}
+          <div className="flex items-center gap-2 lg:hidden">
+            <LanguageSelector />
+
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 rounded-lg text-[#e8e2d8] hover:text-emerald-400 transition-colors focus:outline-none"
+              aria-label={mobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
       </header>
 
       {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-40 bg-[#060a08]/98 backdrop-blur-xl flex flex-col pt-24 px-6 sm:px-8 pb-8 overflow-y-auto lg:hidden">
-          <div className="flex items-center gap-2 text-emerald-400 text-xs tracking-widest uppercase mb-6 pb-2 border-b border-emerald-900/30 shrink-0">
-            <Compass className="w-4 h-4" />
-            <span>Navegación del Proyecto</span>
+          <div className="flex items-center justify-between text-emerald-400 text-xs tracking-widest uppercase mb-6 pb-2 border-b border-emerald-900/30 shrink-0">
+            <div className="flex items-center gap-2">
+              <Compass className="w-4 h-4" />
+              <span>{t.nav.navigationTitle}</span>
+            </div>
+            <LanguageSelector />
           </div>
+
           <div className="flex flex-col gap-6">
             {navLinks.map((item, idx) => (
               <Link
@@ -131,10 +144,10 @@ export const Navbar: React.FC = () => {
               to="/donaciones"
               className="w-full text-center py-3.5 rounded-full text-xs uppercase tracking-widest font-semibold text-emerald-950 bg-emerald-400 hover:bg-emerald-300 transition-colors"
             >
-              Apoyar / Donar
+              {t.nav.donate}
             </Link>
             <div className="text-center text-[11px] text-[#e8e2d8]/50 tracking-wider">
-              Zocay Project · Conservación y Ciencia en el Meta, Colombia
+              Zocay Project · Meta, Colombia
             </div>
           </div>
         </div>

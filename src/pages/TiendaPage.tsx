@@ -12,10 +12,12 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
+import { useLanguage } from '../context/LanguageContext';
 import { Product } from '../types/content';
 
 export const TiendaPage: React.FC = () => {
   const { products } = useContent();
+  const { t, language } = useLanguage();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   useEffect(() => {
@@ -38,13 +40,19 @@ export const TiendaPage: React.FC = () => {
   }, [selectedProduct]);
 
   const getWhatsAppUrl = (p: Product) => {
-    const text = `Hola equipo Zocay Project, deseo adquirir el producto oficial "${p.name}" (${p.priceCOP}) para apoyar la conservación del Mono Zocay. ¿Cuáles son los pasos para el pago y envío?`;
+    const text = language === 'en'
+      ? `Hello Zocay Project team, I would like to purchase the official item "${p.name}" (${p.priceCOP}) to support Zocay Monkey conservation. How can I proceed with payment and shipping?`
+      : `Hola equipo Zocay Project, deseo adquirir el producto oficial "${p.name}" (${p.priceCOP}) para apoyar la conservación del Mono Zocay. ¿Cuáles son los pasos para el pago y envío?`;
     return `https://wa.me/573100000000?text=${encodeURIComponent(text)}`;
   };
 
   const getMailtoUrl = (p: Product) => {
-    const subject = `Solicitud de Compra: ${p.name} - Tienda Zocay Project`;
-    const body = `Hola equipo de Zocay Project,\n\nMe gustaría adquirir el siguiente artículo oficial con causa:\n\n- Producto: ${p.name}\n- Categoría: ${p.category}\n- Valor: ${p.priceCOP}\n- Impacto asociado: ${p.impact}\n\nPor favor indíquenme las cuentas autorizadas para transferencia y el formulario de envío.\n\nMuchas gracias por su labor científica y de conservación.`;
+    const subject = language === 'en'
+      ? `Purchase Request: ${p.name} - Zocay Project Official Shop`
+      : `Solicitud de Compra: ${p.name} - Tienda Zocay Project`;
+    const body = language === 'en'
+      ? `Hello Zocay Project team,\n\nI would like to acquire the following official cause-driven item:\n\n- Product: ${p.name}\n- Category: ${p.category}\n- Price: ${p.priceCOP}\n- Associated Impact: ${p.impact}\n\nPlease let me know authorized payment channels and shipping details.\n\nThank you for your scientific and conservation work.`
+      : `Hola equipo de Zocay Project,\n\nMe gustaría adquirir el siguiente artículo oficial con causa:\n\n- Producto: ${p.name}\n- Categoría: ${p.category}\n- Valor: ${p.priceCOP}\n- Impacto asociado: ${p.impact}\n\nPor favor indíquenme las cuentas autorizadas para transferencia y el formulario de envío.\n\nMuchas gracias por su labor científica y de conservación.`;
     return `mailto:contacto@zocayproject.org?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
@@ -58,22 +66,22 @@ export const TiendaPage: React.FC = () => {
             className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-emerald-400 hover:text-emerald-300 transition-colors mb-6 sm:mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Volver al Inicio</span>
+            <span>{t.tiendaPage.backHome}</span>
           </Link>
 
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/30 bg-[#060a08]/60 backdrop-blur-md mb-4 sm:mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
             <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] sm:tracking-[0.22em] text-emerald-300 font-sans font-medium">
-              TIENDA OFICIAL CON CAUSA
+              {t.tiendaPage.bannerTag}
             </span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-serif text-white leading-tight font-normal mb-4 sm:mb-6">
-            Productos que financian la conservación
+            {t.tiendaPage.title}
           </h1>
 
           <p className="text-base sm:text-lg text-[#e8e2d8]/80 font-sans font-light max-w-3xl leading-relaxed">
-            El 100% de los excedentes generados por la tienda oficial se destina a expediciones científicas, adquisición de insumos de campo y siembra de cercas vivas para el Mono Zocay en el departamento del Meta.
+            {t.tiendaPage.subtitle}
           </p>
         </div>
       </div>
@@ -108,7 +116,7 @@ export const TiendaPage: React.FC = () => {
                         ? 'bg-emerald-950/80 text-emerald-300 border-emerald-500/40' 
                         : 'bg-amber-950/80 text-amber-300 border-amber-500/40'
                     }`}>
-                      {isAvailable ? 'En Stock' : 'Agotado'}
+                      {isAvailable ? t.tiendaPage.inStockBadge : t.tiendaPage.outOfStockBadge}
                     </span>
                   </div>
 
@@ -125,7 +133,7 @@ export const TiendaPage: React.FC = () => {
 
                 <div>
                   <div className="p-3 rounded-lg bg-emerald-950/30 border border-emerald-500/20 text-[11px] text-emerald-300/90 leading-relaxed mb-4">
-                    <strong>Impacto directo:</strong> {p.impact}
+                    <strong>{t.tiendaPage.impactLabel}</strong> {p.impact}
                   </div>
                   <button
                     onClick={() => setSelectedProduct(p)}
@@ -136,7 +144,7 @@ export const TiendaPage: React.FC = () => {
                     }`}
                   >
                     <ShoppingBag className="w-4 h-4" />
-                    <span>{isAvailable ? 'Solicitar / Reservar' : 'Consultar Disponibilidad'}</span>
+                    <span>{isAvailable ? t.tiendaPage.requestBtn : t.tiendaPage.outOfStockBtn}</span>
                   </button>
                 </div>
               </div>
@@ -149,9 +157,9 @@ export const TiendaPage: React.FC = () => {
           <div className="flex items-center gap-4">
             <ShieldCheck className="w-8 h-8 text-emerald-400 shrink-0" />
             <div>
-              <div className="font-serif text-white text-base">Transparencia y Trazabilidad</div>
+              <div className="font-serif text-white text-base">{t.tiendaPage.transparencyTitle}</div>
               <div className="text-xs text-[#e8e2d8]/70 font-light">
-                Cada adquisición recibe un certificado digital de apoyo a la conservación del Mono Zocay y un reporte semestral de impacto.
+                {t.tiendaPage.transparencyText}
               </div>
             </div>
           </div>
@@ -159,7 +167,7 @@ export const TiendaPage: React.FC = () => {
             to="/donaciones"
             className="shrink-0 px-6 py-3 rounded-full text-xs uppercase tracking-[0.18em] font-medium text-white border border-white/20 hover:border-emerald-400 hover:text-emerald-300 transition-colors"
           >
-            Hacer donación directa
+            {t.tiendaPage.directDonationBtn}
           </Link>
         </div>
       </div>
@@ -185,7 +193,7 @@ export const TiendaPage: React.FC = () => {
             <div>
               <div className="flex items-center gap-2 text-emerald-400 text-xs font-mono uppercase tracking-widest mb-1">
                 <HeartHandshake className="w-4 h-4" />
-                <span>Adquisición Oficial con Causa</span>
+                <span>{t.tiendaPage.modalTag}</span>
               </div>
               <h2 className="text-2xl font-serif text-white font-normal">
                 {selectedProduct.name}
@@ -210,7 +218,7 @@ export const TiendaPage: React.FC = () => {
                   {selectedProduct.description}
                 </div>
                 <div className="text-emerald-300/90 font-mono text-[11px] pt-1">
-                  🌱 Impacto: {selectedProduct.impact}
+                  🌱 {selectedProduct.impact}
                 </div>
               </div>
             </div>
@@ -220,14 +228,14 @@ export const TiendaPage: React.FC = () => {
               <div className="p-3.5 rounded-xl bg-amber-950/30 border border-amber-500/30 flex items-start gap-2.5 text-xs text-amber-200">
                 <AlertCircle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                 <span>
-                  Este artículo se encuentra temporalmente agotado. Puedes contactar al equipo para reservarlo en la próxima tirada artesanal.
+                  {t.tiendaPage.modalOutOfStockNote}
                 </span>
               </div>
             )}
 
             <div className="space-y-2">
               <span className="block text-[11px] font-mono uppercase tracking-wider text-emerald-400/90">
-                Selecciona tu canal preferido para coordinar:
+                {t.tiendaPage.modalChannelSelect}
               </span>
 
               {/* Action: WhatsApp */}
@@ -238,7 +246,7 @@ export const TiendaPage: React.FC = () => {
                 className="w-full py-3.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-emerald-950 font-medium text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20"
               >
                 <MessageCircle className="w-4 h-4" />
-                <span>Coordinar Pedido vía WhatsApp</span>
+                <span>{t.tiendaPage.modalWhatsAppBtn}</span>
               </a>
 
               {/* Action: Email */}
@@ -247,7 +255,7 @@ export const TiendaPage: React.FC = () => {
                 className="w-full py-3.5 px-4 rounded-xl border border-white/15 bg-white/5 hover:bg-white/10 text-white font-medium text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
               >
                 <Mail className="w-4 h-4 text-emerald-400" />
-                <span>Solicitar por Correo Electrónico</span>
+                <span>{t.tiendaPage.modalEmailBtn}</span>
               </a>
             </div>
 
@@ -255,9 +263,9 @@ export const TiendaPage: React.FC = () => {
             <div className="pt-3 border-t border-white/10 flex items-center justify-between text-[11px] text-[#e8e2d8]/50">
               <span className="flex items-center gap-1.5">
                 <PackageCheck className="w-3.5 h-3.5 text-emerald-400" />
-                Envíos a toda Colombia
+                {t.tiendaPage.modalShippingNote}
               </span>
-              <span>100% fondos de conservación</span>
+              <span>{t.tiendaPage.modalFundsNote}</span>
             </div>
           </div>
         </div>
