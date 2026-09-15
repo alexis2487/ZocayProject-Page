@@ -11,7 +11,7 @@ export const HomeResearch: React.FC = () => {
       {/* Background Image: Authentic Primate Field Research ban.jpeg */}
       <div className="absolute inset-0 w-full h-full">
         <img
-          src="/images/investigacion-campo.jpg"
+          src="/images/investigacion-xyomara-primate.jpg"
           alt="Dra. Xyomara Carretero-Pinzón en trabajo de campo e investigación con primates en Colombia"
           className="w-full h-full object-cover object-[25%_center] sm:object-[28%_center] lg:object-[20%_center]"
           loading="lazy"
